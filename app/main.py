@@ -1,6 +1,14 @@
+import json
+from pathlib import Path
 from flask import Flask, render_template
 
 app = Flask(__name__)
+
+RUTA_DATOS = Path(__file__).resolve().parent.parent / \
+    "data" / "pokemons-cute.json"
+
+with RUTA_DATOS.open(encoding="utf-8") as f:
+    pokemons = json.load(f)
 
 
 @app.route('/')
@@ -14,6 +22,14 @@ def index():
         proyecto=proyecto,
         nombre=nombre,
         anio=anio
+    )
+
+
+@app.route('/pokemons/')
+def listado_pokemons():
+    return render_template(
+        'pokemons.html',
+        pokemons=pokemons
     )
 
 
