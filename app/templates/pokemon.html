@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>{{ pokemon.name }}</title>
@@ -9,8 +10,7 @@
 
     <h1>{{ pokemon.name }}</h1>
 
-    <img src="{{ pokemon.sprites.front_default }}"
-         alt="{{ pokemon.name }}">
+    <img src="{{ pokemon.sprites.front_default }}" alt="{{ pokemon.name }}">
 
     <p>ID: {{ pokemon.id }}</p>
 
@@ -21,9 +21,14 @@
     <p>
         Tipo:
         {% for tipo in pokemon.types %}
-            {{ tipo }}
+        {{ tipo }}
         {% endfor %}
     </p>
+    <h2>Estadísticas</h2>
 
+    {% for stat in pokemon.stats %}
+    <p>{{ stat.name }}: {{ stat.value }}</p>
+    {% endfor %}
 </body>
+
 </html>
