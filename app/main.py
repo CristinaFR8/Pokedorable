@@ -33,5 +33,17 @@ def listado_pokemons():
     )
 
 
+@app.route('/pokemons/<int:id>/')
+def detalle_pokemon(id):
+    for pokemon in pokemons:
+        if pokemon['id'] == id:
+            return render_template(
+                'pokemon.html',
+                pokemon=pokemon
+            )
+
+    return "Pokemon no encontrado", 404
+
+
 if __name__ == '__main__':
     app.run('127.0.0.1', 5038, debug=True)
