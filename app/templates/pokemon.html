@@ -23,18 +23,24 @@
     <p>
         Tipo:
         {% for tipo in pokemon.types %}
-            {{ tipo }}
+        {{ tipo }}
         {% endfor %}
     </p>
 
     <h2>Estadísticas</h2>
 
     {% for stat in pokemon.stats %}
-        <p>{{ stat.name }}: {{ stat.value }}</p>
+    <p>{{ stat.name }}: {{ stat.value }}</p>
 
-        <div class="barra">
-            <div class="barra-relleno" style="width: {{ stat.value / 2 }}%;"></div>
-        </div>
+    <div class="barra">
+        <div class="barra-relleno" style="width: {{ stat.value / 2 }}%;"></div>
+    </div>
+    {% endfor %}
+
+    <h2>Ataques</h2>
+
+    {% for move in pokemon.moves %}
+    <p>{{ move.name }}</p>
     {% endfor %}
 
 </body>
