@@ -37,9 +37,18 @@ def listado_pokemons():
 def detalle_pokemon(id):
     for pokemon in pokemons:
         if pokemon['id'] == id:
+
+            if pokemon['weight'] < 20:
+                clasificacion_peso = "Ligero"
+            elif pokemon['weight'] <= 60:
+                clasificacion_peso = "Medio"
+            else:
+                clasificacion_peso = "Pesado"
+
             return render_template(
                 'pokemon.html',
-                pokemon=pokemon
+                pokemon=pokemon,
+                clasificacion_peso=clasificacion_peso
             )
 
     return "Pokemon no encontrado", 404
