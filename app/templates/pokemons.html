@@ -1,21 +1,20 @@
 {% for pokemon in pokemons %}
 
-    <div>
-        <h2>{{ pokemon.name }}</h2>
+<div>
+    <h2>{{ pokemon.name }}</h2>
 
-        <img src="{{ pokemon.sprites.front_default }}"
-             alt="{{ pokemon.name }}">
+    <img src="{{ pokemon.sprites.front_default }}" alt="{{ pokemon.name }}">
 
-        <p>
-            Tipo:
-            {% for tipo in pokemon.types %}
-                {{ tipo }}
-            {% endfor %}
-        </p>
+    <p>
+        Tipo:
+        {% for tipo in pokemon.types %}
+        {{ tipo }}
+        {% endfor %}
+    </p>
 
-        <a href="/pokemons/{{ pokemon.id }}/">
-            Ver detalle
-        </a>
-    </div>
+    <a href="{{ url_for('detalle_pokemon', id=pokemon.id) }}">
+        Ver detalle
+    </a>
+</div>
 
 {% endfor %}
