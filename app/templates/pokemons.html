@@ -7,7 +7,7 @@
 
     <p>
         Tipo:
-        {% for tipo in pokemon.types %}
+        {% for tipo in tipos_pokemons[loop.index0] %}
         {{ tipo }}
         {% endfor %}
     </p>

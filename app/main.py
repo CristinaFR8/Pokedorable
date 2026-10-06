@@ -132,9 +132,20 @@ def index():
 
 @app.route('/pokemons/')
 def listado_pokemons():
+    tipos_pokemons = []
+
+    for pokemon in pokemons:
+        tipos_traducidos = []
+
+        for tipo in pokemon['types']:
+            tipos_traducidos.append(TRADUCCION_TIPOS[tipo])
+
+        tipos_pokemons.append(tipos_traducidos)
+
     return render_template(
         'pokemons.html',
-        pokemons=pokemons
+        pokemons=pokemons,
+        tipos_pokemons=tipos_pokemons
     )
 
 
