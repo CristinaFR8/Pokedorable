@@ -28,6 +28,15 @@ TRADUCCION_TIPOS = {
     "fairy": "Hada"
 }
 
+TRADUCCION_ESTADISTICAS = {
+    "hp": "PS",
+    "attack": "Ataque",
+    "defense": "Defensa",
+    "special-attack": "Ataque especial",
+    "special-defense": "Defensa especial",
+    "speed": "Velocidad"
+}
+
 with RUTA_DATOS.open(encoding="utf-8") as f:
     pokemons = json.load(f)
 
@@ -71,11 +80,20 @@ def detalle_pokemon(id):
             for tipo in pokemon['types']:
                 tipos_traducidos.append(TRADUCCION_TIPOS[tipo])
 
+            estadisticas_traducidas = []
+
+            for stat in pokemon['stats']:
+                estadisticas_traducidas.append({
+                    "nombre": TRADUCCION_ESTADISTICAS[stat['name']],
+                    "valor": stat['value']
+                })
+
             return render_template(
                 'pokemon.html',
                 pokemon=pokemon,
                 clasificacion_peso=clasificacion_peso,
-                tipos_traducidos=tipos_traducidos
+                tipos_traducidos=tipos_traducidos,
+                estadisticas_traducidas=estadisticas_traducidas
             )
 
     return "Pokemon no encontrado", 404

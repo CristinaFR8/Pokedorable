@@ -31,11 +31,11 @@
 
     <h2>Estadísticas</h2>
 
-    {% for stat in pokemon.stats %}
-    <p>{{ stat.name }}: {{ stat.value }}</p>
+    {% for stat in estadisticas_traducidas %}
+    <p>{{ stat.nombre }}: {{ stat.valor }}</p>
 
     <div class="barra">
-        <div class="barra-relleno" style="width: {{ stat.value / 2 }}%;"></div>
+        <div class="barra-relleno" style="width: {{ stat.valor / 2 }}%;"></div>
     </div>
     {% endfor %}
 
