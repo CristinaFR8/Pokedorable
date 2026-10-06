@@ -37,6 +37,19 @@ TRADUCCION_ESTADISTICAS = {
     "speed": "Velocidad"
 }
 
+TRADUCCION_ATAQUES = {
+    "fire-blast": "Llamarada",
+    "rage": "Furia",
+    "thunderbolt": "Rayo",
+    "uproar": "Alboroto",
+    "last-resort": "Última baza",
+    "dream-eater": "Come sueños",
+    "dynamic-punch": "Puño dinámico",
+    "play-rough": "Carantoña",
+    "psychic-noise": "Psicorruido",
+    "headbutt": "Cabezazo"
+}
+
 with RUTA_DATOS.open(encoding="utf-8") as f:
     pokemons = json.load(f)
 
@@ -88,12 +101,20 @@ def detalle_pokemon(id):
                     "valor": stat['value']
                 })
 
+            ataques_traducidos = []
+
+            for move in pokemon['moves']:
+                ataques_traducidos.append(
+                    TRADUCCION_ATAQUES[move['name']]
+                )
+
             return render_template(
                 'pokemon.html',
                 pokemon=pokemon,
                 clasificacion_peso=clasificacion_peso,
                 tipos_traducidos=tipos_traducidos,
-                estadisticas_traducidas=estadisticas_traducidas
+                estadisticas_traducidas=estadisticas_traducidas,
+                ataques_traducidos=ataques_traducidos
             )
 
     return "Pokemon no encontrado", 404

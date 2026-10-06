@@ -41,8 +41,8 @@
 
     <h2>Ataques</h2>
 
-    {% for move in pokemon.moves %}
-    <p>{{ move.name }}</p>
+    {% for ataque in ataques_traducidos %}
+    <p>{{ ataque }}</p>
     {% endfor %}
 
     <a href="{{ url_for('listado_pokemons') }}">
