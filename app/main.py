@@ -7,6 +7,27 @@ app = Flask(__name__)
 RUTA_DATOS = Path(__file__).resolve().parent.parent / \
     "data" / "pokemons-cute.json"
 
+TRADUCCION_TIPOS = {
+    "normal": "Normal",
+    "fire": "Fuego",
+    "water": "Agua",
+    "electric": "Eléctrico",
+    "grass": "Planta",
+    "ice": "Hielo",
+    "fighting": "Lucha",
+    "poison": "Veneno",
+    "ground": "Tierra",
+    "flying": "Volador",
+    "psychic": "Psíquico",
+    "bug": "Bicho",
+    "rock": "Roca",
+    "ghost": "Fantasma",
+    "dragon": "Dragón",
+    "dark": "Siniestro",
+    "steel": "Acero",
+    "fairy": "Hada"
+}
+
 with RUTA_DATOS.open(encoding="utf-8") as f:
     pokemons = json.load(f)
 
@@ -45,10 +66,16 @@ def detalle_pokemon(id):
             else:
                 clasificacion_peso = "Pesado"
 
+            tipos_traducidos = []
+
+            for tipo in pokemon['types']:
+                tipos_traducidos.append(TRADUCCION_TIPOS[tipo])
+
             return render_template(
                 'pokemon.html',
                 pokemon=pokemon,
-                clasificacion_peso=clasificacion_peso
+                clasificacion_peso=clasificacion_peso,
+                tipos_traducidos=tipos_traducidos
             )
 
     return "Pokemon no encontrado", 404
