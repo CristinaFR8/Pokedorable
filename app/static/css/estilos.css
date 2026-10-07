@@ -1,5 +1,9 @@
 body {
     font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
 }
 
 .barra {
@@ -11,4 +15,9 @@ body {
 .barra-relleno {
     height: 20px;
     background-color: green;
+}
+
+footer {
+    text-align: center;
+    margin-top: auto;
 }

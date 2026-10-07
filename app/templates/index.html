@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ proyecto }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
 </head>
 
-<body style="min-height: 100vh; display: flex; flex-direction: column; margin: 0;">
+<body>
 
     <h1>Bienvenid@ a Batallas Pokemon</h1>
 
@@ -14,7 +15,7 @@
         Ver lista de Pokémon
     </a>
 
-    <footer style="text-align: center; margin-top: auto;">
+    <footer>
         <p>{{ proyecto }} - {{ nombre }} - {{ anio }}</p>
     </footer>
 
