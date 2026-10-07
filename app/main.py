@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from datetime import datetime
 from flask import Flask, render_template
 
 app = Flask(__name__)
@@ -120,7 +121,7 @@ with RUTA_DATOS.open(encoding="utf-8") as f:
 def index():
     proyecto = "Pokemon Battle Web"
     nombre = "Cristina Fernández"
-    anio = 2026
+    anio = datetime.now().year
 
     return render_template(
         'index.html',
