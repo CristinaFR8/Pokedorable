@@ -5,6 +5,7 @@ Aplicación web desarrollada con **Python y Flask** para consultar información 
 El proyecto forma parte del módulo **Desarrollo Web en Entorno Servidor (DWES)** y utiliza **Jinja2** para generar las páginas HTML a partir de los datos proporcionados en un fichero JSON.
 
 **Autora:** Cristina Fernández
+
 **Curso:** 2026/27
 
 ## Descripción
@@ -34,6 +35,7 @@ Los datos de los Pokémon se obtienen del fichero `data/pokemons-cute.json`, que
 
 ```text
 Pokemon-Battle-Web/
+
 ├── .gitignore
 ├── README.md
 ├── requirements.txt
@@ -45,7 +47,10 @@ Pokemon-Battle-Web/
     │   ├── css/
     │   │   └── estilos.css
     │   └── img/
-    │       └── pokemon-battle.png
+    │       ├── pokeball.png
+    │       ├── superball.png
+    │       ├── ultraball.png
+    │       └── masterball.png
     └── templates/
         ├── base.html
         ├── index.html
@@ -183,4 +188,5 @@ Las rutas internas y los recursos estáticos se generan utilizando `url_for`.
 ## Autoría
 
 **Cristina Fernández**
+
 **DWES · 2026/27**
