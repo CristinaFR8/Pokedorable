@@ -1,27 +1,34 @@
-# Pokemon Battle Web
+# Pokémon Battle Web
 
-Proyecto web desarrollado con Python y Flask para crear una aplicación web sobre batallas Pokémon.
+Aplicación web desarrollada con **Python y Flask** para consultar información sobre diferentes Pokémon y visualizar sus características.
 
-La aplicación permite consultar una selección de Pokémon, ver sus tipos, estadísticas, ataques y otros datos obtenidos de un fichero JSON.
+El proyecto forma parte del módulo **Desarrollo Web en Entorno Servidor (DWES)** y utiliza **Jinja2** para generar las páginas HTML a partir de los datos proporcionados en un fichero JSON.
+
+**Autora:** Cristina Fernández
+**Curso:** 2026/27
+
+## Descripción
+
+La aplicación permite consultar una selección de Pokémon a través de diferentes vistas:
+
+* Página principal de bienvenida.
+* Listado de Pokémon disponibles.
+* Vista detallada de cada Pokémon.
+* Información sobre sus tipos, características y otros datos.
+* Clasificación del Pokémon según su peso.
+* Representación gráfica de sus estadísticas.
+* Listado de sus ataques.
+* Navegación entre el listado y las páginas de detalle.
+
+Los datos de los Pokémon se obtienen del fichero `data/pokemons-cute.json`, que se carga al iniciar la aplicación.
 
 ## Tecnologías utilizadas
 
-- Python
-- Flask
-- Jinja2
-- HTML
-- CSS
-
-## Funcionalidades
-
-- Página principal de bienvenida.
-- Listado de Pokémon disponibles.
-- Información básica de cada Pokémon: nombre, imagen y tipo.
-- Vista de detalle de cada Pokémon.
-- Clasificación de los Pokémon según su peso.
-- Estadísticas representadas mediante barras.
-- Lista de ataques de cada Pokémon.
-- Navegación entre el listado y las vistas de detalle.
+* Python 3
+* Flask
+* Jinja2
+* HTML5
+* CSS3
 
 ## Estructura del proyecto
 
@@ -35,22 +42,27 @@ Pokemon-Battle-Web/
 └── app/
     ├── main.py
     ├── static/
-    │   └── css/
-    │       └── estilos.css
+    │   ├── css/
+    │   │   └── estilos.css
+    │   └── img/
+    │       └── pokemon-battle.png
     └── templates/
+        ├── base.html
         ├── index.html
         ├── pokemons.html
         └── pokemon.html
 ```
 
-El entorno virtual `venv/` se crea localmente y no se incluye en el repositorio.
+> El entorno virtual `venv/` se crea localmente y no se incluye en el repositorio.
 
 ## Requisitos
 
-- Python 3
-- Git
+Para ejecutar el proyecto es necesario tener instalado:
 
-## Instalación y preparación del entorno
+* Python 3
+* Git
+
+## Instalación
 
 ### 1. Clonar el repositorio
 
@@ -86,32 +98,9 @@ Una vez activado, aparecerá `(venv)` al principio de la terminal.
 pip install -r requirements.txt
 ```
 
-El archivo `requirements.txt` contiene las versiones de las dependencias utilizadas por el proyecto, permitiendo recrear el mismo entorno en otra máquina.
+Las versiones de las dependencias utilizadas están especificadas en `requirements.txt` para facilitar la reproducción del entorno del proyecto.
 
-## Si no se puede activar el entorno virtual
-
-Si por permisos de la máquina no se puede ejecutar `activate`, se pueden utilizar directamente los ejecutables que se encuentran dentro de `venv`.
-
-Por ejemplo:
-
-```bash
-.\venv\Scripts\pip install -r requirements.txt
-```
-
-También se puede ejecutar `pip` como módulo de Python:
-
-```bash
-.\venv\Scripts\python -m pip install flask
-```
-
-Otros comandos de `pip` pueden ejecutarse de la misma forma utilizando los ejecutables de `venv`, por ejemplo:
-
-```bash
-.\venv\Scripts\pip freeze
-.\venv\Scripts\flask --version
-```
-
-## Ejecutar la aplicación
+## Ejecución
 
 Con el entorno virtual activado:
 
@@ -119,16 +108,79 @@ Con el entorno virtual activado:
 python app/main.py
 ```
 
-Si no se puede activar el entorno virtual:
-
-```bash
-.\venv\Scripts\python app/main.py
-```
-
-La aplicación se ejecutará en:
+La aplicación estará disponible en:
 
 ```text
 http://127.0.0.1:5038/
 ```
 
-Abrir esa dirección en el navegador para acceder a la aplicación.
+Abrir esta dirección en el navegador para acceder a la aplicación.
+
+Si no se puede activar el entorno virtual, también se puede ejecutar directamente el Python incluido en `venv`:
+
+```bash
+.\venv\Scripts\python app/main.py
+```
+
+## Vistas de la aplicación
+
+### Página principal
+
+```text
+/
+```
+
+Muestra la bienvenida a la aplicación y permite acceder al listado de Pokémon.
+
+### Listado de Pokémon
+
+```text
+/pokemons/
+```
+
+Muestra los Pokémon disponibles y permite acceder a la información detallada de cada uno.
+
+### Detalle de un Pokémon
+
+```text
+/pokemons/<id>/
+```
+
+Muestra información detallada del Pokémon seleccionado, incluyendo:
+
+* Nombre e imágenes.
+* Altura y peso.
+* Tipo.
+* Clasificación según el peso.
+* Estadísticas representadas gráficamente.
+* Ataques y sus características.
+* Otros datos disponibles en el JSON.
+
+## Datos
+
+Los datos utilizados por la aplicación se encuentran en:
+
+```text
+data/pokemons-cute.json
+```
+
+El fichero se carga una única vez al iniciar el servidor y los datos quedan disponibles para las diferentes rutas de la aplicación.
+
+## Plantillas
+
+Las páginas HTML utilizan **Jinja2**.
+
+Se utiliza una plantilla base:
+
+```text
+app/templates/base.html
+```
+
+sobre la que se construyen las diferentes vistas mediante herencia de plantillas.
+
+Las rutas internas y los recursos estáticos se generan utilizando `url_for`.
+
+## Autoría
+
+**Cristina Fernández**
+**DWES · 2026/27**
