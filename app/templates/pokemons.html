@@ -1,20 +1,54 @@
-{% for pokemon in pokemons %}
+{% extends "base.html" %}
 
-<div>
-    <h2>{{ pokemon.name }}</h2>
+{% block titulo %}
+Pokédex
+{% endblock %}
 
-    <img src="{{ pokemon.sprites.front_default }}" alt="{{ pokemon.name }}">
 
-    <p>
-        Tipo:
-        {% for tipo in tipos_pokemons[loop.index0] %}
-        {{ tipo }}
-        {% endfor %}
-    </p>
+{% block contenido %}
 
-    <a href="{{ url_for('detalle_pokemon', id=pokemon.id) }}">
-        Ver detalle
-    </a>
+<h1 class="titulo-pokedex">Pokédex</h1>
+
+<div class="pokedex">
+
+    {% for pokemon in pokemons %}
+
+    <div class="tarjeta-pokemon">
+
+        <p class="numero-tarjeta">
+            N.º {{ pokemon.id }}
+        </p>
+
+        <h2>{{ pokemon.name }}</h2>
+
+        <img
+            src="{{ pokemon.sprites.front_default }}"
+            alt="{{ pokemon.name }}"
+        >
+
+        <div class="tipos-pokemon">
+
+            {% for tipo in tipos_pokemons[loop.index0] %}
+
+            <span class="tipo-pokemon tipo-{{ tipo|lower }}">
+                {{ tipo }}
+            </span>
+
+            {% endfor %}
+
+        </div>
+
+        <a
+            class="boton-pokemon"
+            href="{{ url_for('detalle_pokemon', id=pokemon.id) }}"
+        >
+            Ver detalle
+        </a>
+
+    </div>
+
+    {% endfor %}
+
 </div>
 
-{% endfor %}
+{% endblock %}

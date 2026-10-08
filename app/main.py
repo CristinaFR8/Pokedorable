@@ -119,7 +119,7 @@ with RUTA_DATOS.open(encoding="utf-8") as f:
 
 @app.route('/')
 def index():
-    proyecto = "Pokemon Battle Web"
+    proyecto = "Pokémon Battle Web"
     nombre = "Cristina Fernández"
     anio = datetime.now().year
     pokemon_destacado = pokemons[0]

@@ -1,15 +1,21 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>{{ proyecto }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
-</head>
+{% block titulo %}
+{{ proyecto }}
+{% endblock %}
 
-<body>
 
-    <main>
+{% block clase_main %}
+inicio
+{% endblock %}
+
+
+{% block contenido %}
+
+<div class="panel-inicio">
+
+    <div class="texto-inicio">
+
         <h1>Bienvenid@ a Batallas Pokemon</h1>
 
         <p>
@@ -18,18 +24,33 @@
             ¡están listos para luchar!
         </p>
 
-        <img src="{{ pokemon_destacado.sprites.front_default }}"
-            alt="{{ pokemon_destacado.name }}">
-
-        <a href="{{ url_for('listado_pokemons') }}">
-            Ver lista de Pokémon
+        <a
+            class="boton-inicio"
+            href="{{ url_for('listado_pokemons') }}"
+        >
+            Ver Pokédex
         </a>
-    </main>
 
-    <footer>
-        <p>{{ proyecto }} - {{ nombre }} - {{ anio }}</p>
-    </footer>
+    </div>
 
-</body>
 
-</html>
+    <div class="pokemon-inicio">
+
+        <div class="marco-pokemon-inicio">
+
+            <img
+                src="{{ pokemon_destacado.sprites.front_default }}"
+                alt="{{ pokemon_destacado.name }}"
+            >
+
+        </div>
+
+        <p class="nombre-pokemon-inicio">
+            {{ pokemon_destacado.name }}
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

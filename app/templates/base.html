@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block titulo %}Pokémon Battle Web{% endblock %}</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/estilos.css') }}"
+    >
+</head>
+
+<body>
+
+    <header class="cabecera">
+
+        <a class="logo" href="{{ url_for('index') }}">
+            Pokémon Battle Web
+        </a>
+
+        <nav class="navegacion">
+
+            <a class="enlace-nav" href="{{ url_for('index') }}">
+                Inicio
+            </a>
+
+            <a class="enlace-nav" href="{{ url_for('listado_pokemons') }}">
+                Pokédex
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <main class="{% block clase_main %}{% endblock %}">
+
+        {% block contenido %}
+        {% endblock %}
+
+    </main>
+
+
+    <footer>
+        <p>{{ proyecto }} - {{ nombre }} - {{ anio }}</p>
+    </footer>
+
+</body>
+
+</html>

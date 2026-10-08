@@ -1,54 +1,138 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>{{ pokemon.name }}</title>
+{% block titulo %}
+{{ pokemon.name }}
+{% endblock %}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
-</head>
 
-<body>
+{% block clase_main %}
+detalle
+{% endblock %}
+
+
+{% block contenido %}
+
+<div class="cabecera-detalle">
+
+    <p class="numero-detalle">
+        N.º {{ pokemon.id }}
+    </p>
 
     <h1>{{ pokemon.name }}</h1>
 
-    <img src="{{ pokemon.sprites.front_default }}" alt="{{ pokemon.name }}">
+</div>
 
-    <p>ID: {{ pokemon.id }}</p>
 
-    <p>Altura: {{ pokemon.height }}</p>
+<div class="contenido-detalle">
 
-    <p>Peso: {{ pokemon.weight }}</p>
+    <div class="imagen-detalle">
 
-    <p>Clasificación por peso: {{ clasificacion_peso }}</p>
+        <img
+            src="{{ pokemon.sprites.front_default }}"
+            alt="{{ pokemon.name }}"
+        >
 
-    <p>
-        Tipo:
-        {% for tipo in tipos_traducidos %}
-        {{ tipo }}
-        {% endfor %}
-    </p>
+    </div>
+
+
+    <div class="informacion-detalle">
+
+        <h2>Información</h2>
+
+        <p>
+            <strong>Altura:</strong>
+            {{ pokemon.height }}
+        </p>
+
+        <p>
+            <strong>Peso:</strong>
+            {{ pokemon.weight }}
+        </p>
+
+        <p>
+            <strong>Clasificación:</strong>
+            {{ clasificacion_peso }}
+        </p>
+
+        <div class="tipos-detalle">
+
+            <strong>Tipo:</strong>
+
+            <div class="lista-tipos-detalle">
+
+                {% for tipo in tipos_traducidos %}
+
+                <span class="tipo-detalle tipo-{{ tipo|lower }}">
+                    {{ tipo }}
+                </span>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<section class="seccion-detalle">
 
     <h2>Estadísticas</h2>
 
     {% for stat in estadisticas_traducidas %}
-    <p>{{ stat.nombre }}: {{ stat.valor }}</p>
 
-    <div class="barra">
-        <div class="barra-relleno" style="width: {{ stat.valor / 2 }}%;"></div>
+    <div class="estadistica">
+
+        <div class="nombre-estadistica">
+
+            <span>{{ stat.nombre }}</span>
+
+            <span>{{ stat.valor }}</span>
+
+        </div>
+
+        <div class="barra">
+
+            <div
+                class="barra-relleno"
+                style="width: {{ stat.valor / 2 }}%;"
+            ></div>
+
+        </div>
+
     </div>
+
     {% endfor %}
+
+</section>
+
+
+<section class="seccion-detalle">
 
     <h2>Ataques</h2>
 
-    {% for ataque in ataques_traducidos %}
-    <p>{{ ataque }}</p>
-    {% endfor %}
+    <div class="lista-ataques">
 
-    <a href="{{ url_for('listado_pokemons') }}">
-        Volver al listado
-    </a>
+        {% for ataque in ataques_traducidos %}
 
-</body>
+        <span class="ataque">
+            {{ ataque }}
+        </span>
 
-</html>
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<a
+    class="boton-volver"
+    href="{{ url_for('listado_pokemons') }}"
+>
+    Volver a la Pokédex
+</a>
+
+{% endblock %}
