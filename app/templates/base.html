@@ -7,10 +7,7 @@
 
     <title>{% block titulo %}Pokémon Battle Web{% endblock %}</title>
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='css/estilos.css') }}"
-    >
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
 </head>
 
 <body>
@@ -18,7 +15,13 @@
     <header class="cabecera">
 
         <a class="logo" href="{{ url_for('index') }}">
-            Pokémon Battle Web
+
+            <span class="pokeball-logo" aria-hidden="true">
+                <span class="pokeball-centro"></span>
+            </span>
+
+            Pokédorable
+
         </a>
 
         <nav class="navegacion">

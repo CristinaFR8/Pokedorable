@@ -59,33 +59,135 @@ a:focus-visible {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
 
-    gap: 14px 30px;
+    gap: 30px;
 
-    padding: 14px 40px;
+    padding: 18px 50px;
 
     background-color: var(--azul);
     border-bottom: var(--pixel) solid var(--acento);
 }
 
+
+/* =========================
+   LOGO
+   ========================= */
+
 .logo {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
     color: var(--papel);
 
     font-family: "Press Start 2P", monospace;
-    font-size: 20px;
+    font-size: 26px;
     font-weight: normal;
 
     text-decoration: none;
+
+    text-shadow:
+        3px 3px 0 var(--tinta);
 }
+
+.logo-text {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.logo-principal {
+    display: block;
+
+    line-height: 1.2;
+}
+
+.logo-poke {
+    color: var(--mantequilla);
+
+    text-shadow:
+        3px 3px 0 var(--tinta);
+}
+
+.logo-subtitulo {
+    color: var(--papel);
+
+    font-family: "VT323", monospace;
+    font-size: 18px;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        2px 2px 0 var(--tinta);
+}
+
+
+/* =========================
+   POKÉ BALL DEL LOGO
+   ========================= */
+
+.pokeball-logo {
+    position: relative;
+
+    display: block;
+
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            var(--rojo) 0 45%,
+            var(--tinta) 45% 55%,
+            var(--papel) 55% 100%
+        );
+
+    border: 4px solid var(--tinta);
+
+    border-radius: 50%;
+
+    box-shadow:
+        4px 4px 0 rgba(31, 45, 61, 0.35);
+}
+
+.pokeball-centro {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 17px;
+    height: 17px;
+
+    transform: translate(-50%, -50%);
+
+    background-color: var(--papel);
+
+    border: 4px solid var(--tinta);
+
+    border-radius: 50%;
+}
+
+
+/* =========================
+   NAVEGACIÓN
+   ========================= */
 
 .navegacion {
     display: flex;
+
     gap: 14px;
+
+    margin-left: auto;
 }
 
 .enlace-nav {
-    padding: 13px 20px;
+    padding: 15px 24px;
 
     color: var(--tinta);
     background-color: var(--mantequilla);
@@ -94,7 +196,7 @@ a:focus-visible {
     box-shadow: 3px 3px 0 var(--tinta);
 
     font-family: "Press Start 2P", monospace;
-    font-size: 15px;
+    font-size: 17px;
 
     text-decoration: none;
 
@@ -184,9 +286,9 @@ a:focus-visible {
 
     gap: 0 16px;
 
-    width: 85%;
-    max-width: 850px;
-    min-height: 330px;
+    width: 90%;
+    max-width: 1000px;
+    min-height: 400px;
 
     margin: 0 auto 18px;
 
@@ -245,7 +347,7 @@ a:focus-visible {
 .estado strong {
     font-family: "Press Start 2P", monospace;
 
-    font-size: 14px;
+    font-size: 17px;
 
     font-weight: normal;
 }
@@ -275,8 +377,8 @@ a:focus-visible {
 
     display: block;
 
-    width: 135px;
-    height: 135px;
+    width: 180px;
+    height: 180px;
 
     object-fit: contain;
 }
@@ -333,8 +435,8 @@ a:focus-visible {
 
     grid-template-columns: 1.7fr 1fr;
 
-    width: 85%;
-    max-width: 850px;
+    width: 90%;
+    max-width: 1000px;
 
     margin: 0 auto;
 
@@ -443,13 +545,13 @@ a:focus-visible {
     align-items: center;
     justify-content: center;
 
-    padding: 12px 14px;
+    padding: 16px 18px;
 
     text-align: center;
 
     line-height: 1.5;
 
-    font-size: 14px;
+    font-size: 16px;
 }
 
 
@@ -507,7 +609,7 @@ a:focus-visible {
 
 
 /* =========================
-   TARJETAS
+   TARJETAS POKÉMON
    ========================= */
 
 .tarjeta-pokemon {
@@ -525,7 +627,7 @@ a:focus-visible {
 }
 
 .tarjeta-pokemon:hover {
-    background-color: var(--mantequilla);
+    background-color: #8fe3c0;
 
     transform: translate(-2px, -2px);
 }
@@ -539,7 +641,7 @@ a:focus-visible {
 
     font-family: "Press Start 2P", monospace;
 
-    font-size: 13px;
+    font-size: 16px;
 }
 
 .tarjeta-pokemon h2 {
@@ -601,10 +703,15 @@ a:focus-visible {
     text-align: center;
 }
 
-.tipo-detalle {
-    padding: 8px 10px;
+.tarjeta-pokemon .tipo-pokemon {
+    font-size: 16px;
+    padding: 7px 12px;
+}
 
-    font-size: 13px;
+.tipo-detalle {
+    padding: 8px 12px;
+
+    font-size: 14px;
 }
 
 
@@ -686,13 +793,24 @@ a:focus-visible {
 
 
 /* =========================
-   DETALLE
+   DETALLE DEL POKÉMON
    ========================= */
 
 .detalle {
-    width: 100%;
+    display: grid;
 
-    max-width: 1050px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+    grid-template-areas:
+        "cabecera cabecera"
+        "contenido estadisticas"
+        "ataques ataques"
+        "volver volver";
+
+    gap: 24px;
+
+    width: 100%;
+    max-width: 1100px;
 
     margin: 0 auto;
 
@@ -700,9 +818,11 @@ a:focus-visible {
 }
 
 .cabecera-detalle {
+    grid-area: cabecera;
+
     width: fit-content;
 
-    margin: 0 auto 30px;
+    margin: 0 auto;
 
     padding: 14px 24px;
 
@@ -736,24 +856,19 @@ a:focus-visible {
 
 
 /* =========================
-   IMAGEN + INFORMACIÓN
+   FOTO + INFORMACIÓN
    ========================= */
 
 .contenido-detalle {
-    display: grid;
+    grid-area: contenido;
 
-    grid-template-columns: 1fr 1fr;
+    display: flex;
 
-    gap: 24px;
+    flex-direction: column;
 
-    align-items: stretch;
+    gap: 14px;
 
-    margin-bottom: 24px;
-}
-
-.imagen-detalle,
-.informacion-detalle {
-    height: 100%;
+    min-width: 0;
 }
 
 
@@ -774,8 +889,10 @@ a:focus-visible {
 }
 
 .imagen-detalle > img {
-    width: 230px;
-    height: 230px;
+    width: 280px;
+    height: 280px;
+
+    max-width: 100%;
 
     object-fit: contain;
 }
@@ -788,14 +905,18 @@ a:focus-visible {
 .galeria-detalle {
     display: grid;
 
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 
     gap: 8px;
 
     width: 100%;
+
+    min-width: 0;
 }
 
 .galeria-detalle figure {
+    min-width: 0;
+
     margin: 0;
 
     display: flex;
@@ -804,26 +925,41 @@ a:focus-visible {
 
     align-items: center;
 
+    justify-content: center;
+
     background-color: var(--cielo);
 
     border: 3px solid var(--tinta);
 
     text-align: center;
+
+    overflow: hidden;
+}
+
+.galeria-detalle figure:nth-child(3),
+.galeria-detalle figure:nth-child(4) {
+    background-color: var(--menta);
 }
 
 .galeria-detalle img {
-    width: 80px;
-    height: 80px;
+    width: 110px;
+    height: 110px;
+
+    max-width: 100%;
 
     object-fit: contain;
 }
 
 .galeria-detalle figcaption {
-    padding: 0 4px 6px;
+    width: 100%;
 
-    font-size: 18px;
+    padding: 0 3px 6px;
 
-    line-height: 1;
+    font-size: 17px;
+
+    line-height: 1.1;
+
+    overflow-wrap: anywhere;
 }
 
 
@@ -832,16 +968,16 @@ a:focus-visible {
    ========================= */
 
 .informacion-detalle {
-    padding: 18px;
+    padding: 16px;
 }
 
 .informacion-detalle h2,
 .seccion-detalle h2 {
-    margin: 0 0 14px;
+    margin: 0 0 16px;
 
     font-family: "Press Start 2P", monospace;
 
-    font-size: 18px;
+    font-size: 21px;
 
     line-height: 1.5;
 }
@@ -849,11 +985,11 @@ a:focus-visible {
 .informacion-detalle p {
     margin: 0;
 
-    padding: 9px 0;
+    padding: 6px 0;
 
     border-bottom: 2px dashed var(--cielo);
 
-    font-size: 24px;
+    font-size: 21px;
 }
 
 .tipos-detalle {
@@ -861,11 +997,11 @@ a:focus-visible {
 
     align-items: center;
 
-    gap: 10px;
+    gap: 8px;
 
-    padding-top: 12px;
+    padding-top: 9px;
 
-    font-size: 24px;
+    font-size: 21px;
 }
 
 .lista-tipos-detalle {
@@ -875,9 +1011,13 @@ a:focus-visible {
 
     flex-wrap: wrap;
 
-    gap: 8px;
+    gap: 6px;
+}
 
-    margin-top: 0;
+.tipo-detalle {
+    padding: 7px 11px;
+
+    font-size: 13px;
 }
 
 
@@ -885,14 +1025,27 @@ a:focus-visible {
    ESTADÍSTICAS
    ========================= */
 
-.seccion-detalle {
-    margin-bottom: 24px;
+.detalle > .seccion-detalle:first-of-type {
+    grid-area: estadisticas;
 
-    padding: 18px;
+    min-width: 0;
+
+    margin: 0;
+}
+
+.seccion-detalle {
+    padding: 20px;
+
+    background-color: var(--papel);
+
+    border: var(--pixel) solid var(--tinta);
+
+    box-shadow:
+        var(--pixel) var(--pixel) 0 var(--tinta);
 }
 
 .estadistica {
-    margin-bottom: 10px;
+    margin-bottom: 18px;
 }
 
 .nombre-estadistica {
@@ -900,9 +1053,9 @@ a:focus-visible {
 
     justify-content: space-between;
 
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 
-    font-size: 24px;
+    font-size: 23px;
 }
 
 .seccion-detalle .barra {
@@ -924,11 +1077,15 @@ a:focus-visible {
 }
 
 .total-estadisticas {
-    margin: 14px 0 0;
+    margin: 18px 0 0;
+
+    padding-top: 10px;
+
+    border-top: 2px dashed var(--cielo);
 
     text-align: right;
 
-    font-size: 22px;
+    font-size: 21px;
 }
 
 
@@ -936,51 +1093,179 @@ a:focus-visible {
    ATAQUES
    ========================= */
 
+.detalle > .seccion-detalle:nth-of-type(2) {
+    grid-area: ataques;
+
+    margin-bottom: 0;
+}
+
 .lista-ataques {
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fill, minmax(180px, 1fr));
+        repeat(5, minmax(0, 1fr));
 
-    gap: 8px;
+    gap: 12px;
 }
 
 .ataque {
     min-width: 0;
 
-    padding: 12px 14px;
+    padding: 13px 12px;
 
-    background-color: var(--cielo);
+    background-color: #eef8ff;
 
     border: 3px solid var(--tinta);
 
-    font-size: 19px;
+    box-shadow:
+        3px 3px 0 var(--tinta);
 
-    line-height: 1.15;
+    font-size: 17px;
+
+    line-height: 1.2;
 
     overflow-wrap: break-word;
+
+    transition: 0.15s;
 }
 
-.ataque strong {
+.ataque:hover {
+    transform: translate(-2px, -2px);
+
+    box-shadow:
+        5px 5px 0 var(--tinta);
+}
+
+
+/* Nombre del ataque */
+
+.ataque > strong {
     display: block;
 
-    margin-bottom: 6px;
+    margin-bottom: 9px;
 
-    font-family: "VT323", monospace;
+    font-family: "Press Start 2P", monospace;
 
-    font-size: 24px;
+    font-size: 14px;
 
-    line-height: 1.1;
+    line-height: 1.5;
 
     overflow-wrap: anywhere;
 }
 
+
+/* Tipo, potencia y precisión */
+
+.ataque > span {
+    display: inline-block;
+
+    margin-top: 4px;
+    margin-right: 12px;
+
+    font-size: 17px;
+
+    vertical-align: middle;
+}
+
+.ataque > span:last-child {
+    margin-right: 0;
+}
+
+.ataque > span strong {
+    display: inline;
+
+    margin: 0;
+
+    font-family: inherit;
+
+    font-size: inherit;
+
+    line-height: inherit;
+}
+
 .ataque .tipo-pokemon {
-    margin-left: 4px;
+    margin-left: 3px;
 
-    padding: 3px 8px;
+    padding: 4px 8px;
 
-    font-size: 12px;
+    font-size: 10px;
+}
+
+
+/* =========================
+   COLORES PASTEL DE ATAQUES
+   ========================= */
+
+.ataque:has(.tipo-normal) {
+    background-color: #f5f0e7;
+}
+
+.ataque:has(.tipo-fuego) {
+    background-color: #ffe3d6;
+}
+
+.ataque:has(.tipo-agua) {
+    background-color: #dff1ff;
+}
+
+.ataque:has(.tipo-eléctrico) {
+    background-color: #fff7cc;
+}
+
+.ataque:has(.tipo-planta) {
+    background-color: #e3f6df;
+}
+
+.ataque:has(.tipo-hielo) {
+    background-color: #e4f8fa;
+}
+
+.ataque:has(.tipo-lucha) {
+    background-color: #ffe1df;
+}
+
+.ataque:has(.tipo-veneno) {
+    background-color: #eee1fa;
+}
+
+.ataque:has(.tipo-tierra) {
+    background-color: #f5ead5;
+}
+
+.ataque:has(.tipo-volador) {
+    background-color: #e9ecff;
+}
+
+.ataque:has(.tipo-psíquico) {
+    background-color: #ffe4f0;
+}
+
+.ataque:has(.tipo-bicho) {
+    background-color: #edf7d7;
+}
+
+.ataque:has(.tipo-roca) {
+    background-color: #eee9d7;
+}
+
+.ataque:has(.tipo-fantasma) {
+    background-color: #e9e0f5;
+}
+
+.ataque:has(.tipo-dragón) {
+    background-color: #e2e5ff;
+}
+
+.ataque:has(.tipo-siniestro) {
+    background-color: #e8e4e3;
+}
+
+.ataque:has(.tipo-acero) {
+    background-color: #edf0f4;
+}
+
+.ataque:has(.tipo-hada) {
+    background-color: #ffe7f4;
 }
 
 
@@ -989,6 +1274,8 @@ a:focus-visible {
    ========================= */
 
 .boton-volver {
+    grid-area: volver;
+
     display: block;
 
     width: fit-content;
@@ -1020,16 +1307,35 @@ footer p {
    RESPONSIVE
    ========================= */
 
+@media (max-width: 1100px) {
+
+    .lista-ataques {
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr));
+    }
+
+}
+
+
 @media (max-width: 1000px) {
 
     .pokedex {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .lista-ataques {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
 }
 
 
 @media (max-width: 850px) {
+
+    .cabecera {
+        padding: 18px 30px;
+    }
 
     .arena {
         grid-template-columns: 1fr;
@@ -1056,8 +1362,37 @@ footer p {
         width: 95%;
     }
 
-    .contenido-detalle {
+    .detalle {
         grid-template-columns: 1fr;
+
+        grid-template-areas:
+            "cabecera"
+            "contenido"
+            "estadisticas"
+            "ataques"
+            "volver";
+    }
+
+    .galeria-detalle {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+    }
+
+    .galeria-detalle img {
+        width: 105px;
+        height: 105px;
+    }
+
+    .galeria-detalle figcaption {
+        font-size: 15px;
+        line-height: 1.1;
+        overflow-wrap: anywhere;
+    }
+
+    .lista-ataques {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
     }
 
 }
@@ -1072,13 +1407,46 @@ footer p {
     .cabecera {
         flex-direction: column;
 
+        gap: 14px;
+
         padding: 14px 15px;
     }
 
     .logo {
-        font-size: 12px;
+        font-size: 14px;
 
-        text-align: center;
+        gap: 10px;
+    }
+
+    .pokeball-logo {
+        width: 34px;
+        height: 34px;
+
+        border-width: 3px;
+
+        box-shadow:
+            3px 3px 0 rgba(31, 45, 61, 0.35);
+    }
+
+    .pokeball-centro {
+        width: 12px;
+        height: 12px;
+
+        border-width: 3px;
+    }
+
+    .logo-poke {
+        text-shadow:
+            2px 2px 0 var(--tinta);
+    }
+
+    .logo-subtitulo {
+        font-size: 13px;
+
+        letter-spacing: 1px;
+
+        text-shadow:
+            1px 1px 0 var(--tinta);
     }
 
     .navegacion {
@@ -1140,25 +1508,79 @@ footer p {
         padding: 30px 15px;
     }
 
+    .imagen-detalle {
+        padding: 12px;
+    }
+
     .imagen-detalle > img {
-        width: 200px;
-        height: 200px;
+        width: 250px;
+        height: 250px;
+    }
+
+    .galeria-detalle {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+    }
+
+    .galeria-detalle figure {
+        width: 100%;
+        min-width: 0;
     }
 
     .galeria-detalle img {
-        width: 70px;
-        height: 70px;
+        width: 100px;
+        height: 100px;
+
+        max-width: 100%;
+    }
+
+    .galeria-detalle figcaption {
+        width: 100%;
+
+        padding: 0 3px 6px;
+
+        font-size: 14px;
+
+        line-height: 1.15;
+
+        overflow-wrap: anywhere;
+        word-break: break-word;
     }
 
     .informacion-detalle p,
     .tipos-detalle,
     .nombre-estadistica {
-        font-size: 22px;
+        font-size: 21px;
     }
 
     .informacion-detalle h2,
     .seccion-detalle h2 {
-        font-size: 16px;
+        font-size: 18px;
+    }
+
+    .tipo-detalle {
+        padding: 7px 10px;
+
+        font-size: 12px;
+    }
+
+    .lista-ataques {
+        grid-template-columns: 1fr;
+    }
+
+    .ataque {
+        padding: 13px 14px;
+
+        font-size: 18px;
+    }
+
+    .ataque > strong {
+        font-size: 14px;
+    }
+
+    .ataque > span {
+        font-size: 17px;
     }
 
 }

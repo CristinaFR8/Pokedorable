@@ -109,7 +109,7 @@ TRADUCCION_ATAQUES = {
 with RUTA_DATOS.open(encoding="utf-8") as f:
     pokemons = json.load(f)
 
-proyecto = "Pokémon Battle Web"
+proyecto = "Pokédorable"
 nombre = "Cristina Fernández"
 anio = datetime.now().year
 
