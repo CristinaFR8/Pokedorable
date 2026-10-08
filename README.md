@@ -1,6 +1,8 @@
 # Pokemon Battle Web
 
-Proyecto web desarrollado con Python y Flask para crear una aplicación de batallas Pokemon.
+Proyecto web desarrollado con Python y Flask para crear una aplicación web sobre batallas Pokémon.
+
+La aplicación permite consultar una selección de Pokémon, ver sus tipos, estadísticas, ataques y otros datos obtenidos de un fichero JSON.
 
 ## Tecnologías utilizadas
 
@@ -8,6 +10,18 @@ Proyecto web desarrollado con Python y Flask para crear una aplicación de batal
 - Flask
 - Jinja2
 - HTML
+- CSS
+
+## Funcionalidades
+
+- Página principal de bienvenida.
+- Listado de Pokémon disponibles.
+- Información básica de cada Pokémon: nombre, imagen y tipo.
+- Vista de detalle de cada Pokémon.
+- Clasificación de los Pokémon según su peso.
+- Estadísticas representadas mediante barras.
+- Lista de ataques de cada Pokémon.
+- Navegación entre el listado y las vistas de detalle.
 
 ## Estructura del proyecto
 
@@ -16,10 +30,17 @@ Pokemon-Battle-Web/
 ├── .gitignore
 ├── README.md
 ├── requirements.txt
+├── data/
+│   └── pokemons-cute.json
 └── app/
     ├── main.py
+    ├── static/
+    │   └── css/
+    │       └── estilos.css
     └── templates/
-        └── index.html
+        ├── index.html
+        ├── pokemons.html
+        └── pokemon.html
 ```
 
 El entorno virtual `venv/` se crea localmente y no se incluye en el repositorio.
