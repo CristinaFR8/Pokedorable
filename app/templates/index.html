@@ -14,42 +14,104 @@ inicio
 
 <div class="panel-inicio">
 
-    <div class="texto-inicio">
+    <h1>Bienvenid@ a Batallas Pokemon</h1>
 
-        <h1>Bienvenid@ a Batallas Pokemon</h1>
+    <p>
+        No te dejes engañar por su apariencia adorable.
+        Descubre sus tipos, estadísticas y ataques:
+        ¡están listos para luchar!
+    </p>
 
-        <p>
-            No te dejes engañar por su apariencia adorable.
-            Descubre sus tipos, estadísticas y ataques:
-            ¡están listos para luchar!
-        </p>
-
-        <a
-            class="boton-inicio"
-            href="{{ url_for('listado_pokemons') }}"
-        >
-            Ver Pokédex
-        </a>
-
-    </div>
+</div>
 
 
-    <div class="pokemon-inicio">
+<div class="arena">
 
-        <div class="marco-pokemon-inicio">
+    <div class="estado estado-enemigo">
 
-            <img
-                src="{{ pokemon_destacado.sprites.front_default }}"
-                alt="{{ pokemon_destacado.name }}"
-            >
+        <strong>
+            {{ pokemon_destacado.name|capitalize }}
+        </strong>
 
+        <div class="barra">
+            <div
+                class="barra-relleno alto"
+                style="width: 100%;"
+            ></div>
         </div>
 
-        <p class="nombre-pokemon-inicio">
-            {{ pokemon_destacado.name }}
+        <span>
+            PS {{ pokemon_destacado.stats[0].value }}/{{ pokemon_destacado.stats[0].value }}
+        </span>
+
+    </div>
+
+
+    <div class="campo campo-enemigo">
+
+        <img
+            src="{{ pokemon_destacado.sprites.front_default }}"
+            alt="{{ pokemon_destacado.name|capitalize }}"
+        >
+
+        <div class="suelo"></div>
+
+    </div>
+
+
+    <div class="campo campo-aliado">
+
+        <img
+            src="{{ pokemon_aliado.sprites.back_default }}"
+            alt="{{ pokemon_aliado.name|capitalize }} de espaldas"
+        >
+
+        <div class="suelo"></div>
+
+    </div>
+
+
+    <div class="estado estado-aliado">
+
+        <strong>
+            {{ pokemon_aliado.name|capitalize }}
+        </strong>
+
+        <div class="barra">
+            <div
+                class="barra-relleno alto"
+                style="width: 100%;"
+            ></div>
+        </div>
+
+        <span>
+            PS {{ pokemon_aliado.stats[0].value }}/{{ pokemon_aliado.stats[0].value }}
+        </span>
+
+    </div>
+
+</div>
+
+
+<div class="panel-batalla">
+
+    <div class="dialogo">
+
+        <p>
+            ¡Un
+            <strong>{{ pokemon_destacado.name|capitalize }}</strong>
+            salvaje apareció!
         </p>
 
     </div>
+
+
+    <a
+        class="boton-inicio"
+        href="{{ url_for('listado_pokemons') }}"
+    >
+        Ver Pokédex Cuqui
+    </a>
 
 </div>
 

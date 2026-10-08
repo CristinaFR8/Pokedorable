@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
+
 {% block titulo %}
-{{ pokemon.name }}
+{{ pokemon.name|capitalize }}
 {% endblock %}
 
 
@@ -18,7 +19,7 @@ detalle
         N.º {{ pokemon.id }}
     </p>
 
-    <h1>{{ pokemon.name }}</h1>
+    <h1>{{ pokemon.name|capitalize }}</h1>
 
 </div>
 
@@ -29,8 +30,36 @@ detalle
 
         <img
             src="{{ pokemon.sprites.front_default }}"
-            alt="{{ pokemon.name }}"
+            alt="{{ pokemon.name|capitalize }}"
         >
+
+
+        <div class="galeria-detalle">
+
+            <figure>
+
+                <img
+                    src="{{ pokemon.sprites.front_default }}"
+                    alt="{{ pokemon.name|capitalize }} de frente"
+                >
+
+                <figcaption>Frente</figcaption>
+
+            </figure>
+
+
+            <figure>
+
+                <img
+                    src="{{ pokemon.sprites.back_default }}"
+                    alt="{{ pokemon.name|capitalize }} de espaldas"
+                >
+
+                <figcaption>Espalda</figcaption>
+
+            </figure>
+
+        </div>
 
     </div>
 
@@ -51,8 +80,11 @@ detalle
 
         <p>
             <strong>Clasificación:</strong>
-            {{ clasificacion_peso }}
+            <span class="peso">
+                {{ clasificacion_peso }}
+            </span>
         </p>
+
 
         <div class="tipos-detalle">
 
@@ -93,6 +125,7 @@ detalle
 
         </div>
 
+
         <div class="barra">
 
             <div
@@ -117,9 +150,31 @@ detalle
 
         {% for ataque in ataques_traducidos %}
 
-        <span class="ataque">
-            {{ ataque }}
-        </span>
+        <div class="ataque">
+
+            <strong>{{ ataque.nombre }}</strong>
+
+            <span>
+                Tipo:
+                <span class="tipo-pokemon tipo-{{ ataque.tipo|lower }}">
+                    {{ ataque.tipo }}
+                </span>
+            </span>
+
+            <span>
+                Potencia: {{ ataque.potencia }}
+            </span>
+
+            <span>
+                Precisión:
+                {% if ataque.precision is not none %}
+                    {{ ataque.precision }}
+                {% else %}
+                    No disponible
+                {% endif %}
+            </span>
+
+        </div>
 
         {% endfor %}
 

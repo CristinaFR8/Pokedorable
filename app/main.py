@@ -116,20 +116,23 @@ TRADUCCION_ATAQUES = {
 with RUTA_DATOS.open(encoding="utf-8") as f:
     pokemons = json.load(f)
 
+proyecto = "Pokémon Battle Web"
+nombre = "Cristina Fernández"
+anio = datetime.now().year
+
 
 @app.route('/')
 def index():
-    proyecto = "Pokémon Battle Web"
-    nombre = "Cristina Fernández"
-    anio = datetime.now().year
     pokemon_destacado = pokemons[0]
+    pokemon_aliado = pokemons[1]
 
     return render_template(
         'index.html',
         proyecto=proyecto,
         nombre=nombre,
         anio=anio,
-        pokemon_destacado=pokemon_destacado
+        pokemon_destacado=pokemon_destacado,
+        pokemon_aliado=pokemon_aliado
     )
 
 
@@ -147,6 +150,9 @@ def listado_pokemons():
 
     return render_template(
         'pokemons.html',
+        proyecto=proyecto,
+        nombre=nombre,
+        anio=anio,
         pokemons=pokemons,
         tipos_pokemons=tipos_pokemons
     )
@@ -180,12 +186,18 @@ def detalle_pokemon(id):
             ataques_traducidos = []
 
             for move in pokemon['moves']:
-                ataques_traducidos.append(
-                    TRADUCCION_ATAQUES[move['name']]
-                )
+                ataques_traducidos.append({
+                    "nombre": TRADUCCION_ATAQUES[move['name']],
+                    "tipo": TRADUCCION_TIPOS[move['type']],
+                    "precision": move['accuracy'],
+                    "potencia": move['power']
+                })
 
             return render_template(
                 'pokemon.html',
+                proyecto=proyecto,
+                nombre=nombre,
+                anio=anio,
                 pokemon=pokemon,
                 clasificacion_peso=clasificacion_peso,
                 tipos_traducidos=tipos_traducidos,
@@ -193,7 +205,7 @@ def detalle_pokemon(id):
                 ataques_traducidos=ataques_traducidos
             )
 
-    return "Pokemon no encontrado", 404
+    return "Pokémon no encontrado", 404
 
 
 if __name__ == '__main__':
