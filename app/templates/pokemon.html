@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 
-
 {% block titulo %}
 {{ pokemon.name|capitalize }}
 {% endblock %}
 
-
 {% block clase_main %}
 detalle
 {% endblock %}
-
 
 {% block contenido %}
 
@@ -23,7 +20,6 @@ detalle
 
 </div>
 
-
 <div class="contenido-detalle">
 
     <div class="imagen-detalle">
@@ -32,7 +28,6 @@ detalle
             src="{{ pokemon.sprites.front_default }}"
             alt="{{ pokemon.name|capitalize }}"
         >
-
 
         <div class="galeria-detalle">
 
@@ -47,7 +42,6 @@ detalle
 
             </figure>
 
-
             <figure>
 
                 <img
@@ -59,10 +53,31 @@ detalle
 
             </figure>
 
+            <figure>
+
+                <img
+                    src="{{ pokemon.sprites.front_shiny }}"
+                    alt="{{ pokemon.name|capitalize }} shiny de frente"
+                >
+
+                <figcaption>Frente shiny</figcaption>
+
+            </figure>
+
+            <figure>
+
+                <img
+                    src="{{ pokemon.sprites.back_shiny }}"
+                    alt="{{ pokemon.name|capitalize }} shiny de espaldas"
+                >
+
+                <figcaption>Espalda shiny</figcaption>
+
+            </figure>
+
         </div>
 
     </div>
-
 
     <div class="informacion-detalle">
 
@@ -84,7 +99,6 @@ detalle
                 {{ clasificacion_peso }}
             </span>
         </p>
-
 
         <div class="tipos-detalle">
 
@@ -108,7 +122,6 @@ detalle
 
 </div>
 
-
 <section class="seccion-detalle">
 
     <h2>Estadísticas</h2>
@@ -125,7 +138,6 @@ detalle
 
         </div>
 
-
         <div class="barra">
 
             <div
@@ -139,8 +151,12 @@ detalle
 
     {% endfor %}
 
-</section>
+    <p class="total-estadisticas">
+        <strong>Total de estadísticas:</strong>
+        {{ total_estadisticas }}
+    </p>
 
+</section>
 
 <section class="seccion-detalle">
 
@@ -181,7 +197,6 @@ detalle
     </div>
 
 </section>
-
 
 <a
     class="boton-volver"

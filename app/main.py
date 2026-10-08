@@ -49,7 +49,6 @@ TRADUCCION_ATAQUES = {
     "play-rough": "Carantoña",
     "psychic-noise": "Psicorruido",
     "headbutt": "Cabezazo",
-
     "mud-shot": "Disparo Lodo",
     "aqua-jet": "Acua Jet",
     "hydro-pump": "Hidrobomba",
@@ -60,7 +59,6 @@ TRADUCCION_ATAQUES = {
     "facade": "Imagen",
     "dive": "Buceo",
     "iron-tail": "Cola Férrea",
-
     "x-scissor": "Tijera X",
     "signal-beam": "Rayo Señal",
     "fury-cutter": "Cortefuria",
@@ -71,7 +69,6 @@ TRADUCCION_ATAQUES = {
     "bug-bite": "Picadura",
     "leafage": "Follaje",
     "petal-blizzard": "Tormenta Floral",
-
     "dig": "Excavar",
     "superpower": "Fuerza Bruta",
     "metal-claw": "Garra Metal",
@@ -79,14 +76,12 @@ TRADUCCION_ATAQUES = {
     "aerial-ace": "Golpe Aéreo",
     "powder-snow": "Nieve Polvo",
     "trailblaze": "Abrecaminos",
-
     "alluring-voice": "Canto Encantador",
     "tidy-up": "Limpieza General",
     "u-turn": "Ida y Vuelta",
     "wake-up-slap": "Espabila",
     "mud-slap": "Bofetón Lodo",
     "hidden-power": "Poder Oculto",
-
     "flare-blitz": "Envite Ígneo",
     "heat-wave": "Onda Ígnea",
     "poltergeist": "Poltergeist",
@@ -97,14 +92,12 @@ TRADUCCION_ATAQUES = {
     "smog": "Polución",
     "ember": "Ascuas",
     "flame-burst": "Pirotecnia",
-
     "psychic": "Psíquico",
     "fairy-wind": "Viento Feérico",
     "moonblast": "Fuerza Lunar",
     "magical-leaf": "Hoja Mágica",
     "draining-kiss": "Beso Drenaje",
     "covet": "Antojo",
-
     "bite": "Mordisco",
     "crunch": "Triturar",
     "rock-slide": "Avalancha",
@@ -161,6 +154,7 @@ def listado_pokemons():
 @app.route('/pokemons/<int:id>/')
 def detalle_pokemon(id):
     for pokemon in pokemons:
+
         if pokemon['id'] == id:
 
             if pokemon['weight'] < 20:
@@ -183,6 +177,11 @@ def detalle_pokemon(id):
                     "valor": stat['value']
                 })
 
+            total_estadisticas = 0
+
+            for stat in pokemon['stats']:
+                total_estadisticas += stat['value']
+
             ataques_traducidos = []
 
             for move in pokemon['moves']:
@@ -202,6 +201,7 @@ def detalle_pokemon(id):
                 clasificacion_peso=clasificacion_peso,
                 tipos_traducidos=tipos_traducidos,
                 estadisticas_traducidas=estadisticas_traducidas,
+                total_estadisticas=total_estadisticas,
                 ataques_traducidos=ataques_traducidos
             )
 
