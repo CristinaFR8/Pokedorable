@@ -122,12 +122,14 @@ def index():
     proyecto = "Pokemon Battle Web"
     nombre = "Cristina Fernández"
     anio = datetime.now().year
+    pokemon_destacado = pokemons[0]
 
     return render_template(
         'index.html',
         proyecto=proyecto,
         nombre=nombre,
-        anio=anio
+        anio=anio,
+        pokemon_destacado=pokemon_destacado
     )
 
 
