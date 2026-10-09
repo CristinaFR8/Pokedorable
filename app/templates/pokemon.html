@@ -25,19 +25,13 @@ detalle
 
     <div class="imagen-detalle">
 
-        <img
-            src="{{ pokemon.sprites.front_default }}"
-            alt="{{ pokemon.name|capitalize }}"
-        >
+        <img src="{{ pokemon.sprites.front_default }}" alt="{{ pokemon.name|capitalize }}">
 
         <div class="galeria-detalle">
 
             <figure>
 
-                <img
-                    src="{{ pokemon.sprites.front_default }}"
-                    alt="{{ pokemon.name|capitalize }} de frente"
-                >
+                <img src="{{ pokemon.sprites.front_default }}" alt="{{ pokemon.name|capitalize }} de frente">
 
                 <figcaption>
                     Frente
@@ -48,10 +42,7 @@ detalle
 
             <figure>
 
-                <img
-                    src="{{ pokemon.sprites.back_default }}"
-                    alt="{{ pokemon.name|capitalize }} de espaldas"
-                >
+                <img src="{{ pokemon.sprites.back_default }}" alt="{{ pokemon.name|capitalize }} de espaldas">
 
                 <figcaption>
                     Espalda
@@ -62,10 +53,7 @@ detalle
 
             <figure>
 
-                <img
-                    src="{{ pokemon.sprites.front_shiny }}"
-                    alt="{{ pokemon.name|capitalize }} shiny de frente"
-                >
+                <img src="{{ pokemon.sprites.front_shiny }}" alt="{{ pokemon.name|capitalize }} shiny de frente">
 
                 <figcaption>
                     Frente shiny
@@ -76,10 +64,7 @@ detalle
 
             <figure>
 
-                <img
-                    src="{{ pokemon.sprites.back_shiny }}"
-                    alt="{{ pokemon.name|capitalize }} shiny de espaldas"
-                >
+                <img src="{{ pokemon.sprites.back_shiny }}" alt="{{ pokemon.name|capitalize }} shiny de espaldas">
 
                 <figcaption>
                     Espalda shiny
@@ -163,10 +148,7 @@ detalle
 
         <div class="barra">
 
-            <div
-                class="barra-relleno"
-                style="width: {{ stat.valor / 2 }}%;"
-            ></div>
+            <div class="barra-relleno" style="width: {{ stat.valor / 2 }}%;"></div>
 
         </div>
 
@@ -226,9 +208,9 @@ detalle
                 <strong>Precisión:</strong>
 
                 {% if ataque.precision is not none %}
-                    {{ ataque.precision }}
+                {{ ataque.precision }}
                 {% else %}
-                    No disponible
+                No disponible
                 {% endif %}
 
             </span>
@@ -242,10 +224,7 @@ detalle
 </section>
 
 
-<a
-    class="boton-volver"
-    href="{{ url_for('listado_pokemons') }}"
->
+<a class="boton-volver" href="{{ url_for('listado_pokemons') }}">
     Volver a la Pokédex
 </a>
 

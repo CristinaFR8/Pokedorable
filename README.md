@@ -1,41 +1,39 @@
-# Pokémon Battle Web
+# Pokédorable
 
 Aplicación web desarrollada con **Python y Flask** para consultar información sobre diferentes Pokémon y visualizar sus características.
 
 El proyecto forma parte del módulo **Desarrollo Web en Entorno Servidor (DWES)** y utiliza **Jinja2** para generar las páginas HTML a partir de los datos proporcionados en un fichero JSON.
 
-**Autora:** Cristina Fernández
-
+**Autora:** Cristina Fernández  
 **Curso:** 2026/27
 
 ## Descripción
 
 La aplicación permite consultar una selección de Pokémon a través de diferentes vistas:
 
-* Página principal de bienvenida.
-* Listado de Pokémon disponibles.
-* Vista detallada de cada Pokémon.
-* Información sobre sus tipos, características y otros datos.
-* Clasificación del Pokémon según su peso.
-* Representación gráfica de sus estadísticas.
-* Listado de sus ataques.
-* Navegación entre el listado y las páginas de detalle.
+- Página principal de bienvenida.
+- Listado de Pokémon disponibles.
+- Vista detallada de cada Pokémon.
+- Información sobre sus tipos, características y otros datos.
+- Clasificación del Pokémon según su peso.
+- Representación gráfica de sus estadísticas.
+- Listado de sus ataques.
+- Navegación entre el listado y las páginas de detalle.
 
 Los datos de los Pokémon se obtienen del fichero `data/pokemons-cute.json`, que se carga al iniciar la aplicación.
 
 ## Tecnologías utilizadas
 
-* Python 3
-* Flask
-* Jinja2
-* HTML5
-* CSS3
+- Python 3
+- Flask
+- Jinja2
+- HTML5
+- CSS3
 
 ## Estructura del proyecto
 
 ```text
-Pokemon-Battle-Web/
-
+Pokedorable/
 ├── .gitignore
 ├── README.md
 ├── requirements.txt
@@ -64,21 +62,21 @@ Pokemon-Battle-Web/
 
 Para ejecutar el proyecto es necesario tener instalado:
 
-* Python 3
-* Git
+- Python 3
+- Git
 
 ## Instalación
 
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/CristinaFR8/Pokemon-Battle-Web.git
+git clone https://github.com/CristinaFR8/Pokedorable.git
 ```
 
 ### 2. Acceder a la carpeta del proyecto
 
 ```bash
-cd Pokemon-Battle-Web
+cd Pokedorable
 ```
 
 ### 3. Crear el entorno virtual
@@ -89,10 +87,16 @@ python -m venv venv
 
 ### 4. Activar el entorno virtual
 
-En Windows:
+En Windows, desde PowerShell:
+
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+Si utilizas Git Bash:
 
 ```bash
-.\venv\Scripts\activate
+source venv/Scripts/activate
 ```
 
 Una vez activado, aparecerá `(venv)` al principio de la terminal.
@@ -103,11 +107,11 @@ Una vez activado, aparecerá `(venv)` al principio de la terminal.
 pip install -r requirements.txt
 ```
 
-Las versiones de las dependencias utilizadas están especificadas en `requirements.txt` para facilitar la reproducción del entorno del proyecto.
+Las dependencias del proyecto están especificadas en `requirements.txt` para facilitar la configuración del entorno.
 
 ## Ejecución
 
-Con el entorno virtual activado:
+Con el entorno virtual activado, ejecuta:
 
 ```bash
 python app/main.py
@@ -115,59 +119,47 @@ python app/main.py
 
 La aplicación estará disponible en:
 
-```text
 http://127.0.0.1:5038/
-```
-
-Abrir esta dirección en el navegador para acceder a la aplicación.
 
 Si no se puede activar el entorno virtual, también se puede ejecutar directamente el Python incluido en `venv`:
 
-```bash
-.\venv\Scripts\python app/main.py
+```powershell
+.\venv\Scripts\python.exe app\main.py
 ```
 
 ## Vistas de la aplicación
 
 ### Página principal
 
-```text
-/
-```
+**Ruta:** `/`
 
 Muestra la bienvenida a la aplicación y permite acceder al listado de Pokémon.
 
 ### Listado de Pokémon
 
-```text
-/pokemons/
-```
+**Ruta:** `/pokemons/`
 
 Muestra los Pokémon disponibles y permite acceder a la información detallada de cada uno.
 
 ### Detalle de un Pokémon
 
-```text
-/pokemons/<id>/
-```
+**Ruta:** `/pokemons/<id>/`
 
 Muestra información detallada del Pokémon seleccionado, incluyendo:
 
-* Nombre e imágenes.
-* Altura y peso.
-* Tipo.
-* Clasificación según el peso.
-* Estadísticas representadas gráficamente.
-* Ataques y sus características.
-* Otros datos disponibles en el JSON.
+- Nombre e imágenes.
+- Altura y peso.
+- Tipo.
+- Clasificación según el peso.
+- Estadísticas representadas gráficamente.
+- Ataques y sus características.
+- Otros datos disponibles en el JSON.
 
 ## Datos
 
 Los datos utilizados por la aplicación se encuentran en:
 
-```text
-data/pokemons-cute.json
-```
+`data/pokemons-cute.json`
 
 El fichero se carga una única vez al iniciar el servidor y los datos quedan disponibles para las diferentes rutas de la aplicación.
 
@@ -175,18 +167,11 @@ El fichero se carga una única vez al iniciar el servidor y los datos quedan dis
 
 Las páginas HTML utilizan **Jinja2**.
 
-Se utiliza una plantilla base:
-
-```text
-app/templates/base.html
-```
-
-sobre la que se construyen las diferentes vistas mediante herencia de plantillas.
+Se utiliza una plantilla base, `app/templates/base.html`, sobre la que se construyen las diferentes vistas mediante herencia de plantillas.
 
 Las rutas internas y los recursos estáticos se generan utilizando `url_for`.
 
 ## Autoría
 
-**Cristina Fernández**
-
+**Cristina Fernández**  
 **DWES · 2026/27**

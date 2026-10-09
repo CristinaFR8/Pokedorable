@@ -25,10 +25,7 @@ Pokédex
         <h2>{{ pokemon.name|capitalize }}</h2>
 
 
-        <img
-            src="{{ pokemon.sprites.front_default }}"
-            alt="{{ pokemon.name|capitalize }}"
-        >
+        <img src="{{ pokemon.sprites.front_default }}" alt="{{ pokemon.name|capitalize }}">
 
 
         <div class="tipos-pokemon">
@@ -44,10 +41,7 @@ Pokédex
         </div>
 
 
-        <a
-            class="boton-pokemon"
-            href="{{ url_for('detalle_pokemon', id=pokemon.id) }}"
-        >
+        <a class="boton-pokemon" href="{{ url_for('detalle_pokemon', id=pokemon.id) }}">
             Ver detalle
         </a>
 

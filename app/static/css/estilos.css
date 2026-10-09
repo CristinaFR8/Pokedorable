@@ -26,11 +26,9 @@ body {
     color: var(--tinta);
 
     background:
-        linear-gradient(
-            #5eb8ff 0 25%,
+        linear-gradient(#5eb8ff 0 25%,
             #8fd0ff 25% 55%,
-            #c9ebff 55%
-        );
+            #c9ebff 55%);
 }
 
 main {
@@ -271,12 +269,10 @@ a:focus-visible {
         var(--pixel) var(--pixel) 0 var(--tinta);
 
     background:
-        linear-gradient(
-            #cdeeff 0 38%,
+        linear-gradient(#cdeeff 0 38%,
             #e6f7ff 38% 56%,
             #8fe3c0 56% 58%,
-            #a8efc9 58%
-        );
+            #a8efc9 58%);
 }
 
 
@@ -500,10 +496,8 @@ a:focus-visible {
 .boton-inicio:active,
 .boton-pokemon:active,
 .boton-volver:active {
-    transform: translate(
-        var(--pixel),
-        var(--pixel)
-    );
+    transform: translate(var(--pixel),
+            var(--pixel));
 
     box-shadow: none;
 }
@@ -857,7 +851,7 @@ a:focus-visible {
     padding: 14px;
 }
 
-.imagen-detalle > img {
+.imagen-detalle>img {
     width: 280px;
     height: 280px;
 
@@ -994,7 +988,7 @@ a:focus-visible {
    ESTADÍSTICAS
    ========================= */
 
-.detalle > .seccion-detalle:first-of-type {
+.detalle>.seccion-detalle:first-of-type {
     grid-area: estadisticas;
 
     min-width: 0;
@@ -1062,7 +1056,7 @@ a:focus-visible {
    ATAQUES
    ========================= */
 
-.detalle > .seccion-detalle:nth-of-type(2) {
+.detalle>.seccion-detalle:nth-of-type(2) {
     grid-area: ataques;
 
     margin-bottom: 0;
@@ -1108,7 +1102,7 @@ a:focus-visible {
 
 /* Nombre del ataque */
 
-.ataque > strong {
+.ataque>strong {
     display: block;
 
     margin-bottom: 9px;
@@ -1125,7 +1119,7 @@ a:focus-visible {
 
 /* Tipo, potencia y precisión */
 
-.ataque > span {
+.ataque>span {
     display: inline-block;
 
     margin-top: 4px;
@@ -1136,11 +1130,11 @@ a:focus-visible {
     vertical-align: middle;
 }
 
-.ataque > span:last-child {
+.ataque>span:last-child {
     margin-right: 0;
 }
 
-.ataque > span strong {
+.ataque>span strong {
     display: inline;
 
     margin: 0;
@@ -1473,7 +1467,7 @@ footer p {
         padding: 12px;
     }
 
-    .imagen-detalle > img {
+    .imagen-detalle>img {
         width: 250px;
         height: 250px;
     }
@@ -1536,11 +1530,11 @@ footer p {
         font-size: 18px;
     }
 
-    .ataque > strong {
+    .ataque>strong {
         font-size: 14px;
     }
 
-    .ataque > span {
+    .ataque>span {
         font-size: 17px;
     }
 
