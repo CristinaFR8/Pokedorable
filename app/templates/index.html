@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block titulo %}
@@ -81,6 +80,13 @@ inicio
             ¡Un
             <strong>{{ pokemon_destacado.name|capitalize }}</strong>
             salvaje apareció!
+            
+            <br><br>
+
+            Prepara tu Pokédex y descubre todos los Pokémon.
+            <br><br>
+
+            ¡Tu aventura comienza aquí, entrenador/@!
         </p>
 
     </div>
@@ -88,18 +94,11 @@ inicio
     <form action="{{ url_for('index') }}" method="POST">
 
         <label for="trainer">
-            Nombre del entrenador:
+            Nombre del entrenador/@:
         </label>
 
-        <input
-            type="text"
-            id="trainer"
-            name="trainer"
-            value="{{ trainer }}"
-            minlength="3"
-            maxlength="15"
-            required
-        >
+        <input type="text" id="trainer" name="trainer" value="{{ trainer }}" placeholder="Introduce tu nombre"
+            minlength="3" maxlength="15" required>
 
         {% if error %}
         <p class="error">
