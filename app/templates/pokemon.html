@@ -230,7 +230,7 @@ detalle
 </section>
 
 
-<a class="boton-volver" href="{{ url_for('listado_pokemons') }}">
+<a class="boton-volver" href="{{ url_for('listado_pokemons', trainer=request.args.get('trainer', '')) }}">
     Volver a la Pokédex
 </a>
 
