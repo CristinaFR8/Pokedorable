@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 
-
 {% block titulo %}
 Pokédex
 {% endblock %}
-
 
 {% block contenido %}
 
@@ -14,6 +12,21 @@ Pokédex
     Entrenador: <strong>{{ trainer }}</strong>
 </p>
 
+<form action="{{ url_for('listado_pokemons', trainer=trainer) }}" method="POST">
+
+    <label for="pokemon">¿Qué Pokémon quieres elegir?</label>
+
+    <input type="text" id="pokemon" name="pokemon" value="{{ pokemon_seleccionado }}">
+
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <button type="submit" class="boton-inicio">
+        Elegir Pokémon
+    </button>
+
+</form>
 
 <div class="pokedex">
 
@@ -25,12 +38,9 @@ Pokédex
             N.º {{ pokemon.id }}
         </p>
 
-
         <h2>{{ pokemon.name|capitalize }}</h2>
 
-
         <img src="{{ pokemon.sprites.front_default }}" alt="{{ pokemon.name|capitalize }}">
-
 
         <div class="tipos-pokemon">
 
@@ -43,7 +53,6 @@ Pokédex
             {% endfor %}
 
         </div>
-
 
         <a class="boton-pokemon" href="{{ url_for('detalle_pokemon', id=pokemon.id) }}">
             Ver detalle

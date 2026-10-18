@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+Combate · {{ proyecto }}
+{% endblock %}
+
+{% block clase_main %}batalla{% endblock %}
+
+{% block contenido %}
+
+<h1 class="titulo-pokedex">¡Preparados para el combate!</h1>
+
+<p>
+    Entrenador: <strong>{{ trainer }}</strong>
+</p>
+
+<div class="arena">
+
+    <div class="estado estado-enemigo">
+        <strong>{{ pokemon_rival.name|capitalize }}</strong>
+        <div class="barra">
+            <div class="barra-relleno alto" style="width: 100%;"></div>
+        </div>
+        <span>PS {{ pokemon_rival.stats[0].value }}/{{ pokemon_rival.stats[0].value }}</span>
+    </div>
+
+    <div class="campo campo-enemigo">
+        <img class="sprite" src="{{ pokemon_rival.sprites.front_default }}" alt="{{ pokemon_rival.name|capitalize }}">
+        <div class="suelo"></div>
+    </div>
+
+    <div class="campo campo-aliado">
+        <img class="sprite" src="{{ pokemon_elegido.sprites.back_default }}"
+            alt="{{ pokemon_elegido.name|capitalize }} de espaldas">
+        <div class="suelo"></div>
+    </div>
+
+    <div class="estado estado-aliado">
+        <strong>{{ pokemon_elegido.name|capitalize }}</strong>
+        <div class="barra">
+            <div class="barra-relleno alto" style="width: 100%;"></div>
+        </div>
+        <span>PS {{ pokemon_elegido.stats[0].value }}/{{ pokemon_elegido.stats[0].value }}</span>
+    </div>
+
+</div>
+
+<div class="panel-batalla">
+
+    <div class="dialogo">
+        <p>
+            ¡{{ pokemon_elegido.name|capitalize }} de {{ trainer }}
+            se enfrenta a {{ pokemon_rival.name|capitalize }}!
+        </p>
+    </div>
+
+    <div class="menu-batalla">
+        <h2>Sus cuatro ataques</h2>
+
+        {% for ataque in ataques_traducidos %}
+        <div class="ataque">
+            <strong>{{ ataque.nombre }}</strong>
+            <span>Tipo: {{ ataque.tipo }}</span>
+            <span>
+                Precisión:
+                {{ ataque.precision if ataque.precision is not none else "—" }}
+            </span>
+            <span>
+                Potencia:
+                {{ ataque.potencia if ataque.potencia else "—" }}
+            </span>
+        </div>
+        {% endfor %}
+
+        <a class="boton-inicio" href="{{ url_for('listado_pokemons', trainer=trainer) }}">
+            Volver a la Pokédex
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}
