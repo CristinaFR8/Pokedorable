@@ -97,7 +97,13 @@ detalle
             <strong>Clasificación:</strong>
 
             <span class="peso">
-                {{ clasificacion_peso }}
+                {% if pokemon.weight < 20 %}
+                    Ligero
+                {% elif pokemon.weight <= 60 %}
+                    Medio
+                {% else %}
+                    Pesado
+                {% endif %}
             </span>
         </p>
 

@@ -157,13 +157,6 @@ def detalle_pokemon(id):
 
         if pokemon['id'] == id:
 
-            if pokemon['weight'] < 20:
-                clasificacion_peso = "Ligero"
-            elif pokemon['weight'] <= 60:
-                clasificacion_peso = "Medio"
-            else:
-                clasificacion_peso = "Pesado"
-
             tipos_traducidos = []
 
             for tipo in pokemon['types']:
@@ -198,7 +191,6 @@ def detalle_pokemon(id):
                 nombre=nombre,
                 anio=anio,
                 pokemon=pokemon,
-                clasificacion_peso=clasificacion_peso,
                 tipos_traducidos=tipos_traducidos,
                 estadisticas_traducidas=estadisticas_traducidas,
                 total_estadisticas=total_estadisticas,
