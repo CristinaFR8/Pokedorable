@@ -1,14 +1,13 @@
+
 {% extends "base.html" %}
 
 {% block titulo %}
 {{ proyecto }}
 {% endblock %}
 
-
 {% block clase_main %}
 inicio
 {% endblock %}
-
 
 {% block contenido %}
 
@@ -21,7 +20,6 @@ inicio
     </p>
 
 </div>
-
 
 <div class="arena">
 
@@ -41,7 +39,6 @@ inicio
 
     </div>
 
-
     <div class="campo campo-enemigo">
 
         <img src="{{ pokemon_destacado.sprites.front_default }}" alt="{{ pokemon_destacado.name|capitalize }}">
@@ -50,7 +47,6 @@ inicio
 
     </div>
 
-
     <div class="campo campo-aliado">
 
         <img src="{{ pokemon_aliado.sprites.back_default }}" alt="{{ pokemon_aliado.name|capitalize }} de espaldas">
@@ -58,7 +54,6 @@ inicio
         <div class="suelo"></div>
 
     </div>
-
 
     <div class="estado estado-aliado">
 
@@ -78,7 +73,6 @@ inicio
 
 </div>
 
-
 <div class="panel-batalla">
 
     <div class="dialogo">
@@ -91,14 +85,21 @@ inicio
 
     </div>
 
-
     <form action="{{ url_for('index') }}" method="POST">
 
         <label for="trainer">
             Nombre del entrenador:
         </label>
 
-        <input type="text" id="trainer" name="trainer" value="{{ trainer }}">
+        <input
+            type="text"
+            id="trainer"
+            name="trainer"
+            value="{{ trainer }}"
+            minlength="3"
+            maxlength="15"
+            required
+        >
 
         {% if error %}
         <p class="error">
@@ -107,7 +108,7 @@ inicio
         {% endif %}
 
         <button class="boton-inicio" type="submit">
-            Ver Pokédex Cuqui
+            Entrar en la Pokédex
         </button>
 
     </form>

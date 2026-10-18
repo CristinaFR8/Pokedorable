@@ -150,6 +150,9 @@ def index():
 @app.route('/pokemons', methods=['GET', 'POST'])
 def listado_pokemons():
     trainer = request.args.get('trainer', '').strip()
+    nombre_filtro = request.args.get('nombre', '').strip().lower()
+    tipo_filtro = request.args.get('tipo', '').strip().lower()
+
     error = None
     pokemon_seleccionado = ''
 
@@ -176,9 +179,18 @@ def listado_pokemons():
                 pokemon=pokemon_encontrado['id']
             ))
 
+    pokemons_filtrados = []
     tipos_pokemons = []
 
     for pokemon in pokemons:
+        if nombre_filtro and nombre_filtro not in pokemon['name'].lower():
+            continue
+
+        if tipo_filtro and tipo_filtro not in pokemon['types']:
+            continue
+
+        pokemons_filtrados.append(pokemon)
+
         tipos_traducidos = []
 
         for tipo in pokemon['types']:
@@ -191,15 +203,18 @@ def listado_pokemons():
         proyecto=proyecto,
         nombre=nombre,
         anio=anio,
-        pokemons=pokemons,
+        pokemons=pokemons_filtrados,
         tipos_pokemons=tipos_pokemons,
         trainer=trainer,
         error=error,
-        pokemon_seleccionado=pokemon_seleccionado
+        pokemon_seleccionado=pokemon_seleccionado,
+        nombre_filtro=nombre_filtro,
+        tipo_filtro=tipo_filtro,
+        tipos_disponibles=TRADUCCION_TIPOS
     )
 
 
-@app.route('/batalla/')
+@app.route('/battle/')
 def batalla():
     trainer = request.args.get('trainer', '').strip()
     pokemon_id = request.args.get('pokemon', type=int)

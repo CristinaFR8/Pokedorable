@@ -1,6 +1,7 @@
+
 # Pokédorable
 
-Aplicación web desarrollada con **Python y Flask** para consultar información sobre diferentes Pokémon y visualizar sus características.
+Aplicación web desarrollada con **Python y Flask** para consultar información sobre diferentes Pokémon, visualizar sus características, filtrarlos y seleccionar uno para una pantalla de combate.
 
 El proyecto forma parte del módulo **Desarrollo Web en Entorno Servidor (DWES)** y utiliza **Jinja2** para generar las páginas HTML a partir de los datos proporcionados en un fichero JSON.
 
@@ -12,13 +13,16 @@ El proyecto forma parte del módulo **Desarrollo Web en Entorno Servidor (DWES)*
 La aplicación permite consultar una selección de Pokémon a través de diferentes vistas:
 
 - Página principal de bienvenida.
+- Formulario para introducir el nombre del entrenador.
 - Listado de Pokémon disponibles.
+- Búsqueda por nombre y filtrado por tipo.
+- Selección de un Pokémon para la batalla.
 - Vista detallada de cada Pokémon.
 - Información sobre sus tipos, características y otros datos.
 - Clasificación del Pokémon según su peso.
 - Representación gráfica de sus estadísticas.
 - Listado de sus ataques.
-- Navegación entre el listado y las páginas de detalle.
+- Pantalla de combate con un rival aleatorio y cuatro ataques del Pokémon elegido.
 
 Los datos de los Pokémon se obtienen del fichero `data/pokemons-cute.json`, que se carga al iniciar la aplicación.
 
@@ -29,6 +33,7 @@ Los datos de los Pokémon se obtienen del fichero `data/pokemons-cute.json`, que
 - Jinja2
 - HTML5
 - CSS3
+- JSON
 
 ## Estructura del proyecto
 
@@ -53,7 +58,8 @@ Pokedorable/
         ├── base.html
         ├── index.html
         ├── pokemons.html
-        └── pokemon.html
+        ├── pokemon.html
+        └── batalla.html
 ```
 
 > El entorno virtual `venv/` se crea localmente y no se incluye en el repositorio.
@@ -133,13 +139,22 @@ Si no se puede activar el entorno virtual, también se puede ejecutar directamen
 
 **Ruta:** `/`
 
-Muestra la bienvenida a la aplicación y permite acceder al listado de Pokémon.
+Muestra la bienvenida a la aplicación y permite introducir el nombre del entrenador mediante un formulario POST.
+
+El servidor valida que el nombre tenga entre 3 y 15 caracteres. Si no cumple este requisito, se muestra un mensaje de error. Si es válido, se redirige al listado de Pokémon.
 
 ### Listado de Pokémon
 
-**Ruta:** `/pokemons/`
+**Ruta:** `/pokemons`
 
-Muestra los Pokémon disponibles y permite acceder a la información detallada de cada uno.
+Muestra los Pokémon disponibles y el nombre del entrenador.
+
+Incluye dos formularios:
+
+- **Selección de Pokémon:** permite introducir el nombre del Pokémon deseado. El servidor comprueba que exista y, si es válido, redirige a la página de batalla.
+- **Filtrado de Pokémon:** permite buscar por nombre y filtrar por tipo.
+
+El listado requiere un nombre de entrenador válido. La información del entrenador se transmite mediante parámetros de la URL, sin utilizar sesiones.
 
 ### Detalle de un Pokémon
 
@@ -155,13 +170,29 @@ Muestra información detallada del Pokémon seleccionado, incluyendo:
 - Ataques y sus características.
 - Otros datos disponibles en el JSON.
 
+### Página de batalla
+
+**Ruta:** `/battle`
+
+Muestra el Pokémon elegido por el entrenador frente a un rival aleatorio distinto.
+
+La pantalla incluye:
+
+- Nombre del entrenador.
+- Nombres e imágenes de ambos Pokémon.
+- Puntos de salud de cada contrincante.
+- Cuatro ataques seleccionados aleatoriamente entre los disponibles para el Pokémon elegido.
+- Tipo, precisión y potencia de cada ataque.
+
+Esta fase implementa la estructura visual de la batalla. No incluye la lógica de un combate real.
+
 ## Datos
 
 Los datos utilizados por la aplicación se encuentran en:
 
 `data/pokemons-cute.json`
 
-El fichero se carga una única vez al iniciar el servidor y los datos quedan disponibles para las diferentes rutas de la aplicación.
+El fichero se carga al iniciar el servidor y los datos quedan disponibles para las diferentes rutas de la aplicación.
 
 ## Plantillas
 
@@ -171,7 +202,9 @@ Se utiliza una plantilla base, `app/templates/base.html`, sobre la que se constr
 
 Las rutas internas y los recursos estáticos se generan utilizando `url_for`.
 
-## Autoría
+## Validación y navegación
 
-**Cristina Fernández**  
-**DWES · 2026/27**
+Los formularios se validan en el servidor. La aplicación utiliza métodos POST para recibir los datos de los formularios y parámetros de URL para transmitir el nombre del entrenador entre las vistas.
+
+No se utilizan sesiones.
+

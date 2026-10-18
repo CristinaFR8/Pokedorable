@@ -17,15 +17,10 @@
         <a class="logo" href="{{ url_for('index') }}">
 
             <span class="logo-balls" aria-hidden="true">
-
                 <img src="{{ url_for('static', filename='img/pokeball.png') }}" alt="">
-
                 <img src="{{ url_for('static', filename='img/superball.png') }}" alt="">
-
                 <img src="{{ url_for('static', filename='img/ultraball.png') }}" alt="">
-
                 <img src="{{ url_for('static', filename='img/masterball.png') }}" alt="">
-
             </span>
 
             Pokédorable
@@ -38,14 +33,15 @@
                 Inicio
             </a>
 
-            <a class="enlace-nav" href="{{ url_for('listado_pokemons') }}">
+            {% if request.endpoint != 'index' %}
+            <a class="enlace-nav" href="{{ url_for('listado_pokemons', trainer=request.args.get('trainer', '')) }}">
                 Pokédex
             </a>
+            {% endif %}
 
         </nav>
 
     </header>
-
 
     <main class="{% block clase_main %}{% endblock %}">
 
@@ -53,7 +49,6 @@
         {% endblock %}
 
     </main>
-
 
     <footer>
         <p>{{ proyecto }} - {{ nombre }} - {{ anio }}</p>

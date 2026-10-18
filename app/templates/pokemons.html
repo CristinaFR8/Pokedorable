@@ -4,6 +4,7 @@
 Pokédex
 {% endblock %}
 
+
 {% block contenido %}
 
 <h1 class="titulo-pokedex">Pokédex</h1>
@@ -12,14 +13,56 @@ Pokédex
     Entrenador: <strong>{{ trainer }}</strong>
 </p>
 
-<form action="{{ url_for('listado_pokemons', trainer=trainer) }}" method="POST">
 
-    <label for="pokemon">¿Qué Pokémon quieres elegir?</label>
+<form action="{{ url_for('listado_pokemons') }}" method="GET">
+
+    <input type="hidden" name="trainer" value="{{ trainer }}">
+
+    <label for="nombre">
+        Buscar por nombre:
+    </label>
+
+    <input type="text" id="nombre" name="nombre" value="{{ nombre_filtro }}">
+
+    <label for="tipo">
+        Filtrar por tipo:
+    </label>
+
+    <select id="tipo" name="tipo">
+
+        <option value="">Todos los tipos</option>
+
+        {% for clave, valor in tipos_disponibles.items() %}
+
+        <option value="{{ clave }}" {% if tipo_filtro == clave %}selected{% endif %}>
+            {{ valor }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <button type="submit" class="boton-inicio">
+        Filtrar
+    </button>
+
+</form>
+
+
+<form action="{{ url_for('listado_pokemons', trainer=trainer, nombre=nombre_filtro, tipo=tipo_filtro) }}" method="POST">
+
+    <label for="pokemon">
+        ¿Qué Pokémon quieres elegir?
+    </label>
 
     <input type="text" id="pokemon" name="pokemon" value="{{ pokemon_seleccionado }}">
 
     {% if error %}
-    <p class="error">{{ error }}</p>
+
+    <p class="error">
+        {{ error }}
+    </p>
+
     {% endif %}
 
     <button type="submit" class="boton-inicio">
@@ -27,6 +70,7 @@ Pokédex
     </button>
 
 </form>
+
 
 <div class="pokedex">
 
@@ -38,7 +82,9 @@ Pokédex
             N.º {{ pokemon.id }}
         </p>
 
-        <h2>{{ pokemon.name|capitalize }}</h2>
+        <h2>
+            {{ pokemon.name|capitalize }}
+        </h2>
 
         <img src="{{ pokemon.sprites.front_default }}" alt="{{ pokemon.name|capitalize }}">
 
@@ -54,11 +100,17 @@ Pokédex
 
         </div>
 
-        <a class="boton-pokemon" href="{{ url_for('detalle_pokemon', id=pokemon.id) }}">
+        <a class="boton-pokemon" href="{{ url_for('detalle_pokemon', id=pokemon.id, trainer=trainer) }}">
             Ver detalle
         </a>
 
     </div>
+
+    {% else %}
+
+    <p>
+        No se han encontrado Pokémon con esos filtros.
+    </p>
 
     {% endfor %}
 
