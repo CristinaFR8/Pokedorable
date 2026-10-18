@@ -92,9 +92,25 @@ inicio
     </div>
 
 
-    <a class="boton-inicio" href="{{ url_for('listado_pokemons') }}">
-        Ver Pokédex Cuqui
-    </a>
+    <form action="{{ url_for('index') }}" method="POST">
+
+        <label for="trainer">
+            Nombre del entrenador:
+        </label>
+
+        <input type="text" id="trainer" name="trainer" value="{{ trainer }}">
+
+        {% if error %}
+        <p class="error">
+            {{ error }}
+        </p>
+        {% endif %}
+
+        <button class="boton-inicio" type="submit">
+            Ver Pokédex Cuqui
+        </button>
+
+    </form>
 
 </div>
 

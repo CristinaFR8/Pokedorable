@@ -1,7 +1,8 @@
+
 import json
 from pathlib import Path
 from datetime import datetime
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
@@ -114,8 +115,19 @@ nombre = "Cristina Fernández"
 anio = datetime.now().year
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
+    error = None
+    trainer = ""
+
+    if request.method == 'POST':
+        trainer = request.form.get('trainer', '').strip()
+
+        if len(trainer) < 3 or len(trainer) > 15:
+            error = "El nombre debe tener entre 3 y 15 caracteres."
+        else:
+            return redirect(url_for('listado_pokemons', trainer=trainer))
+
     pokemon_destacado = pokemons[0]
     pokemon_aliado = pokemons[1]
 
@@ -125,12 +137,19 @@ def index():
         nombre=nombre,
         anio=anio,
         pokemon_destacado=pokemon_destacado,
-        pokemon_aliado=pokemon_aliado
+        pokemon_aliado=pokemon_aliado,
+        error=error,
+        trainer=trainer
     )
 
 
-@app.route('/pokemons/')
+@app.route('/pokemons')
 def listado_pokemons():
+    trainer = request.args.get('trainer', '').strip()
+
+    if len(trainer) < 3 or len(trainer) > 15:
+        return redirect(url_for('index'))
+
     tipos_pokemons = []
 
     for pokemon in pokemons:
@@ -147,7 +166,8 @@ def listado_pokemons():
         nombre=nombre,
         anio=anio,
         pokemons=pokemons,
-        tipos_pokemons=tipos_pokemons
+        tipos_pokemons=tipos_pokemons,
+        trainer=trainer
     )
 
 
