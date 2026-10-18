@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block titulo %}
@@ -17,29 +16,23 @@
         <h2>{{ pokemon_rival.name|capitalize }}</h2>
 
         {% for stat in pokemon_rival.stats %}
-            {% if stat.name == 'hp' %}
-            <p>PS {{ stat.value }}/{{ stat.value }}</p>
-            {% endif %}
+        {% if stat.name == 'hp' %}
+        <p>PS {{ stat.value }}/{{ stat.value }}</p>
+        {% endif %}
         {% endfor %}
 
-        <img
-            src="{{ pokemon_rival.sprites.front_default }}"
-            alt="{{ pokemon_rival.name|capitalize }}"
-        >
+        <img src="{{ pokemon_rival.sprites.front_default }}" alt="{{ pokemon_rival.name|capitalize }}">
     </div>
 
     <div class="contrincante">
-        <img
-            src="{{ pokemon_elegido.sprites.back_default }}"
-            alt="{{ pokemon_elegido.name|capitalize }} de espaldas"
-        >
+        <img src="{{ pokemon_elegido.sprites.back_default }}" alt="{{ pokemon_elegido.name|capitalize }} de espaldas">
 
         <h2>{{ pokemon_elegido.name|capitalize }}</h2>
 
         {% for stat in pokemon_elegido.stats %}
-            {% if stat.name == 'hp' %}
-            <p>PS {{ stat.value }}/{{ stat.value }}</p>
-            {% endif %}
+        {% if stat.name == 'hp' %}
+        <p>PS {{ stat.value }}/{{ stat.value }}</p>
+        {% endif %}
         {% endfor %}
     </div>
 
@@ -56,12 +49,20 @@
     {% for ataque in ataques_traducidos %}
     <li>
         <strong>{{ ataque.nombre }}</strong>
-        Tipo: {{ ataque.tipo }}
-        Precisión: {{ ataque.precision }}
-        Potencia: {{ ataque.potencia }}
+
+        <span>
+            Tipo:
+            <span class="tipo-pokemon tipo-{{ ataque.tipo|lower|replace('é', 'e')|replace(' ', '-') }}">
+                {{ ataque.tipo }}
+            </span>
+        </span>
+
+        <span>Precisión: {{ ataque.precision }}</span>
+        <span>Potencia: {{ ataque.potencia }}</span>
     </li>
     {% endfor %}
 </ul>
+
 
 <a href="{{ url_for('listado_pokemons', trainer=trainer) }}">
     Volver a la Pokédex

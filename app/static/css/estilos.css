@@ -1,3 +1,4 @@
+
 :root {
     --tinta: #1f2d3d;
     --papel: #f8fcff;
@@ -57,9 +58,7 @@ a:focus-visible {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     gap: 30px;
-
     padding: 18px 50px;
 
     background-color: var(--azul);
@@ -74,19 +73,14 @@ a:focus-visible {
 .logo {
     display: flex;
     align-items: center;
-
     gap: 14px;
 
     color: var(--papel);
-
     font-family: "Press Start 2P", monospace;
     font-size: 26px;
     font-weight: normal;
-
     text-decoration: none;
-
-    text-shadow:
-        3px 3px 0 var(--tinta);
+    text-shadow: 3px 3px 0 var(--tinta);
 }
 
 .logo-text {
@@ -102,20 +96,15 @@ a:focus-visible {
 
 .logo-poke {
     color: var(--mantequilla);
-
-    text-shadow:
-        3px 3px 0 var(--tinta);
+    text-shadow: 3px 3px 0 var(--tinta);
 }
 
 .logo-subtitulo {
     color: var(--papel);
-
     font-family: "VT323", monospace;
     font-size: 18px;
     letter-spacing: 2px;
-
-    text-shadow:
-        2px 2px 0 var(--tinta);
+    text-shadow: 2px 2px 0 var(--tinta);
 }
 
 
@@ -152,14 +141,12 @@ a:focus-visible {
 
     color: var(--tinta);
     background-color: var(--mantequilla);
-
     border: 3px solid var(--tinta);
     box-shadow: 3px 3px 0 var(--tinta);
 
     font-family: "Press Start 2P", monospace;
     font-size: 17px;
     text-decoration: none;
-
     transition: 0.15s;
 }
 
@@ -180,11 +167,8 @@ a:focus-visible {
 .informacion-detalle,
 .seccion-detalle {
     background-color: var(--papel);
-
     border: var(--pixel) solid var(--tinta);
-
-    box-shadow:
-        var(--pixel) var(--pixel) 0 var(--tinta);
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
 }
 
 
@@ -211,7 +195,6 @@ a:focus-visible {
     font-family: "Press Start 2P", monospace;
     font-size: clamp(22px, 4vw, 34px);
     line-height: 1.5;
-
     text-shadow: 3px 3px 0 var(--acento);
 }
 
@@ -231,7 +214,6 @@ a:focus-visible {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1fr;
-
     align-items: center;
     gap: 0 16px;
 
@@ -241,13 +223,10 @@ a:focus-visible {
 
     margin: 0 auto 18px;
     padding: 10px 18px 12px;
-
     overflow: hidden;
 
     border: var(--pixel) solid var(--tinta);
-
-    box-shadow:
-        var(--pixel) var(--pixel) 0 var(--tinta);
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
 
     background:
         linear-gradient(#cdeeff 0 38%,
@@ -273,11 +252,8 @@ a:focus-visible {
     padding: 8px 10px;
 
     background-color: var(--papel);
-
     border: var(--pixel) solid var(--tinta);
-
-    box-shadow:
-        var(--pixel) var(--pixel) 0 var(--tinta);
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
 }
 
 .estado-enemigo {
@@ -306,7 +282,6 @@ a:focus-visible {
     display: flex;
     flex-direction: column;
     align-items: center;
-
     justify-self: center;
     padding-top: 0;
 }
@@ -316,10 +291,8 @@ a:focus-visible {
     z-index: 2;
 
     display: block;
-
     width: 180px;
     height: 180px;
-
     object-fit: contain;
 }
 
@@ -329,12 +302,9 @@ a:focus-visible {
     margin-top: -22px;
 
     background-color: var(--menta);
-
     border: var(--pixel) solid var(--tinta);
     border-radius: 50%;
-
-    box-shadow:
-        inset 0 -8px 0 rgba(31, 45, 61, 0.15);
+    box-shadow: inset 0 -8px 0 rgba(31, 45, 61, 0.15);
 }
 
 
@@ -368,6 +338,7 @@ a:focus-visible {
 .panel-batalla {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 475px;
+
     width: 90%;
     max-width: 1000px;
     margin: 0 auto;
@@ -389,15 +360,11 @@ a:focus-visible {
     width: fit-content;
     max-width: 100%;
     min-height: 0;
-
     padding: 12px 40px 12px 16px;
 
     background-color: var(--papel);
-
     border: var(--pixel) solid var(--tinta);
-
-    box-shadow:
-        var(--pixel) var(--pixel) 0 var(--tinta);
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
 
     font-size: 22px;
 }
@@ -408,12 +375,9 @@ a:focus-visible {
 
 .dialogo::after {
     content: "▼";
-
     position: absolute;
-
     right: 12px;
     bottom: 6px;
-
     color: var(--azul);
 }
 
@@ -435,7 +399,6 @@ a:focus-visible {
 
     min-width: 0;
     padding: 18px;
-
     align-self: stretch;
 
     background-color: var(--papel);
@@ -455,20 +418,15 @@ a:focus-visible {
 
 .panel-batalla input[type="text"] {
     display: block;
-
     width: 100%;
     min-width: 0;
     min-height: 56px;
-
     padding: 14px;
 
     background-color: #ffffff;
     color: var(--tinta);
-
     border: 3px solid var(--tinta);
-
-    box-shadow:
-        inset 3px 3px 0 #dceaf5;
+    box-shadow: inset 3px 3px 0 #dceaf5;
 
     font-family: "VT323", monospace;
     font-size: 25px;
@@ -498,21 +456,16 @@ a:focus-visible {
 .boton-pokemon,
 .boton-volver {
     display: inline-block;
-
     padding: 14px 20px;
 
     background-color: var(--mantequilla);
     color: var(--tinta);
-
     border: var(--pixel) solid var(--tinta);
-
-    box-shadow:
-        var(--pixel) var(--pixel) 0 var(--tinta);
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
 
     font-family: "Press Start 2P", monospace;
     font-size: 12px;
     text-decoration: none;
-
     transition: 0.15s;
 }
 
@@ -546,7 +499,6 @@ a:focus-visible {
     justify-content: center;
 
     padding: 16px 18px;
-
     text-align: center;
     line-height: 1.5;
     font-size: 16px;
@@ -559,22 +511,17 @@ a:focus-visible {
 
 .titulo-pokedex {
     width: fit-content;
-
     margin: 40px auto 24px;
     padding: 14px 22px;
 
     text-align: center;
 
     background-color: var(--papel);
-
     border: var(--pixel) solid var(--tinta);
-
-    box-shadow:
-        var(--pixel) var(--pixel) 0 var(--tinta);
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
 
     font-family: "Press Start 2P", monospace;
     font-size: clamp(16px, 3vw, 26px);
-
     text-shadow: 3px 3px 0 var(--acento);
 }
 
@@ -589,14 +536,11 @@ a:focus-visible {
     gap: 24px;
 
     width: min(1180px, calc(100% - 40px));
-
     margin: 0 auto 50px;
     padding: 24px;
 
     background-color: rgba(248, 252, 255, 0.65);
-
     border: var(--pixel) solid var(--tinta);
-
     box-shadow: 8px 8px 0 var(--tinta);
 }
 
@@ -606,14 +550,12 @@ a:focus-visible {
    ========================= */
 
 .tarjeta-pokemon {
-    padding: 14px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
 
+    padding: 14px;
     text-align: center;
-
     transition: 0.15s;
 }
 
@@ -627,7 +569,6 @@ a:focus-visible {
     margin: 0;
 
     text-align: left;
-
     font-family: "Press Start 2P", monospace;
     font-size: 16px;
 }
@@ -640,13 +581,11 @@ a:focus-visible {
 
 .tarjeta-pokemon img {
     display: block;
-
     width: 192px;
     height: 192px;
     max-width: 100%;
 
     background-color: var(--cielo);
-
     border: var(--pixel) solid var(--tinta);
 }
 
@@ -668,11 +607,9 @@ a:focus-visible {
 .tipo-pokemon,
 .tipo-detalle {
     display: inline-block;
-
     padding: 6px 10px;
 
     color: var(--tinta);
-
     border: 3px solid var(--tinta);
     border-radius: 10px;
 
@@ -775,7 +712,6 @@ a:focus-visible {
 
 .detalle {
     display: grid;
-
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 
     grid-template-areas:
@@ -788,7 +724,6 @@ a:focus-visible {
 
     width: 100%;
     max-width: 1100px;
-
     margin: 0 auto;
     padding: 40px 20px 50px;
 }
@@ -803,16 +738,12 @@ a:focus-visible {
     text-align: center;
 
     background-color: var(--papel);
-
     border: var(--pixel) solid var(--tinta);
-
-    box-shadow:
-        var(--pixel) var(--pixel) 0 var(--tinta);
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
 }
 
 .numero-detalle {
     margin: 0 0 8px;
-
     font-family: "Press Start 2P", monospace;
     font-size: 14px;
 }
@@ -822,7 +753,6 @@ a:focus-visible {
 
     font-family: "Press Start 2P", monospace;
     font-size: clamp(18px, 4vw, 30px);
-
     text-shadow: 3px 3px 0 var(--acento);
 }
 
@@ -851,15 +781,13 @@ a:focus-visible {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-
     padding: 14px;
 }
 
-.imagen-detalle>img {
+.imagen-detalle > img {
     width: 280px;
     height: 280px;
     max-width: 100%;
-
     object-fit: contain;
 }
 
@@ -871,7 +799,6 @@ a:focus-visible {
 .galeria-detalle {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-
     gap: 8px;
 
     width: 100%;
@@ -879,18 +806,16 @@ a:focus-visible {
 }
 
 .galeria-detalle figure {
-    min-width: 0;
-    margin: 0;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
+    min-width: 0;
+    margin: 0;
+
     background-color: var(--cielo);
-
     border: 3px solid var(--tinta);
-
     text-align: center;
     overflow: hidden;
 }
@@ -904,7 +829,6 @@ a:focus-visible {
     width: 110px;
     height: 110px;
     max-width: 100%;
-
     object-fit: contain;
 }
 
@@ -914,7 +838,6 @@ a:focus-visible {
 
     font-size: 17px;
     line-height: 1.1;
-
     overflow-wrap: anywhere;
 }
 
@@ -941,7 +864,6 @@ a:focus-visible {
     padding: 6px 0;
 
     border-bottom: 2px dashed var(--cielo);
-
     font-size: 21px;
 }
 
@@ -951,7 +873,6 @@ a:focus-visible {
     gap: 8px;
 
     padding-top: 9px;
-
     font-size: 21px;
 }
 
@@ -972,7 +893,7 @@ a:focus-visible {
    ESTADÍSTICAS
    ========================= */
 
-.detalle>.seccion-detalle:first-of-type {
+.detalle > .seccion-detalle:first-of-type {
     grid-area: estadisticas;
 
     min-width: 0;
@@ -983,11 +904,8 @@ a:focus-visible {
     padding: 20px;
 
     background-color: var(--papel);
-
     border: var(--pixel) solid var(--tinta);
-
-    box-shadow:
-        var(--pixel) var(--pixel) 0 var(--tinta);
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
 }
 
 .estadistica {
@@ -997,9 +915,7 @@ a:focus-visible {
 .nombre-estadistica {
     display: flex;
     justify-content: space-between;
-
     margin-bottom: 5px;
-
     font-size: 23px;
 }
 
@@ -1022,18 +938,16 @@ a:focus-visible {
     padding-top: 10px;
 
     border-top: 2px dashed var(--cielo);
-
     text-align: right;
-
     font-size: 21px;
 }
 
 
 /* =========================
-   ATAQUES
+   ATAQUES EN DETALLES
    ========================= */
 
-.detalle>.seccion-detalle:nth-of-type(2) {
+.detalle > .seccion-detalle:nth-of-type(2) {
     grid-area: ataques;
     margin-bottom: 0;
 }
@@ -1049,48 +963,32 @@ a:focus-visible {
     padding: 13px 12px;
 
     background-color: #eef8ff;
-
     border: 3px solid var(--tinta);
-
-    box-shadow:
-        3px 3px 0 var(--tinta);
+    box-shadow: 3px 3px 0 var(--tinta);
 
     font-size: 17px;
     line-height: 1.2;
-
     overflow-wrap: break-word;
-
     transition: 0.15s;
 }
 
 .ataque:hover {
     transform: translate(-2px, -2px);
-
-    box-shadow:
-        5px 5px 0 var(--tinta);
+    box-shadow: 5px 5px 0 var(--tinta);
 }
 
-
-/* Nombre del ataque */
-
-.ataque>strong {
+.ataque > strong {
     display: block;
-
     margin-bottom: 9px;
 
     font-family: "Press Start 2P", monospace;
     font-size: 14px;
     line-height: 1.5;
-
     overflow-wrap: anywhere;
 }
 
-
-/* Tipo, potencia y precisión */
-
-.ataque>span {
+.ataque > span {
     display: inline-block;
-
     margin-top: 4px;
     margin-right: 12px;
 
@@ -1098,13 +996,12 @@ a:focus-visible {
     vertical-align: middle;
 }
 
-.ataque>span:last-child {
+.ataque > span:last-child {
     margin-right: 0;
 }
 
-.ataque>span strong {
+.ataque > span strong {
     display: inline;
-
     margin: 0;
 
     font-family: inherit;
@@ -1115,7 +1012,6 @@ a:focus-visible {
 .ataque .tipo-pokemon {
     margin-left: 3px;
     padding: 4px 8px;
-
     font-size: 10px;
 }
 
@@ -1203,7 +1099,6 @@ a:focus-visible {
 
 .boton-volver {
     grid-area: volver;
-
     display: block;
 
     width: fit-content;
@@ -1219,9 +1114,7 @@ footer {
     padding: 16px;
 
     text-align: center;
-
     background-color: var(--menta);
-
     border-top: var(--pixel) solid var(--tinta);
 }
 
@@ -1231,20 +1124,16 @@ footer p {
 
 
 /* =========================
-   RESPONSIVE
+   RESPONSIVE GENERAL
    ========================= */
 
 @media (max-width: 1100px) {
-
     .lista-ataques {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
-
 }
 
-
 @media (max-width: 1000px) {
-
     .pokedex {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -1252,12 +1141,9 @@ footer p {
     .lista-ataques {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
-
 }
 
-
 @media (max-width: 850px) {
-
     .cabecera {
         padding: 18px 30px;
     }
@@ -1313,12 +1199,9 @@ footer p {
     .lista-ataques {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
 }
 
-
 @media (max-width: 600px) {
-
     body {
         font-size: 20px;
     }
@@ -1344,16 +1227,13 @@ footer p {
     }
 
     .logo-poke {
-        text-shadow:
-            2px 2px 0 var(--tinta);
+        text-shadow: 2px 2px 0 var(--tinta);
     }
 
     .logo-subtitulo {
         font-size: 13px;
         letter-spacing: 1px;
-
-        text-shadow:
-            1px 1px 0 var(--tinta);
+        text-shadow: 1px 1px 0 var(--tinta);
     }
 
     .navegacion {
@@ -1414,7 +1294,7 @@ footer p {
         padding: 12px;
     }
 
-    .imagen-detalle>img {
+    .imagen-detalle > img {
         width: 250px;
         height: 250px;
     }
@@ -1441,7 +1321,6 @@ footer p {
 
         font-size: 14px;
         line-height: 1.15;
-
         overflow-wrap: anywhere;
         word-break: break-word;
     }
@@ -1471,12 +1350,415 @@ footer p {
         font-size: 18px;
     }
 
-    .ataque>strong {
+    .ataque > strong {
         font-size: 14px;
     }
 
-    .ataque>span {
+    .ataque > span {
         font-size: 17px;
     }
+}
 
+
+/* =========================
+   PÁGINA DE BATALLA
+   ========================= */
+
+main:has(.combate) {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px 50px;
+}
+
+main:has(.combate) > h1 {
+    margin: 0 0 18px;
+    padding: 22px 26px;
+
+    text-align: center;
+
+    background-color: var(--papel);
+    border: var(--pixel) solid var(--tinta);
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
+
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(18px, 3.5vw, 30px);
+    font-weight: normal;
+    line-height: 1.5;
+    text-shadow: 3px 3px 0 var(--acento);
+}
+
+main:has(.combate) > p:first-of-type {
+    width: fit-content;
+    margin: 0 auto 18px;
+    padding: 8px 18px;
+
+    background-color: var(--mantequilla);
+    border: 3px solid var(--tinta);
+    box-shadow: 3px 3px 0 var(--tinta);
+
+    font-size: 24px;
+}
+
+
+/* Arena compacta: rival arriba a la derecha,
+   Pokémon elegido abajo a la izquierda */
+
+.combate {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    gap: 10px;
+
+    min-height: 340px;
+    margin: 0 0 18px;
+    padding: 12px 20px;
+
+    overflow: hidden;
+
+    border: var(--pixel) solid var(--tinta);
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
+
+    background:
+        linear-gradient(#cdeeff 0 38%,
+            #e6f7ff 38% 56%,
+            #8fe3c0 56% 58%,
+            #a8efc9 58%);
+}
+
+.contrincante {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+/* Rival: arriba a la derecha */
+
+.contrincante:first-child {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+}
+
+/* Tu Pokémon: abajo a la izquierda */
+
+.contrincante:last-child {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+}
+
+/* Coloca nombre y PS antes de la imagen del Pokémon elegido */
+
+.contrincante:last-child img {
+    order: 3;
+}
+
+.contrincante:last-child h2 {
+    order: 1;
+}
+
+.contrincante:last-child p {
+    order: 2;
+}
+
+.contrincante h2 {
+    width: min(100%, 270px);
+    margin: 0;
+    padding: 8px 10px 4px;
+
+    background-color: var(--papel);
+    border: var(--pixel) solid var(--tinta);
+    border-bottom: 0;
+
+    font-family: "Press Start 2P", monospace;
+    font-size: 17px;
+    font-weight: normal;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.contrincante p {
+    width: min(100%, 270px);
+    margin: -8px 0 0;
+    padding: 4px 10px 8px;
+
+    background-color: var(--papel);
+    border: var(--pixel) solid var(--tinta);
+    border-top: 0;
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
+
+    font-size: 22px;
+    text-align: center;
+}
+
+.contrincante img {
+    display: block;
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}
+
+
+/* Mensaje de combate */
+
+main:has(.combate) > .combate + p {
+    position: relative;
+
+    margin: 0 0 24px;
+    padding: 12px 40px 12px 16px;
+
+    background-color: var(--papel);
+    border: var(--pixel) solid var(--tinta);
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
+
+    font-size: 24px;
+}
+
+main:has(.combate) > .combate + p::after {
+    content: "▼";
+    position: absolute;
+    right: 12px;
+    bottom: 6px;
+    color: var(--azul);
+}
+
+
+/* Título de los ataques */
+
+main:has(.combate) > h2 {
+    margin: 0 0 14px;
+
+    font-family: "Press Start 2P", monospace;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 1.5;
+    text-shadow: 2px 2px 0 var(--papel);
+}
+
+
+/* =========================
+   ATAQUES EN BATALLA
+   ========================= */
+
+main:has(.combate) > ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+
+    margin: 0 0 28px;
+    padding: 0;
+    list-style: none;
+}
+
+main:has(.combate) > ul > li {
+    min-width: 0;
+    padding: 13px 12px;
+
+    background-color: #eef8ff;
+    border: 3px solid var(--tinta);
+    box-shadow: 3px 3px 0 var(--tinta);
+
+    font-size: 17px;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    transition: 0.15s;
+}
+
+main:has(.combate) > ul > li:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--tinta);
+}
+
+main:has(.combate) > ul > li > strong {
+    display: block;
+    margin-bottom: 9px;
+
+    font-family: "Press Start 2P", monospace;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+main:has(.combate) > ul > li > span {
+    display: inline-block;
+    margin-top: 4px;
+    margin-right: 12px;
+    font-size: 17px;
+    vertical-align: middle;
+}
+
+main:has(.combate) > ul > li .tipo-pokemon {
+    margin-left: 3px;
+    padding: 4px 8px;
+    font-size: 10px;
+}
+
+
+/* Colores pastel de los ataques según su tipo */
+
+main:has(.combate) > ul > li:has(.tipo-normal) {
+    background-color: #f5f0e7;
+}
+
+main:has(.combate) > ul > li:has(.tipo-fuego) {
+    background-color: #ffe3d6;
+}
+
+main:has(.combate) > ul > li:has(.tipo-agua) {
+    background-color: #dff1ff;
+}
+
+main:has(.combate) > ul > li:has(.tipo-eléctrico) {
+    background-color: #fff7cc;
+}
+
+main:has(.combate) > ul > li:has(.tipo-planta) {
+    background-color: #e3f6df;
+}
+
+main:has(.combate) > ul > li:has(.tipo-hielo) {
+    background-color: #e4f8fa;
+}
+
+main:has(.combate) > ul > li:has(.tipo-lucha) {
+    background-color: #ffe1df;
+}
+
+main:has(.combate) > ul > li:has(.tipo-veneno) {
+    background-color: #eee1fa;
+}
+
+main:has(.combate) > ul > li:has(.tipo-tierra) {
+    background-color: #f5ead5;
+}
+
+main:has(.combate) > ul > li:has(.tipo-volador) {
+    background-color: #e9ecff;
+}
+
+main:has(.combate) > ul > li:has(.tipo-psíquico) {
+    background-color: #ffe4f0;
+}
+
+main:has(.combate) > ul > li:has(.tipo-bicho) {
+    background-color: #edf7d7;
+}
+
+main:has(.combate) > ul > li:has(.tipo-roca) {
+    background-color: #eee9d7;
+}
+
+main:has(.combate) > ul > li:has(.tipo-fantasma) {
+    background-color: #e9e0f5;
+}
+
+main:has(.combate) > ul > li:has(.tipo-dragón) {
+    background-color: #e2e5ff;
+}
+
+main:has(.combate) > ul > li:has(.tipo-siniestro) {
+    background-color: #e8e4e3;
+}
+
+main:has(.combate) > ul > li:has(.tipo-acero) {
+    background-color: #edf0f4;
+}
+
+main:has(.combate) > ul > li:has(.tipo-hada) {
+    background-color: #ffe7f4;
+}
+
+
+/* Botón volver */
+
+main:has(.combate) > a {
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 15px 24px;
+
+    color: var(--tinta);
+    background-color: var(--mantequilla);
+
+    border: 3px solid var(--tinta);
+    box-shadow: 3px 3px 0 var(--tinta);
+
+    font-family: "Press Start 2P", monospace;
+    font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.15s;
+}
+
+main:has(.combate) > a:hover {
+    background-color: var(--acento);
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--tinta);
+}
+
+
+/* =========================
+   RESPONSIVE DE BATALLA
+   ========================= */
+
+@media (max-width: 850px) {
+    .combate {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        min-height: 0;
+        gap: 16px;
+    }
+
+    .contrincante:first-child,
+    .contrincante:last-child {
+        grid-column: 1;
+        align-self: center;
+    }
+
+    .contrincante:first-child {
+        grid-row: 1;
+    }
+
+    .contrincante:last-child {
+        grid-row: 2;
+    }
+}
+
+@media (max-width: 600px) {
+    main:has(.combate) {
+        padding: 30px 15px;
+    }
+
+    main:has(.combate) > ul {
+        grid-template-columns: 1fr;
+    }
+
+    main:has(.combate) > p:first-of-type {
+        max-width: 100%;
+        text-align: center;
+        font-size: 21px;
+    }
+
+    main:has(.combate) > .combate + p {
+        font-size: 21px;
+    }
+
+    .contrincante img {
+        width: 130px;
+        height: 130px;
+    }
+
+    .contrincante h2 {
+        font-size: 14px;
+    }
+
+    main:has(.combate) > a {
+        max-width: 100%;
+        font-size: 11px;
+    }
 }
