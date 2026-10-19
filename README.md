@@ -1,4 +1,3 @@
-
 # Pokédorable
 
 Aplicación web desarrollada con **Python y Flask** para consultar información sobre diferentes Pokémon, visualizar sus características, filtrarlos y seleccionar uno para una pantalla de combate.
@@ -16,6 +15,7 @@ La aplicación permite consultar una selección de Pokémon a través de diferen
 - Formulario para introducir el nombre del entrenador.
 - Listado de Pokémon disponibles.
 - Búsqueda por nombre y filtrado por tipo.
+- Filtrado por el total de estadísticas, mediante un operador de comparación y un valor numérico.
 - Selección de un Pokémon para la batalla.
 - Vista detallada de cada Pokémon.
 - Información sobre sus tipos, características y otros datos.
@@ -152,7 +152,7 @@ Muestra los Pokémon disponibles y el nombre del entrenador.
 Incluye dos formularios:
 
 - **Selección de Pokémon:** permite introducir el nombre del Pokémon deseado. El servidor comprueba que exista y, si es válido, redirige a la página de batalla.
-- **Filtrado de Pokémon:** permite buscar por nombre y filtrar por tipo.
+- **Filtrado de Pokémon:** permite buscar por nombre, filtrar por tipo y comparar el total de estadísticas mediante los operadores «Igual a», «Mayor que» y «Menor que», introduciendo el valor numérico deseado.
 
 El listado requiere un nombre de entrenador válido. La información del entrenador se transmite mediante parámetros de la URL, sin utilizar sesiones.
 
@@ -188,9 +188,9 @@ Esta fase implementa la estructura visual de la batalla. No incluye la lógica d
 
 ## Flujo de interacción
 
-1. El usuario accede a la página principal e introduce el nombre de entrenador.
+1. El usuario accede a la página principal e introduce el nombre del entrenador.
 2. Si el nombre es válido, accede al listado de Pokémon.
-3. En el listado puede buscar por nombre, filtrar por tipo y consultar el detalle de cada Pokémon.
+3. En el listado puede buscar por nombre, filtrar por tipo, comparar el total de estadísticas y consultar el detalle de cada Pokémon.
 4. Para iniciar una batalla, introduce el nombre del Pokémon que desea elegir.
 5. Si el Pokémon existe, se muestra la pantalla de batalla con el Pokémon elegido, un rival aleatorio y cuatro ataques del Pokémon elegido.
 
@@ -217,4 +217,3 @@ Las rutas internas y los recursos estáticos se generan utilizando `url_for`.
 Los formularios se validan en el servidor. La aplicación utiliza métodos POST para recibir los datos de los formularios y parámetros de URL para transmitir el nombre del entrenador entre las vistas.
 
 No se utilizan sesiones.
-
