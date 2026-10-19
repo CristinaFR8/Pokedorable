@@ -152,6 +152,8 @@ def listado_pokemons():
     trainer = request.args.get('trainer', '').strip()
     nombre_filtro = request.args.get('nombre', '').strip().lower()
     tipo_filtro = request.args.get('tipo', '').strip().lower()
+    total_filtro = request.args.get('total', '').strip()
+    comparacion = request.args.get('comparacion', 'igual')
 
     error = None
     pokemon_seleccionado = ''
@@ -169,6 +171,7 @@ def listado_pokemons():
         for pokemon in pokemons:
             if pokemon['name'].lower() == pokemon_seleccionado.lower():
                 pokemon_encontrado = pokemon
+                break
 
         if pokemon_encontrado is None:
             error = "Ese Pokémon no existe en la Pokédex."
@@ -189,6 +192,22 @@ def listado_pokemons():
         if tipo_filtro and tipo_filtro not in pokemon['types']:
             continue
 
+        if total_filtro:
+            total_estadisticas = sum(
+                stat['value'] for stat in pokemon['stats']
+            )
+
+            total_buscado = int(total_filtro)
+
+            if comparacion == 'mayor' and total_estadisticas <= total_buscado:
+                continue
+
+            if comparacion == 'menor' and total_estadisticas >= total_buscado:
+                continue
+
+            if comparacion == 'igual' and total_estadisticas != total_buscado:
+                continue
+
         pokemons_filtrados.append(pokemon)
 
         tipos_traducidos = []
@@ -197,6 +216,13 @@ def listado_pokemons():
             tipos_traducidos.append(TRADUCCION_TIPOS[tipo])
 
         tipos_pokemons.append(tipos_traducidos)
+
+
+    tipos_disponibles = {}
+
+    for pokemon in pokemons:
+        for tipo in pokemon['types']:
+            tipos_disponibles[tipo] = TRADUCCION_TIPOS[tipo]
 
     return render_template(
         'pokemons.html',
@@ -210,11 +236,13 @@ def listado_pokemons():
         pokemon_seleccionado=pokemon_seleccionado,
         nombre_filtro=nombre_filtro,
         tipo_filtro=tipo_filtro,
-        tipos_disponibles=TRADUCCION_TIPOS
+        total_filtro=total_filtro,
+        comparacion=comparacion,
+        tipos_disponibles=tipos_disponibles
     )
 
 
-@app.route('/battle/')
+@app.route('/battle')
 def batalla():
     trainer = request.args.get('trainer', '').strip()
     pokemon_id = request.args.get('pokemon', type=int)
@@ -227,6 +255,7 @@ def batalla():
     for pokemon in pokemons:
         if pokemon['id'] == pokemon_id:
             pokemon_elegido = pokemon
+            break
 
     if pokemon_elegido is None:
         return redirect(url_for('listado_pokemons', trainer=trainer))
@@ -274,10 +303,13 @@ def batalla():
 
 @app.route('/pokemons/<int:id>/')
 def detalle_pokemon(id):
+    trainer = request.args.get('trainer', '').strip()
+
+    if len(trainer) < 3 or len(trainer) > 15:
+        return redirect(url_for('index'))
+
     for pokemon in pokemons:
-
         if pokemon['id'] == id:
-
             tipos_traducidos = []
 
             for tipo in pokemon['types']:
@@ -291,17 +323,18 @@ def detalle_pokemon(id):
                     "valor": stat['value']
                 })
 
-            total_estadisticas = 0
-
-            for stat in pokemon['stats']:
-                total_estadisticas += stat['value']
-
             ataques_traducidos = []
 
             for move in pokemon['moves']:
                 ataques_traducidos.append({
-                    "nombre": TRADUCCION_ATAQUES[move['name']],
-                    "tipo": TRADUCCION_TIPOS[move['type']],
+                    "nombre": TRADUCCION_ATAQUES.get(
+                        move['name'],
+                        move['name'].replace('-', ' ').title()
+                    ),
+                    "tipo": TRADUCCION_TIPOS.get(
+                        move['type'],
+                        move['type'].title()
+                    ),
                     "precision": move['accuracy'],
                     "potencia": move['power']
                 })
@@ -311,10 +344,10 @@ def detalle_pokemon(id):
                 proyecto=proyecto,
                 nombre=nombre,
                 anio=anio,
+                trainer=trainer,
                 pokemon=pokemon,
                 tipos_traducidos=tipos_traducidos,
                 estadisticas_traducidas=estadisticas_traducidas,
-                total_estadisticas=total_estadisticas,
                 ataques_traducidos=ataques_traducidos
             )
 

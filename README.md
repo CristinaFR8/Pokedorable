@@ -186,6 +186,16 @@ La pantalla incluye:
 
 Esta fase implementa la estructura visual de la batalla. No incluye la lógica de un combate real.
 
+## Flujo de interacción
+
+1. El usuario accede a la página principal e introduce el nombre de entrenador.
+2. Si el nombre es válido, accede al listado de Pokémon.
+3. En el listado puede buscar por nombre, filtrar por tipo y consultar el detalle de cada Pokémon.
+4. Para iniciar una batalla, introduce el nombre del Pokémon que desea elegir.
+5. Si el Pokémon existe, se muestra la pantalla de batalla con el Pokémon elegido, un rival aleatorio y cuatro ataques del Pokémon elegido.
+
+El nombre del entrenador se transmite entre las vistas mediante parámetros de URL, sin utilizar sesiones.
+
 ## Datos
 
 Los datos utilizados por la aplicación se encuentran en:

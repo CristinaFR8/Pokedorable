@@ -13,27 +13,31 @@
 <div class="combate">
 
     <div class="contrincante">
+
         <h2>{{ pokemon_rival.name|capitalize }}</h2>
 
         {% for stat in pokemon_rival.stats %}
-        {% if stat.name == 'hp' %}
-        <p>PS {{ stat.value }}/{{ stat.value }}</p>
-        {% endif %}
+            {% if stat.name == 'hp' %}
+                <p>PS {{ stat.value }}/{{ stat.value }}</p>
+            {% endif %}
         {% endfor %}
 
         <img src="{{ pokemon_rival.sprites.front_default }}" alt="{{ pokemon_rival.name|capitalize }}">
+
     </div>
 
     <div class="contrincante">
+
         <img src="{{ pokemon_elegido.sprites.back_default }}" alt="{{ pokemon_elegido.name|capitalize }} de espaldas">
 
         <h2>{{ pokemon_elegido.name|capitalize }}</h2>
 
         {% for stat in pokemon_elegido.stats %}
-        {% if stat.name == 'hp' %}
-        <p>PS {{ stat.value }}/{{ stat.value }}</p>
-        {% endif %}
+            {% if stat.name == 'hp' %}
+                <p>PS {{ stat.value }}/{{ stat.value }}</p>
+            {% endif %}
         {% endfor %}
+
     </div>
 
 </div>
@@ -45,24 +49,49 @@
 
 <h2>Sus cuatro ataques</h2>
 
-<ul>
+<div class="lista-ataques">
+
     {% for ataque in ataques_traducidos %}
-    <li>
-        <strong>{{ ataque.nombre }}</strong>
+
+    <div class="ataque">
+
+        <strong>
+            {{ ataque.nombre }}
+        </strong>
 
         <span>
-            Tipo:
-            <span class="tipo-pokemon tipo-{{ ataque.tipo|lower|replace('é', 'e')|replace(' ', '-') }}">
+            <strong>Tipo:</strong>
+
+            <span class="tipo-pokemon tipo-{{ ataque.tipo|lower }}">
                 {{ ataque.tipo }}
             </span>
         </span>
 
-        <span>Precisión: {{ ataque.precision }}</span>
-        <span>Potencia: {{ ataque.potencia }}</span>
-    </li>
-    {% endfor %}
-</ul>
+        <span>
+            <strong>Precisión:</strong>
 
+            {% if ataque.precision is not none %}
+                {{ ataque.precision }}
+            {% else %}
+                No disponible
+            {% endif %}
+        </span>
+
+        <span>
+            <strong>Potencia:</strong>
+
+            {% if ataque.potencia is not none %}
+                {{ ataque.potencia }}
+            {% else %}
+                No disponible
+            {% endif %}
+        </span>
+
+    </div>
+
+    {% endfor %}
+
+</div>
 
 <a href="{{ url_for('listado_pokemons', trainer=trainer) }}">
     Volver a la Pokédex

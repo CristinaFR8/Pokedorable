@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block titulo %}
@@ -30,46 +31,23 @@ detalle
         <div class="galeria-detalle">
 
             <figure>
-
                 <img src="{{ pokemon.sprites.front_default }}" alt="{{ pokemon.name|capitalize }} de frente">
-
-                <figcaption>
-                    Frente
-                </figcaption>
-
+                <figcaption>Frente</figcaption>
             </figure>
 
-
             <figure>
-
                 <img src="{{ pokemon.sprites.back_default }}" alt="{{ pokemon.name|capitalize }} de espaldas">
-
-                <figcaption>
-                    Espalda
-                </figcaption>
-
+                <figcaption>Espalda</figcaption>
             </figure>
 
-
             <figure>
-
                 <img src="{{ pokemon.sprites.front_shiny }}" alt="{{ pokemon.name|capitalize }} shiny de frente">
-
-                <figcaption>
-                    Frente shiny
-                </figcaption>
-
+                <figcaption>Frente shiny</figcaption>
             </figure>
 
-
             <figure>
-
                 <img src="{{ pokemon.sprites.back_shiny }}" alt="{{ pokemon.name|capitalize }} shiny de espaldas">
-
-                <figcaption>
-                    Espalda shiny
-                </figcaption>
-
+                <figcaption>Espalda shiny</figcaption>
             </figure>
 
         </div>
@@ -79,9 +57,7 @@ detalle
 
     <div class="informacion-detalle">
 
-        <h2>
-            Información
-        </h2>
+        <h2>Información</h2>
 
         <p>
             <strong>Altura:</strong>
@@ -132,9 +108,7 @@ detalle
 
 <section class="seccion-detalle">
 
-    <h2>
-        Estadísticas
-    </h2>
+    <h2>Estadísticas</h2>
 
     {% for stat in estadisticas_traducidas %}
 
@@ -142,13 +116,9 @@ detalle
 
         <div class="nombre-estadistica">
 
-            <span>
-                {{ stat.nombre }}
-            </span>
+            <span>{{ stat.nombre }}</span>
 
-            <span>
-                {{ stat.valor }}
-            </span>
+            <span>{{ stat.valor }}</span>
 
         </div>
 
@@ -164,11 +134,9 @@ detalle
 
     <p class="total-estadisticas">
 
-        <strong>
-            Total de estadísticas:
-        </strong>
+        <strong>Total de estadísticas:</strong>
 
-        {{ total_estadisticas }}
+        {{ pokemon.stats | sum(attribute='value') }}
 
     </p>
 
@@ -177,9 +145,7 @@ detalle
 
 <section class="seccion-detalle">
 
-    <h2>
-        Ataques
-    </h2>
+    <h2>Ataques</h2>
 
     <div class="lista-ataques">
 
@@ -192,33 +158,31 @@ detalle
             </strong>
 
             <span>
-
                 <strong>Tipo:</strong>
 
                 <span class="tipo-pokemon tipo-{{ ataque.tipo|lower }}">
                     {{ ataque.tipo }}
                 </span>
-
             </span>
 
             <span>
-
                 <strong>Potencia:</strong>
 
-                {{ ataque.potencia }}
-
+                {% if ataque.potencia is not none %}
+                    {{ ataque.potencia }}
+                {% else %}
+                    No disponible
+                {% endif %}
             </span>
 
             <span>
-
                 <strong>Precisión:</strong>
 
                 {% if ataque.precision is not none %}
-                {{ ataque.precision }}
+                    {{ ataque.precision }}
                 {% else %}
-                No disponible
+                    No disponible
                 {% endif %}
-
             </span>
 
         </div>

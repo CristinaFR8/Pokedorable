@@ -97,8 +97,9 @@ inicio
             Nombre del entrenador/@:
         </label>
 
-        <input type="text" id="trainer" name="trainer" value="{{ trainer }}" placeholder="Introduce tu nombre"
-            minlength="3" maxlength="15" required>
+        <input type="text" id="trainer" name="trainer"
+                value="{{ trainer }}" placeholder="Introduce tu nombre"
+                placeholder="Introduce tu nombre" required>
 
         {% if error %}
         <p class="error">

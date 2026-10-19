@@ -14,6 +14,7 @@ Pokédex
 </p>
 
 
+
 <form action="{{ url_for('listado_pokemons') }}" method="GET">
 
     <input type="hidden" name="trainer" value="{{ trainer }}">
@@ -34,13 +35,25 @@ Pokédex
 
         {% for clave, valor in tipos_disponibles.items() %}
 
-        <option value="{{ clave }}" {% if tipo_filtro == clave %}selected{% endif %}>
+        <option value="{{ clave }}" {% if tipo_filtro==clave %}selected{% endif %}>
             {{ valor }}
         </option>
 
         {% endfor %}
 
     </select>
+
+    <label for="comparacion">Total de estadísticas:</label>
+
+    <div class="filtro-estadisticas">
+        <select id="comparacion" name="comparacion">
+            <option value="igual" {% if comparacion=='igual' %}selected{% endif %}>Igual a</option>
+            <option value="mayor" {% if comparacion=='mayor' %}selected{% endif %}>Mayor que</option>
+            <option value="menor" {% if comparacion=='menor' %}selected{% endif %}>Menor que</option>
+        </select>
+
+        <input type="number" id="total" name="total" value="{{ total_filtro }}">
+    </div>
 
     <button type="submit" class="boton-inicio">
         Filtrar
@@ -49,7 +62,10 @@ Pokédex
 </form>
 
 
-<form action="{{ url_for('listado_pokemons', trainer=trainer, nombre=nombre_filtro, tipo=tipo_filtro) }}" method="POST">
+
+<form
+    action="{{ url_for('listado_pokemons', trainer=trainer, nombre=nombre_filtro, tipo=tipo_filtro, total=total_filtro, comparacion=comparacion) }}"
+    method="POST">
 
     <label for="pokemon">
         ¿Qué Pokémon quieres elegir?
