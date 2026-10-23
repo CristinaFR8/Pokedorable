@@ -1,11 +1,19 @@
-
 import json
 import random
 from pathlib import Path
 from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for
+import os
+from flask import Flask, render_template, request, redirect, url_for, session
+from flask_session import Session
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY", "clave-solo-para-desarrollo")
+
+app.config["SESSION_TYPE"] = "filesystem"
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_FILE_DIR"] = "./.flask_session"
+
+Session(app)
 
 RUTA_DATOS = Path(__file__).resolve().parent.parent / \
     "data" / "pokemons-cute.json"
@@ -122,15 +130,13 @@ def index():
     trainer = ""
 
     if request.method == 'POST':
-        trainer = request.form.get('trainer', '').strip()
+        trainer = request.form.get('trainer', '')
 
         if len(trainer) < 3 or len(trainer) > 15:
             error = "El nombre debe tener entre 3 y 15 caracteres."
         else:
-            return redirect(url_for(
-                'listado_pokemons',
-                trainer=trainer
-            ))
+            session["trainer"] = trainer
+            return redirect(url_for("listado_pokemons"))
 
     pokemon_destacado = pokemons[0]
     pokemon_aliado = pokemons[1]
@@ -149,7 +155,7 @@ def index():
 
 @app.route('/pokemons', methods=['GET', 'POST'])
 def listado_pokemons():
-    trainer = request.args.get('trainer', '').strip()
+    trainer = session.get('trainer', '')
     nombre_filtro = request.args.get('nombre', '').strip().lower()
     tipo_filtro = request.args.get('tipo', '').strip().lower()
     total_filtro = request.args.get('total', '').strip()
@@ -178,7 +184,6 @@ def listado_pokemons():
         else:
             return redirect(url_for(
                 'batalla',
-                trainer=trainer,
                 pokemon=pokemon_encontrado['id']
             ))
 
