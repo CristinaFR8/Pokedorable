@@ -252,7 +252,7 @@ def listado_pokemons():
 
 @app.route('/battle')
 def batalla():
-    trainer = request.args.get('trainer', '').strip()
+    trainer = session.get('trainer', '')
     pokemon_id = request.args.get('pokemon', type=int)
 
     if len(trainer) < 3 or len(trainer) > 15:
@@ -266,7 +266,7 @@ def batalla():
             break
 
     if pokemon_elegido is None:
-        return redirect(url_for('listado_pokemons', trainer=trainer))
+        return redirect(url_for('listado_pokemons'))
 
     posibles_rivales = []
 
