@@ -193,6 +193,9 @@ def listado_pokemons():
             continue
 
         if total_filtro:
+            if not total_filtro.isdigit():
+                continue
+
             total_estadisticas = sum(
                 stat['value'] for stat in pokemon['stats']
             )
