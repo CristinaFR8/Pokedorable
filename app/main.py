@@ -311,7 +311,7 @@ def batalla():
 
 @app.route('/pokemons/<int:id>/')
 def detalle_pokemon(id):
-    trainer = request.args.get('trainer', '').strip()
+    trainer = session.get('trainer', '')
 
     if len(trainer) < 3 or len(trainer) > 15:
         return redirect(url_for('index'))
