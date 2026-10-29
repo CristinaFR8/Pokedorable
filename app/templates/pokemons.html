@@ -62,7 +62,7 @@ Pokédex
 
 
 <form
-    action="{{ url_for('listado_pokemons', trainer=trainer, nombre=nombre_filtro, tipo=tipo_filtro, total=total_filtro, comparacion=comparacion) }}"
+    action="{{ url_for('listado_pokemons', nombre=nombre_filtro, tipo=tipo_filtro, total=total_filtro, comparacion=comparacion) }}"
     method="POST">
 
     <label for="pokemon">
