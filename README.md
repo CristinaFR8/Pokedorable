@@ -23,6 +23,7 @@ La aplicación permite consultar una selección de Pokémon a través de diferen
 - Representación gráfica de sus estadísticas.
 - Listado de sus ataques.
 - Pantalla de combate con un rival aleatorio y cuatro ataques del Pokémon elegido.
+- Gestión de la sesión del entrenador y opción para cerrar sesión.
 
 Los datos de los Pokémon se obtienen del fichero `data/pokemons-cute.json`, que se carga al iniciar la aplicación.
 
@@ -30,6 +31,7 @@ Los datos de los Pokémon se obtienen del fichero `data/pokemons-cute.json`, que
 
 - Python 3
 - Flask
+- Flask-Session
 - Jinja2
 - HTML5
 - CSS3
@@ -141,7 +143,7 @@ Si no se puede activar el entorno virtual, también se puede ejecutar directamen
 
 Muestra la bienvenida a la aplicación y permite introducir el nombre del entrenador mediante un formulario POST.
 
-El servidor valida que el nombre tenga entre 3 y 15 caracteres. Si no cumple este requisito, se muestra un mensaje de error. Si es válido, se redirige al listado de Pokémon.
+El servidor valida que el nombre tenga entre 3 y 15 caracteres. Si no cumple este requisito, se muestra un mensaje de error. Si es válido, el nombre se guarda en la sesión y se redirige al listado de Pokémon.
 
 ### Listado de Pokémon
 
@@ -154,7 +156,7 @@ Incluye dos formularios:
 - **Selección de Pokémon:** permite introducir el nombre del Pokémon deseado. El servidor comprueba que exista y, si es válido, redirige a la página de batalla.
 - **Filtrado de Pokémon:** permite buscar por nombre, filtrar por tipo y comparar el total de estadísticas mediante los operadores «Igual a», «Mayor que» y «Menor que», introduciendo el valor numérico deseado.
 
-El listado requiere un nombre de entrenador válido. La información del entrenador se transmite mediante parámetros de la URL, sin utilizar sesiones.
+Para acceder al listado es necesario tener un entrenador válido guardado en la sesión. El nombre del entrenador se obtiene de la sesión y no se transmite mediante parámetros de la URL. Los filtros se mantienen mediante parámetros de URL.
 
 ### Detalle de un Pokémon
 
@@ -170,6 +172,8 @@ Muestra información detallada del Pokémon seleccionado, incluyendo:
 - Ataques y sus características.
 - Otros datos disponibles en el JSON.
 
+Esta vista requiere que exista un entrenador válido en la sesión.
+
 ### Página de batalla
 
 **Ruta:** `/battle`
@@ -184,17 +188,56 @@ La pantalla incluye:
 - Cuatro ataques seleccionados aleatoriamente entre los disponibles para el Pokémon elegido.
 - Tipo, precisión y potencia de cada ataque.
 
+El identificador del Pokémon elegido se transmite mediante un parámetro de URL. Esta vista requiere que exista un entrenador válido en la sesión.
+
 Esta fase implementa la estructura visual de la batalla. No incluye la lógica de un combate real.
+
+### Cierre de sesión
+
+**Ruta:** `/logout`
+
+Permite cerrar la sesión del entrenador.
+
+Al pulsar el enlace «Cerrar sesión», se eliminan los datos guardados en la sesión mediante `session.clear()` y se redirige al usuario a la página principal.
+
+El enlace de cierre de sesión se muestra únicamente cuando existe un entrenador guardado en la sesión.
 
 ## Flujo de interacción
 
 1. El usuario accede a la página principal e introduce el nombre del entrenador.
-2. Si el nombre es válido, accede al listado de Pokémon.
-3. En el listado puede buscar por nombre, filtrar por tipo, comparar el total de estadísticas y consultar el detalle de cada Pokémon.
-4. Para iniciar una batalla, introduce el nombre del Pokémon que desea elegir.
-5. Si el Pokémon existe, se muestra la pantalla de batalla con el Pokémon elegido, un rival aleatorio y cuatro ataques del Pokémon elegido.
+2. El servidor valida que el nombre tenga entre 3 y 15 caracteres y lo guarda en la sesión.
+3. El usuario accede al listado de Pokémon, donde puede buscar por nombre, filtrar por tipo, comparar el total de estadísticas y consultar detalles.
+4. Al seleccionar un Pokémon válido, se accede a la pantalla de batalla con un rival aleatorio y cuatro ataques del Pokémon elegido.
+5. Desde la navegación se puede cerrar la sesión del entrenador.
+6. Al cerrar sesión, se eliminan los datos de la sesión y se vuelve a la página principal.
 
-El nombre del entrenador se transmite entre las vistas mediante parámetros de URL, sin utilizar sesiones.
+## Gestión de sesiones
+
+La aplicación utiliza **Flask-Session** para mantener los datos del entrenador entre las diferentes peticiones.
+
+La sesión se configura para almacenar los datos en el servidor utilizando el sistema de archivos:
+
+- `SESSION_TYPE`: establece el almacenamiento de sesiones mediante archivos.
+- `SESSION_PERMANENT`: se establece en `False` para que la sesión no sea permanente.
+- `SESSION_FILE_DIR`: indica el directorio utilizado para almacenar los datos de sesión.
+
+La aplicación utiliza una clave secreta mediante `app.secret_key`, necesaria para la configuración de las sesiones.
+
+### Datos almacenados en la sesión
+
+Se guarda el nombre del entrenador mediante `session["trainer"]` cuando el formulario de inicio contiene un nombre válido.
+
+Este dato se almacena en la sesión para poder recuperarlo en las diferentes rutas sin tener que enviarlo mediante parámetros de URL en cada navegación.
+
+Los filtros de búsqueda no se guardan en la sesión, ya que se transmiten mediante parámetros de URL. El identificador del Pokémon elegido para la batalla también se transmite mediante la URL.
+
+### Protección de las rutas
+
+Las rutas del listado, el detalle y la batalla recuperan el entrenador mediante `session.get('trainer', '')` y comprueban que su nombre tenga entre 3 y 15 caracteres.
+
+Si no existe un entrenador válido en la sesión, se redirige al usuario a la página principal.
+
+La ruta de cierre de sesión utiliza `session.clear()` para eliminar los datos guardados en la sesión.
 
 ## Datos
 
@@ -212,8 +255,12 @@ Se utiliza una plantilla base, `app/templates/base.html`, sobre la que se constr
 
 Las rutas internas y los recursos estáticos se generan utilizando `url_for`.
 
+La plantilla base contiene la navegación común y muestra el enlace de cierre de sesión cuando hay un entrenador guardado en la sesión.
+
 ## Validación y navegación
 
-Los formularios se validan en el servidor. La aplicación utiliza métodos POST para recibir los datos de los formularios y parámetros de URL para transmitir el nombre del entrenador entre las vistas.
+Los formularios se validan en el servidor. La aplicación utiliza métodos POST para recibir los datos de los formularios y parámetros de URL para transmitir los filtros y el identificador del Pokémon seleccionado.
 
-No se utilizan sesiones.
+El nombre del entrenador se guarda en la sesión y no se transmite mediante parámetros de URL.
+
+La aplicación comprueba que exista un entrenador válido antes de permitir el acceso al listado, al detalle de un Pokémon y a la pantalla de batalla. Al cerrar sesión, se eliminan los datos guardados y el usuario vuelve a la página principal.
