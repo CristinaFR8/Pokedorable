@@ -34,7 +34,7 @@
             </a>
 
             {% if request.endpoint != 'index' %}
-            <a class="enlace-nav" href="{{ url_for('listado_pokemons', trainer=request.args.get('trainer', '')) }}">
+            <a class="enlace-nav" href="{{ url_for('listado_pokemons') }}">
                 Pokédex
             </a>
             {% endif %}
