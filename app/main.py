@@ -182,10 +182,8 @@ def listado_pokemons():
         if pokemon_encontrado is None:
             error = "Ese Pokémon no existe en la Pokédex."
         else:
-            return redirect(url_for(
-                'batalla',
-                pokemon=pokemon_encontrado['id']
-            ))
+            session["pokemon"] = pokemon_encontrado['id']
+            return redirect(url_for('batalla'))
 
     pokemons_filtrados = []
     tipos_pokemons = []
@@ -253,7 +251,7 @@ def listado_pokemons():
 @app.route('/battle')
 def batalla():
     trainer = session.get('trainer', '')
-    pokemon_id = request.args.get('pokemon', type=int)
+    pokemon_id = session.get('pokemon')
 
     if len(trainer) < 3 or len(trainer) > 15:
         return redirect(url_for('index'))
@@ -362,7 +360,7 @@ def detalle_pokemon(id):
     return "Pokémon no encontrado", 404
 
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 def logout():
     session.clear()
     return redirect(url_for('index'))

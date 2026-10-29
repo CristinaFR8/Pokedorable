@@ -127,7 +127,7 @@ python app/main.py
 
 La aplicación estará disponible en:
 
-http://127.0.0.1:5038/
+[http://127.0.0.1:5038/](http://127.0.0.1:5038/)
 
 Si no se puede activar el entorno virtual, también se puede ejecutar directamente el Python incluido en `venv`:
 
@@ -143,7 +143,7 @@ Si no se puede activar el entorno virtual, también se puede ejecutar directamen
 
 Muestra la bienvenida a la aplicación y permite introducir el nombre del entrenador mediante un formulario POST.
 
-El servidor valida que el nombre tenga entre 3 y 15 caracteres. Si no cumple este requisito, se muestra un mensaje de error. Si es válido, el nombre se guarda en la sesión y se redirige al listado de Pokémon.
+El servidor valida que el nombre tenga entre 3 y 15 caracteres. Si no cumple este requisito, se muestra un mensaje de error. Si es válido, el nombre se guarda en la sesión mediante `session["trainer"]` y se redirige al listado de Pokémon.
 
 ### Listado de Pokémon
 
@@ -153,7 +153,7 @@ Muestra los Pokémon disponibles y el nombre del entrenador.
 
 Incluye dos formularios:
 
-- **Selección de Pokémon:** permite introducir el nombre del Pokémon deseado. El servidor comprueba que exista y, si es válido, redirige a la página de batalla.
+- **Selección de Pokémon:** permite introducir el nombre del Pokémon deseado. El servidor comprueba que exista y, si es válido, guarda su identificador en la sesión mediante `session["pokemon"]` y redirige a la página de batalla.
 - **Filtrado de Pokémon:** permite buscar por nombre, filtrar por tipo y comparar el total de estadísticas mediante los operadores «Igual a», «Mayor que» y «Menor que», introduciendo el valor numérico deseado.
 
 Para acceder al listado es necesario tener un entrenador válido guardado en la sesión. El nombre del entrenador se obtiene de la sesión y no se transmite mediante parámetros de la URL. Los filtros se mantienen mediante parámetros de URL.
@@ -188,7 +188,9 @@ La pantalla incluye:
 - Cuatro ataques seleccionados aleatoriamente entre los disponibles para el Pokémon elegido.
 - Tipo, precisión y potencia de cada ataque.
 
-El identificador del Pokémon elegido se transmite mediante un parámetro de URL. Esta vista requiere que exista un entrenador válido en la sesión.
+El identificador del Pokémon elegido se guarda en `session["pokemon"]` y se recupera desde la sesión al acceder a esta página. De esta forma, no es necesario transmitir el identificador mediante un parámetro de URL.
+
+Esta vista requiere que exista un entrenador válido en la sesión. Si no hay un entrenador válido, se redirige al inicio. Si no se encuentra el Pokémon elegido, se redirige al listado.
 
 Esta fase implementa la estructura visual de la batalla. No incluye la lógica de un combate real.
 
@@ -196,24 +198,24 @@ Esta fase implementa la estructura visual de la batalla. No incluye la lógica d
 
 **Ruta:** `/logout`
 
-Permite cerrar la sesión del entrenador.
+Permite cerrar la sesión del entrenador mediante un formulario POST y un botón llamado «Cerrar sesión».
 
-Al pulsar el enlace «Cerrar sesión», se eliminan los datos guardados en la sesión mediante `session.clear()` y se redirige al usuario a la página principal.
+Al pulsar el botón, se eliminan los datos guardados en la sesión mediante `session.clear()` y se redirige al usuario a la página principal.
 
-El enlace de cierre de sesión se muestra únicamente cuando existe un entrenador guardado en la sesión.
+El botón de cierre de sesión se muestra únicamente cuando existe un entrenador guardado en la sesión.
 
 ## Flujo de interacción
 
 1. El usuario accede a la página principal e introduce el nombre del entrenador.
-2. El servidor valida que el nombre tenga entre 3 y 15 caracteres y lo guarda en la sesión.
+2. El servidor valida que el nombre tenga entre 3 y 15 caracteres y, si es válido, lo guarda en la sesión.
 3. El usuario accede al listado de Pokémon, donde puede buscar por nombre, filtrar por tipo, comparar el total de estadísticas y consultar detalles.
-4. Al seleccionar un Pokémon válido, se accede a la pantalla de batalla con un rival aleatorio y cuatro ataques del Pokémon elegido.
-5. Desde la navegación se puede cerrar la sesión del entrenador.
+4. Al seleccionar un Pokémon válido, su identificador se guarda en la sesión y se accede a la pantalla de batalla con un rival aleatorio y cuatro ataques del Pokémon elegido.
+5. Desde la navegación se puede cerrar la sesión del entrenador mediante el botón correspondiente.
 6. Al cerrar sesión, se eliminan los datos de la sesión y se vuelve a la página principal.
 
 ## Gestión de sesiones
 
-La aplicación utiliza **Flask-Session** para mantener los datos del entrenador entre las diferentes peticiones.
+La aplicación utiliza **Flask-Session** para mantener los datos necesarios entre las diferentes peticiones.
 
 La sesión se configura para almacenar los datos en el servidor utilizando el sistema de archivos:
 
@@ -225,19 +227,22 @@ La aplicación utiliza una clave secreta mediante `app.secret_key`, necesaria pa
 
 ### Datos almacenados en la sesión
 
-Se guarda el nombre del entrenador mediante `session["trainer"]` cuando el formulario de inicio contiene un nombre válido.
+Se guardan los siguientes datos:
 
-Este dato se almacena en la sesión para poder recuperarlo en las diferentes rutas sin tener que enviarlo mediante parámetros de URL en cada navegación.
+- `session["trainer"]`: almacena el nombre del entrenador cuando el formulario de inicio contiene un nombre válido.
+- `session["pokemon"]`: almacena el identificador del Pokémon elegido para la batalla.
 
-Los filtros de búsqueda no se guardan en la sesión, ya que se transmiten mediante parámetros de URL. El identificador del Pokémon elegido para la batalla también se transmite mediante la URL.
+Estos datos se almacenan en la sesión para poder recuperarlos en las diferentes rutas sin tener que enviarlos continuamente mediante parámetros de URL.
+
+Los filtros de búsqueda no se guardan en la sesión, ya que se transmiten mediante parámetros de URL. Esto permite mantener los criterios de búsqueda al recargar el listado.
 
 ### Protección de las rutas
 
-Las rutas del listado, el detalle y la batalla recuperan el entrenador mediante `session.get('trainer', '')` y comprueban que su nombre tenga entre 3 y 15 caracteres.
+Las rutas del listado, el detalle y la batalla recuperan el entrenador mediante `session.get("trainer", "")` y comprueban que su nombre tenga entre 3 y 15 caracteres.
 
 Si no existe un entrenador válido en la sesión, se redirige al usuario a la página principal.
 
-La ruta de cierre de sesión utiliza `session.clear()` para eliminar los datos guardados en la sesión.
+La ruta de cierre de sesión utiliza `session.clear()` para eliminar los datos guardados en la sesión. Después de cerrar sesión, las rutas que requieren un entrenador válido vuelven a redirigir al inicio.
 
 ## Datos
 
@@ -255,12 +260,12 @@ Se utiliza una plantilla base, `app/templates/base.html`, sobre la que se constr
 
 Las rutas internas y los recursos estáticos se generan utilizando `url_for`.
 
-La plantilla base contiene la navegación común y muestra el enlace de cierre de sesión cuando hay un entrenador guardado en la sesión.
+La plantilla base contiene la navegación común y muestra el botón de cierre de sesión cuando hay un entrenador guardado en la sesión.
 
 ## Validación y navegación
 
-Los formularios se validan en el servidor. La aplicación utiliza métodos POST para recibir los datos de los formularios y parámetros de URL para transmitir los filtros y el identificador del Pokémon seleccionado.
+Los formularios se validan en el servidor. La aplicación utiliza métodos POST para recibir los datos de los formularios que modifican el estado y parámetros de URL para transmitir los filtros de búsqueda.
 
-El nombre del entrenador se guarda en la sesión y no se transmite mediante parámetros de URL.
+El nombre del entrenador y el identificador del Pokémon elegido para la batalla se guardan en la sesión, por lo que no se transmiten mediante parámetros de URL.
 
 La aplicación comprueba que exista un entrenador válido antes de permitir el acceso al listado, al detalle de un Pokémon y a la pantalla de batalla. Al cerrar sesión, se eliminan los datos guardados y el usuario vuelve a la página principal.

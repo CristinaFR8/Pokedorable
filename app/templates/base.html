@@ -40,9 +40,15 @@
             {% endif %}
 
 
+
             {% if session.get('trainer') %}
-            <a class="enlace-nav" href="{{ url_for('logout') }}">Cerrar sesión</a>
+            <form action="{{ url_for('logout') }}" method="POST">
+                <button class="enlace-nav" type="submit">
+                    Cerrar sesión
+                </button>
+            </form>
             {% endif %}
+
 
 
         </nav>
