@@ -362,5 +362,11 @@ def detalle_pokemon(id):
     return "Pokémon no encontrado", 404
 
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+
+
 if __name__ == '__main__':
     app.run('127.0.0.1', 5038, debug=True)
