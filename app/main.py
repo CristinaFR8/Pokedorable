@@ -194,6 +194,8 @@ def listado_pokemons():
             error = "Ese Pokémon no existe en la Pokédex."
         else:
             session["pokemon"] = pokemon_encontrado['id']
+            session.pop("pokemon_rival", None)
+            session.pop("ataques", None)
             return redirect(url_for('batalla'))
 
     pokemons_filtrados = []
@@ -281,12 +283,26 @@ def batalla():
         if pokemon['id'] != pokemon_elegido['id']:
             posibles_rivales.append(pokemon)
 
-    pokemon_rival = random.choice(posibles_rivales)
+    pokemon_rival_id = session.get("pokemon_rival")
+    pokemon_rival = None
 
-    ataques_elegidos = random.sample(
-        pokemon_elegido['moves'],
-        4
-    )
+    for pokemon in pokemons:
+        if pokemon['id'] == pokemon_rival_id:
+            pokemon_rival = pokemon
+            break
+
+    if pokemon_rival is None:
+        pokemon_rival = random.choice(posibles_rivales)
+        session["pokemon_rival"] = pokemon_rival['id']
+
+    ataques_elegidos = session.get("ataques")
+
+    if ataques_elegidos is None:
+        ataques_elegidos = random.sample(
+            pokemon_elegido['moves'],
+            4
+        )
+        session["ataques"] = ataques_elegidos
 
     ataques_traducidos = []
 
