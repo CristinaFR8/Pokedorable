@@ -1,3 +1,4 @@
+from functools import wraps
 import json
 import random
 from pathlib import Path
@@ -14,6 +15,18 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_FILE_DIR"] = "./.flask_session"
 
 Session(app)
+
+def require_entrenador(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        trainer = session.get("trainer")
+
+        if not trainer or len(trainer) < 3 or len(trainer) > 15:
+            return redirect(url_for("index"))
+    
+        return func(*args, **kwargs)
+    return wrapper
+
 
 RUTA_DATOS = Path(__file__).resolve().parent.parent / \
     "data" / "pokemons-cute.json"
@@ -154,6 +167,7 @@ def index():
 
 
 @app.route('/pokemons', methods=['GET', 'POST'])
+@require_entrenador
 def listado_pokemons():
     trainer = session.get('trainer', '')
     nombre_filtro = request.args.get('nombre', '').strip().lower()
@@ -163,9 +177,6 @@ def listado_pokemons():
 
     error = None
     pokemon_seleccionado = ''
-
-    if len(trainer) < 3 or len(trainer) > 15:
-        return redirect(url_for('index'))
 
     if request.method == 'POST':
         pokemon_seleccionado = request.form.get(
@@ -249,12 +260,10 @@ def listado_pokemons():
 
 
 @app.route('/battle')
+@require_entrenador
 def batalla():
     trainer = session.get('trainer', '')
     pokemon_id = session.get('pokemon')
-
-    if len(trainer) < 3 or len(trainer) > 15:
-        return redirect(url_for('index'))
 
     pokemon_elegido = None
 
@@ -308,11 +317,9 @@ def batalla():
 
 
 @app.route('/pokemons/<int:id>/')
+@require_entrenador
 def detalle_pokemon(id):
     trainer = session.get('trainer', '')
-
-    if len(trainer) < 3 or len(trainer) > 15:
-        return redirect(url_for('index'))
 
     for pokemon in pokemons:
         if pokemon['id'] == id:
