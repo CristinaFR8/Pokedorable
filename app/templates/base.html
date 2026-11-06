@@ -33,7 +33,7 @@
                 Inicio
             </a>
 
-            {% if request.endpoint != 'index' %}
+            {% if session.get('trainer') %}
             <a class="enlace-nav" href="{{ url_for('listado_pokemons') }}">
                 Pokédex
             </a>

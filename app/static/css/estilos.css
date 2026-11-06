@@ -1268,6 +1268,114 @@ main:has(.combate) > a:hover {
     box-shadow: 1px 1px 0 var(--tinta);
 }
 
+/* =========================
+   INICIO CON ENTRENADOR
+   ========================= */
+
+.bienvenida-entrenador {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+
+    min-width: 0;
+    padding: 20px;
+
+    background-color: var(--papel);
+    border: var(--pixel) solid var(--tinta);
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
+
+    text-align: center;
+}
+
+.bienvenida-entrenador p {
+    margin: 0;
+    font-size: 25px;
+}
+
+.bienvenida-entrenador .boton-inicio {
+    width: 100%;
+    max-width: 350px;
+}
+
+/* Ajustes para pantallas pequeñas */
+
+@media (max-width: 600px) {
+    .bienvenida-entrenador {
+        padding: 16px;
+    }
+
+    .bienvenida-entrenador p {
+        font-size: 22px;
+    }
+
+    .bienvenida-entrenador .boton-inicio {
+        font-size: 12px;
+    }
+}
+
+/* =========================
+   BIENVENIDA DEL ENTRENADOR
+   ========================= */
+
+.bienvenida {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    min-width: 0;
+    padding: 24px;
+
+    background-color: var(--papel);
+    border: var(--pixel) solid var(--tinta);
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
+
+    text-align: center;
+}
+
+.bienvenida p {
+    margin: 0;
+    font-size: 25px;
+}
+
+.bienvenida a {
+    display: inline-block;
+    padding: 16px 20px;
+
+    color: var(--tinta);
+    background-color: var(--mantequilla);
+    border: var(--pixel) solid var(--tinta);
+    box-shadow: var(--pixel) var(--pixel) 0 var(--tinta);
+
+    font-family: "Press Start 2P", monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    text-decoration: none;
+    transition: 0.15s;
+}
+
+.bienvenida a:hover {
+    background-color: var(--acento);
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--tinta);
+}
+
+@media (max-width: 600px) {
+    .bienvenida {
+        padding: 18px;
+    }
+
+    .bienvenida p {
+        font-size: 22px;
+    }
+
+    .bienvenida a {
+        font-size: 10px;
+    }
+}
 
 /* =========================
    RESPONSIVE

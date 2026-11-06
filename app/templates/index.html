@@ -80,7 +80,7 @@ inicio
             ¡Un
             <strong>{{ pokemon_destacado.name|capitalize }}</strong>
             salvaje apareció!
-            
+
             <br><br>
 
             Prepara tu Pokédex y descubre todos los Pokémon.
@@ -92,7 +92,7 @@ inicio
     </div>
 
 
-{% if not session.get('trainer') %}
+    {% if not session.get('trainer') %}
 
     <form action="{{ url_for('index') }}" method="POST">
 
@@ -100,9 +100,7 @@ inicio
             Nombre del entrenador/@:
         </label>
 
-        <input type="text" id="trainer" name="trainer"
-                value="{{ trainer }}" placeholder="Introduce tu nombre"
-                required>
+        <input type="text" id="trainer" name="trainer" value="{{ trainer }}" placeholder="Introduce tu nombre" required>
 
         {% if error %}
         <p class="error">
@@ -116,13 +114,19 @@ inicio
 
     </form>
 
-{% else %}
+    {% else %}
 
-    <p>¡Bienvenid@, {{ session.get('trainer') }}!</p>
+    <div class="bienvenida">
 
-    <a href="{{ url_for('listado_pokemons') }}">Ir a la Pokédex</a>
+        <p>¡Bienvenid@, {{ session.get('trainer') }}!</p>
 
-{% endif %}
+        <a href="{{ url_for('listado_pokemons') }}">
+            Ir a la Pokédex
+        </a>
+
+    </div>
+
+    {% endif %}
 
 </div>
 
