@@ -91,6 +91,9 @@ inicio
 
     </div>
 
+
+{% if not session.get('trainer') %}
+
     <form action="{{ url_for('index') }}" method="POST">
 
         <label for="trainer">
@@ -112,6 +115,14 @@ inicio
         </button>
 
     </form>
+
+{% else %}
+
+    <p>¡Bienvenid@, {{ session.get('trainer') }}!</p>
+
+    <a href="{{ url_for('listado_pokemons') }}">Ir a la Pokédex</a>
+
+{% endif %}
 
 </div>
 

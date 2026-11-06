@@ -140,7 +140,7 @@ anio = datetime.now().year
 @app.route('/', methods=['GET', 'POST'])
 def index():
     error = None
-    trainer = ""
+    trainer = session.get("trainer", "")
 
     if request.method == 'POST':
         trainer = request.form.get('trainer', '')
