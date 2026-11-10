@@ -1,4 +1,3 @@
-
 import random
 
 from app.repositories.pokemon_repository import obtener_pokemons
@@ -109,6 +108,12 @@ def obtener_todos_pokemons():
     return obtener_pokemons()
 
 
+def obtener_pokemons_portada():
+    pokemons = obtener_todos_pokemons()
+
+    return pokemons[0], pokemons[1]
+
+
 def obtener_pokemon_por_id(id):
     pokemons = obtener_todos_pokemons()
 
@@ -178,36 +183,15 @@ def traducir_ataques(ataques):
     return ataques_traducidos
 
 
-
-def filtrar_pokemons(nombre="", tipo="", total="", comparacion="igual"):
+def filtrar_pokemons(nombre="", tipo=""):
     pokemons = obtener_todos_pokemons()
     pokemons_filtrados = []
 
     for pokemon in pokemons:
         coincide_nombre = nombre.lower() in pokemon.nombre.lower()
+        coincide_tipo = tipo == "" or tipo.lower() in pokemon.tipos
 
-        coincide_tipo = (
-            tipo == "" or tipo.lower() in pokemon.tipos
-        )
-
-        total_estadisticas = 0
-
-        for estadistica in pokemon.estadisticas:
-            total_estadisticas += estadistica["value"]
-
-        coincide_total = True
-
-        if total != "":
-            if not total.isdigit():
-                coincide_total = False
-            elif comparacion == "mayor":
-                coincide_total = total_estadisticas > int(total)
-            elif comparacion == "menor":
-                coincide_total = total_estadisticas < int(total)
-            else:
-                coincide_total = total_estadisticas == int(total)
-
-        if coincide_nombre and coincide_tipo and coincide_total:
+        if coincide_nombre and coincide_tipo:
             pokemons_filtrados.append(pokemon)
 
     return pokemons_filtrados
@@ -226,6 +210,7 @@ def obtener_tipos_disponibles():
 
     return tipos_disponibles
 
+
 def obtener_pokemon_rival(id_pokemon):
     pokemons = obtener_todos_pokemons()
     posibles_rivales = []
@@ -242,3 +227,43 @@ def obtener_pokemon_rival(id_pokemon):
 
 def obtener_ataques_aleatorios(pokemon):
     return random.sample(pokemon.ataques, 4)
+
+
+def obtener_datos_pokedex(nombre="", tipo=""):
+    pokemons = filtrar_pokemons(nombre, tipo)
+
+    tipos_pokemons = []
+
+    for pokemon in pokemons:
+        tipos_pokemons.append(traducir_tipos(pokemon.tipos))
+
+    tipos_disponibles = obtener_tipos_disponibles()
+
+    return pokemons, tipos_pokemons, tipos_disponibles
+
+
+def obtener_datos_detalle_pokemon(id):
+    pokemon = obtener_pokemon_por_id(id)
+
+    if pokemon is None:
+        return None, None, None, None
+
+    tipos_traducidos = traducir_tipos(pokemon.tipos)
+    estadisticas_traducidas = traducir_estadisticas(pokemon.estadisticas)
+    ataques_traducidos = traducir_ataques(pokemon.ataques)
+
+    return (
+        pokemon,
+        tipos_traducidos,
+        estadisticas_traducidas,
+        ataques_traducidos
+    )
+
+
+def clasificar_peso(pokemon):
+    if pokemon.peso < 20:
+        return "Ligero"
+    elif pokemon.peso <= 60:
+        return "Medio"
+    else:
+        return "Pesado"

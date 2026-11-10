@@ -1,9 +1,10 @@
 
 from datetime import datetime
+
 from flask import Blueprint, render_template, redirect, url_for, session
 
 from app.forms.entrenador_form import EntrenadorForm
-from app.services.pokemon_service import obtener_todos_pokemons
+from app.services.pokemon_service import obtener_pokemons_portada
 
 
 main_bp = Blueprint("main", __name__)
@@ -22,15 +23,15 @@ def index():
         session["trainer"] = form.trainer.data
         return redirect(url_for("battle.listado_pokemons"))
 
-    pokemons = obtener_todos_pokemons()
+    pokemon_destacado, pokemon_aliado = obtener_pokemons_portada()
 
     return render_template(
         "index.html",
         proyecto=proyecto,
         nombre=nombre,
         anio=anio,
-        pokemon_destacado=pokemons[0],
-        pokemon_aliado=pokemons[1],
+        pokemon_destacado=pokemon_destacado,
+        pokemon_aliado=pokemon_aliado,
         form=form,
         trainer=session.get("trainer", "")
     )

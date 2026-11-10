@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block titulo %}
@@ -71,13 +70,7 @@ detalle
             <strong>Clasificación:</strong>
 
             <span class="peso">
-                {% if pokemon.peso < 20 %}
-                    Ligero
-                {% elif pokemon.peso <= 60 %}
-                    Medio
-                {% else %}
-                    Pesado
-                {% endif %}
+                {{ clasificacion_peso }}
             </span>
         </p>
 
