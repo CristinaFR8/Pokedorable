@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -14,7 +15,7 @@
 
     <header class="cabecera">
 
-        <a class="logo" href="{{ url_for('index') }}">
+        <a class="logo" href="{{ url_for('main.index') }}">
 
             <span class="logo-balls" aria-hidden="true">
                 <img src="{{ url_for('static', filename='img/pokeball.png') }}" alt="">
@@ -29,27 +30,23 @@
 
         <nav class="navegacion">
 
-            <a class="enlace-nav" href="{{ url_for('index') }}">
+            <a class="enlace-nav" href="{{ url_for('main.index') }}">
                 Inicio
             </a>
 
             {% if session.get('trainer') %}
-            <a class="enlace-nav" href="{{ url_for('listado_pokemons') }}">
+            <a class="enlace-nav" href="{{ url_for('battle.listado_pokemons') }}">
                 Pokédex
             </a>
             {% endif %}
 
-
-
             {% if session.get('trainer') %}
-            <form action="{{ url_for('logout') }}" method="POST">
+            <form action="{{ url_for('main.logout') }}" method="POST">
                 <button class="enlace-nav" type="submit">
                     Cerrar sesión
                 </button>
             </form>
             {% endif %}
-
-
 
         </nav>
 

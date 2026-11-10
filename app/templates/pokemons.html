@@ -1,9 +1,9 @@
+
 {% extends "base.html" %}
 
 {% block titulo %}
 Pokédex
 {% endblock %}
-
 
 {% block contenido %}
 
@@ -13,9 +13,7 @@ Pokédex
     Entrenador: <strong>{{ trainer }}</strong>
 </p>
 
-
-
-<form action="{{ url_for('listado_pokemons') }}" method="GET">
+<form action="{{ url_for('battle.listado_pokemons') }}" method="GET">
 
     <label for="nombre">
         Buscar por nombre:
@@ -33,7 +31,7 @@ Pokédex
 
         {% for clave, valor in tipos_disponibles.items() %}
 
-        <option value="{{ clave }}" {% if tipo_filtro==clave %}selected{% endif %}>
+        <option value="{{ clave }}" {% if tipo_filtro == clave %}selected{% endif %}>
             {{ valor }}
         </option>
 
@@ -45,9 +43,9 @@ Pokédex
 
     <div class="filtro-estadisticas">
         <select id="comparacion" name="comparacion">
-            <option value="igual" {% if comparacion=='igual' %}selected{% endif %}>Igual a</option>
-            <option value="mayor" {% if comparacion=='mayor' %}selected{% endif %}>Mayor que</option>
-            <option value="menor" {% if comparacion=='menor' %}selected{% endif %}>Menor que</option>
+            <option value="igual" {% if comparacion == 'igual' %}selected{% endif %}>Igual a</option>
+            <option value="mayor" {% if comparacion == 'mayor' %}selected{% endif %}>Mayor que</option>
+            <option value="menor" {% if comparacion == 'menor' %}selected{% endif %}>Menor que</option>
         </select>
 
         <input type="number" id="total" name="total" value="{{ total_filtro }}">
@@ -59,10 +57,8 @@ Pokédex
 
 </form>
 
-
-
 <form
-    action="{{ url_for('listado_pokemons', nombre=nombre_filtro, tipo=tipo_filtro, total=total_filtro, comparacion=comparacion) }}"
+    action="{{ url_for('battle.listado_pokemons', nombre=nombre_filtro, tipo=tipo_filtro, total=total_filtro, comparacion=comparacion) }}"
     method="POST">
 
     <label for="pokemon">
@@ -85,7 +81,6 @@ Pokédex
 
 </form>
 
-
 <div class="pokedex">
 
     {% for pokemon in pokemons %}
@@ -97,10 +92,10 @@ Pokédex
         </p>
 
         <h2>
-            {{ pokemon.name|capitalize }}
+            {{ pokemon.nombre|capitalize }}
         </h2>
 
-        <img src="{{ pokemon.sprites.front_default }}" alt="{{ pokemon.name|capitalize }}">
+        <img src="{{ pokemon.sprites.front_default }}" alt="{{ pokemon.nombre|capitalize }}">
 
         <div class="tipos-pokemon">
 
@@ -114,7 +109,7 @@ Pokédex
 
         </div>
 
-        <a class="boton-pokemon" href="{{ url_for('detalle_pokemon', id=pokemon.id) }}">
+        <a class="boton-pokemon" href="{{ url_for('battle.detalle_pokemon', id=pokemon.id) }}">
             Ver detalle
         </a>
 

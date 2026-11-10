@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block titulo %}
@@ -14,25 +15,25 @@
 
     <div class="contrincante">
 
-        <h2>{{ pokemon_rival.name|capitalize }}</h2>
+        <h2>{{ pokemon_rival.nombre|capitalize }}</h2>
 
-        {% for stat in pokemon_rival.stats %}
+        {% for stat in pokemon_rival.estadisticas %}
             {% if stat.name == 'hp' %}
                 <p>PS {{ stat.value }}/{{ stat.value }}</p>
             {% endif %}
         {% endfor %}
 
-        <img src="{{ pokemon_rival.sprites.front_default }}" alt="{{ pokemon_rival.name|capitalize }}">
+        <img src="{{ pokemon_rival.sprites.front_default }}" alt="{{ pokemon_rival.nombre|capitalize }}">
 
     </div>
 
     <div class="contrincante">
 
-        <img src="{{ pokemon_elegido.sprites.back_default }}" alt="{{ pokemon_elegido.name|capitalize }} de espaldas">
+        <img src="{{ pokemon_elegido.sprites.back_default }}" alt="{{ pokemon_elegido.nombre|capitalize }} de espaldas">
 
-        <h2>{{ pokemon_elegido.name|capitalize }}</h2>
+        <h2>{{ pokemon_elegido.nombre|capitalize }}</h2>
 
-        {% for stat in pokemon_elegido.stats %}
+        {% for stat in pokemon_elegido.estadisticas %}
             {% if stat.name == 'hp' %}
                 <p>PS {{ stat.value }}/{{ stat.value }}</p>
             {% endif %}
@@ -43,8 +44,8 @@
 </div>
 
 <p>
-    ¡{{ pokemon_elegido.name|capitalize }} de {{ trainer }}
-    se enfrenta a {{ pokemon_rival.name|capitalize }}!
+    ¡{{ pokemon_elegido.nombre|capitalize }} de {{ trainer }}
+    se enfrenta a {{ pokemon_rival.nombre|capitalize }}!
 </p>
 
 <h2>Sus cuatro ataques</h2>
@@ -93,7 +94,7 @@
 
 </div>
 
-<a href="{{ url_for('listado_pokemons') }}">
+<a href="{{ url_for('battle.listado_pokemons') }}">
     Volver a la Pokédex
 </a>
 
