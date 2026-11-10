@@ -1,390 +1,179 @@
 # Pokédorable
 
-Aplicación web desarrollada con **Python y Flask** para consultar información sobre diferentes Pokémon, visualizar sus características, filtrarlos y seleccionar uno para una pantalla de combate.
-
-El proyecto forma parte del módulo **Desarrollo Web en Entorno Servidor (DWES)** y utiliza **Jinja2** para generar las páginas HTML a partir de los datos proporcionados en un fichero JSON.
+Aplicación web desarrollada con Python y Flask para consultar una selección de Pokémon, buscar y filtrar la Pokédex, ver fichas detalladas y preparar una pantalla de combate.
 
 **Autora:** Cristina Fernández  
+**Módulo:** Desarrollo Web en Entorno Servidor (DWES)  
 **Curso:** 2026/27
 
-## Descripción
+## Funcionalidades
 
-La aplicación permite consultar una selección de Pokémon a través de diferentes vistas:
+- Página de bienvenida con un formulario para introducir el nombre del entrenador.
+- Validación del nombre: entre 3 y 15 caracteres.
+- Listado de Pokémon con búsqueda por nombre y filtro por tipo.
+- Ficha individual con imágenes, altura, peso, tipos, estadísticas y ataques.
+- Selección de un Pokémon y pantalla de combate con un rival distinto elegido aleatoriamente y cuatro ataques del Pokémon seleccionado.
+- Sesión para conservar el entrenador y el Pokémon elegido durante la navegación.
+- Cierre de sesión mediante una petición POST.
 
-- Página principal de bienvenida.
-- Formulario para introducir el nombre del entrenador.
-- Listado de Pokémon disponibles.
-- Búsqueda por nombre y filtrado por tipo.
-- Selección de un Pokémon para la batalla.
-- Vista detallada de cada Pokémon.
-- Información sobre sus tipos, características y otros datos.
-- Clasificación del Pokémon según su peso.
-- Representación gráfica de sus estadísticas.
-- Listado de sus ataques.
-- Pantalla de combate con un rival aleatorio y cuatro ataques del Pokémon elegido.
-- Gestión de la sesión del entrenador y opción para cerrar sesión.
+La pantalla de combate es una representación visual: no implementa las reglas de un combate real.
 
-Los datos de los Pokémon se obtienen del fichero `data/pokemons-cute.json`, que es leído por el repositorio de la aplicación.
-
-## Tecnologías utilizadas
+## Tecnologías
 
 - Python 3
 - Flask
 - Flask-Session
-- Flask-WTF
-- WTForms
+- Flask-WTF y WTForms
 - Jinja2
-- HTML5
-- CSS3
+- HTML5 y CSS3
 - JSON
 
 ## Estructura del proyecto
 
 ```text
 Pokedorable/
-├── .gitignore
-├── README.md
-├── requirements.txt
+├── app/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── forms/
+│   │   ├── __init__.py
+│   │   └── entrenador_form.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   └── pokemon.py
+│   ├── repositories/
+│   │   ├── __init__.py
+│   │   └── pokemon_repository.py
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   ├── decorators.py
+│   │   ├── main_routes.py
+│   │   └── battle_routes.py
+│   ├── services/
+│   │   ├── __init__.py
+│   │   └── pokemon_service.py
+│   ├── templates/
+│   │   ├── base.html
+│   │   ├── index.html
+│   │   ├── pokemons.html
+│   │   ├── pokemon.html
+│   │   └── batalla.html
+│   └── static/
+│       ├── css/
+│       │   └── estilos.css
+│       └── img/
+│           ├── pokeball.png
+│           ├── superball.png
+│           ├── ultraball.png
+│           └── masterball.png
 ├── data/
 │   └── pokemons-cute.json
-└── app/
-    ├── __init__.py
-    ├── main.py
-    ├── forms/
-    │   ├── __init__.py
-    │   └── entrenador_form.py
-    ├── models/
-    │   ├── __init__.py
-    │   └── pokemon.py
-    ├── repositories/
-    │   ├── __init__.py
-    │   └── pokemon_repository.py
-    ├── routes/
-    │   ├── __init__.py
-    │   ├── decorators.py
-    │   ├── main_routes.py
-    │   └── battle_routes.py
-    ├── services/
-    │   ├── __init__.py
-    │   └── pokemon_service.py
-    ├── static/
-    │   ├── css/
-    │   │   └── estilos.css
-    │   └── img/
-    │       ├── pokeball.png
-    │       ├── superball.png
-    │       ├── ultraball.png
-    │       └── masterball.png
-    └── templates/
-        ├── base.html
-        ├── index.html
-        ├── pokemons.html
-        ├── pokemon.html
-        └── batalla.html
+├── requirements.txt
+└── README.md
 ```
 
-El entorno virtual `venv/` se crea localmente y no se incluye en el repositorio.
+El entorno virtual (`venv/`) y los archivos temporales de sesión no se incluyen en el repositorio.
 
 ## Arquitectura por capas
 
-El proyecto está organizado siguiendo una arquitectura por capas para separar las responsabilidades de la aplicación.
+El proyecto separa las responsabilidades para que las rutas no tengan que leer directamente el JSON ni concentrar toda la lógica:
 
-### Modelos
+- **Presentación — `app/routes/` y `app/templates/`:** las rutas reciben las peticiones, llaman a los servicios y seleccionan la plantilla que se devuelve. Las plantillas Jinja muestran los datos.
+- **Negocio — `app/services/pokemon_service.py`:** busca Pokémon, aplica los filtros por nombre y tipo y prepara las traducciones y selecciones necesarias para las vistas.
+- **Persistencia — `app/repositories/pokemon_repository.py`:** lee el fichero JSON y construye los objetos `Pokemon`. El acceso al fichero queda aislado en el repositorio.
+- **Dominio — `app/models/pokemon.py`:** la clase `Pokemon` representa cada Pokémon como un objeto, tal como exige el enunciado.
+- **Formularios — `app/forms/`:** `EntrenadorForm` define el formulario de entrada mediante Flask-WTF, con validadores y token CSRF.
 
-La carpeta `models/` contiene las clases que representan los elementos del dominio.
+El flujo habitual es **ruta → servicio → repositorio/modelo**. El repositorio no renderiza plantillas y el servicio no depende de Flask ni gestiona peticiones HTTP. Si en el futuro cambiase el formato de los datos, el punto principal que habría que adaptar sería el repositorio.
 
-El archivo `pokemon.py` define la clase `Pokemon`, que contiene los atributos de cada Pokémon, como su identificador, nombre, altura, peso, estadísticas, imágenes, tipos y ataques.
+El JSON se carga una vez cuando se importa el repositorio durante el arranque de la aplicación. La ruta del archivo se calcula a partir de la ubicación del propio módulo, por lo que no depende del directorio actual de la terminal.
 
-La representación del modelo se realiza mediante programación orientada a objetos.
+## Blueprints y organización de las rutas
 
-### Repositorios
+Se utilizan dos blueprints, registrados en `app/main.py`:
 
-La carpeta `repositories/` contiene las funciones encargadas de acceder a los datos.
+- **`main_bp` — `app/routes/main_routes.py`:** contiene la página de inicio (`/`) y el cierre de sesión (`/logout`). Son las rutas relacionadas con la entrada y la sesión general del entrenador.
+- **`battle_bp` — `app/routes/battle_routes.py`:** contiene el listado (`/pokemons`), el detalle (`/pokemons/<int:id>/`) y la pantalla de batalla (`/battle`). Estas rutas forman el flujo de consulta y selección de Pokémon.
 
-El archivo `pokemon_repository.py` lee el fichero JSON, obtiene los datos y crea los objetos `Pokemon` que utiliza el resto de la aplicación.
+Esta separación mantiene juntas las rutas que cumplen funciones relacionadas y satisface el requisito de disponer, como mínimo, de dos blueprints. Para construir las URL internas se utiliza `url_for`, incluyendo el nombre del blueprint en el endpoint, por ejemplo `battle.listado_pokemons`.
 
-### Servicios
+## Instalación y ejecución
 
-La carpeta `services/` contiene la lógica de negocio de la aplicación.
+Se necesita Python 3 y Git.
 
-El archivo `pokemon_service.py` se encarga de operaciones como:
+1. Clona el repositorio y entra en su carpeta:
 
-- Obtener Pokémon.
-- Buscar Pokémon por identificador o nombre.
-- Filtrar Pokémon por nombre y tipo.
-- Traducir los tipos, estadísticas y ataques.
-- Obtener los datos necesarios para la Pokédex y el detalle.
-- Seleccionar un rival aleatorio.
-- Obtener cuatro ataques aleatorios.
-- Clasificar los Pokémon según su peso.
+   ```bash
+   git clone https://github.com/CristinaFR8/Pokedorable.git
+   cd Pokedorable
+   ```
 
-### Rutas
+2. Crea y activa un entorno virtual.
 
-La carpeta `routes/` contiene las rutas de Flask, organizadas mediante Blueprints.
+   En Windows PowerShell:
 
-Las rutas reciben las peticiones del usuario, utilizan los servicios para obtener los datos necesarios y devuelven las plantillas correspondientes.
+   ```powershell
+   python -m venv venv
+   .\venv\Scripts\Activate.ps1
+   ```
 
-También contiene `decorators.py`, que define el decorador `require_entrenador` para proteger las rutas que necesitan un entrenador válido en la sesión.
+   En Git Bash:
 
-### Formularios
+   ```bash
+   python -m venv venv
+   source venv/Scripts/activate
+   ```
 
-La carpeta `forms/` contiene los formularios de Flask-WTF.
+3. Instala las dependencias:
 
-El archivo `entrenador_form.py` define la clase `EntrenadorForm`, que gestiona el formulario de entrada del entrenador y valida que el nombre tenga entre 3 y 15 caracteres.
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
 
-### Flujo entre capas
+4. Arranca la aplicación desde la carpeta raíz del proyecto:
 
-La aplicación sigue este recorrido general:
+   ```bash
+   python -m app.main
+   ```
 
-1. El usuario realiza una petición desde el navegador.
-2. La ruta correspondiente recibe la petición.
-3. La ruta utiliza el servicio necesario.
-4. El servicio solicita los datos al repositorio cuando los necesita.
-5. El repositorio lee el JSON y construye los objetos del modelo.
-6. El servicio devuelve los datos procesados a la ruta.
-7. La ruta envía los datos a la plantilla correspondiente.
-8. Jinja2 genera la página HTML que recibe el usuario.
+5. Abre [http://127.0.0.1:5038/](http://127.0.0.1:5038/) en el navegador.
 
-## Blueprints
+Se utiliza `python -m app.main` porque el proyecto está organizado como un paquete y usa imports absolutos como `app.routes...`. La aplicación dispone de una clave secreta de desarrollo predeterminada para facilitar las pruebas locales; para un despliegue real debe configurarse `SECRET_KEY` mediante una variable de entorno y no utilizar una clave pública o conocida.
 
-La aplicación utiliza dos Blueprints, registrados en `main.py`.
+## Vistas y flujo de interacción
 
-### main_bp
+### Inicio — `/`
 
-Definido en `main_routes.py`.
+Muestra la bienvenida y dos Pokémon de ejemplo. El formulario envía el campo `trainer` mediante POST. `EntrenadorForm`, definido como una clase de Flask-WTF, comprueba que el campo no esté vacío y que tenga entre 3 y 15 caracteres. La plantilla incluye `form.hidden_tag()` para enviar el token CSRF. Si los datos son válidos, el nombre se guarda en la sesión y se redirige a la Pokédex.
 
-Se encarga de las rutas relacionadas con la página principal y la gestión del entrenador:
+### Listado — `/pokemons`
 
-- `/`: página principal y formulario de entrada.
-- `/logout`: cierre de sesión.
+Requiere que haya un entrenador válido en la sesión. Permite buscar Pokémon por nombre y filtrarlos por tipo. Estos filtros se envían mediante parámetros de URL porque describen la búsqueda actual y resulta útil poder recargarla o compartirla. Otro formulario permite elegir un Pokémon por su nombre; si existe, su identificador se guarda en la sesión y se redirige a la batalla.
 
-### battle_bp
+### Detalle — `/pokemons/<id>/`
 
-Definido en `battle_routes.py`.
+Muestra los datos del Pokémon indicado por su identificador: imágenes, altura, peso, tipos, estadísticas gráficas y ataques. Si no existe ese identificador, la ruta devuelve una respuesta 404. Se necesita una sesión de entrenador para acceder.
 
-Se encarga de las rutas relacionadas con la Pokédex y la selección de Pokémon:
+### Batalla — `/battle`
 
-- `/pokemons`: listado y filtrado de Pokémon.
-- `/pokemons/<id>/`: detalle de un Pokémon.
-- `/battle`: pantalla de combate.
+Recupera de la sesión el Pokémon seleccionado. Si todavía no hay rival, el servicio elige uno aleatorio distinto y se conserva su identificador para mantener la misma pantalla al recargar. También se seleccionan cuatro ataques aleatorios del Pokémon elegido y se guardan en la sesión. La página muestra los dos Pokémon, sus puntos de salud y los datos de los ataques; no ejecuta un combate real.
 
-Se han separado en dos Blueprints para organizar las rutas según su responsabilidad: por un lado, la página principal y la gestión del entrenador; por otro, las funcionalidades de consulta de Pokémon y combate.
+### Cierre de sesión — `/logout`
 
-## Formularios Flask-WTF
+El botón aparece cuando hay un entrenador en la sesión. Envía una petición POST que elimina los datos de sesión mediante `session.clear()` y vuelve a la página principal.
 
-La aplicación utiliza Flask-WTF para gestionar el formulario de entrada del entrenador.
+## Gestión de sesión
 
-El formulario se encuentra definido en `forms/entrenador_form.py` mediante la clase `EntrenadorForm`, que hereda de `FlaskForm`.
+Se utiliza Flask-Session con almacenamiento en archivos (`SESSION_TYPE = "filesystem"`) y sesiones no permanentes.
 
-Incluye:
+- `session["trainer"]`: nombre del entrenador. Se conserva para identificar al usuario durante la navegación y proteger las vistas que requieren haber pasado por el inicio.
+- `session["pokemon"]`: identificador del Pokémon seleccionado, necesario para que la batalla recupere la elección sin pasarla por la URL.
+- `session["pokemon_rival"]`: identificador del rival elegido, para que no cambie al recargar la pantalla.
+- `session["ataques"]`: los cuatro ataques seleccionados, para que la selección se mantenga al recargar la pantalla.
 
-- Un campo de texto para introducir el nombre del entrenador.
-- Un botón para enviar el formulario.
-- Validación mediante `DataRequired` y `Length`.
-- Protección CSRF mediante `form.hidden_tag()`.
+Los filtros no se guardan en la sesión: se envían por parámetros de URL y pueden modificarse desde la propia dirección. Al cerrar sesión, `session.clear()` elimina los datos anteriores.
 
-El nombre debe tener entre 3 y 15 caracteres. Si la validación no se cumple, se muestran los mensajes de error correspondientes.
+## Datos y plantillas
 
-## Requisitos
+Los datos están en `data/pokemons-cute.json`. El repositorio lo lee una vez al arrancar y crea objetos de la clase `Pokemon` a partir de sus campos. Las plantillas usan herencia Jinja: `base.html` contiene la estructura compartida, la navegación y el pie de página; las demás plantillas rellenan sus bloques. Las rutas y los recursos estáticos se generan con `url_for`.
 
-Para ejecutar el proyecto es necesario tener instalado:
-
-- Python 3
-- Git
-
-## Instalación
-
-### 1. Clonar el repositorio
-
-```bash
-git clone https://github.com/CristinaFR8/Pokedorable.git
-```
-
-### 2. Acceder a la carpeta del proyecto
-
-```bash
-cd Pokedorable
-```
-
-### 3. Crear el entorno virtual
-
-```bash
-python -m venv venv
-```
-
-### 4. Activar el entorno virtual
-
-En Windows, desde PowerShell:
-
-```powershell
-.\venv\Scripts\Activate.ps1
-```
-
-Si utilizas Git Bash:
-
-```bash
-source venv/Scripts/activate
-```
-
-Una vez activado, aparecerá `(venv)` al principio de la terminal.
-
-### 5. Instalar las dependencias
-
-```bash
-pip install -r requirements.txt
-```
-
-Las dependencias del proyecto están especificadas en `requirements.txt` para facilitar la configuración del entorno.
-
-## Ejecución
-
-Con el entorno virtual activado, desde la carpeta principal del proyecto ejecuta:
-
-```bash
-python -m app.main
-```
-
-La aplicación estará disponible en:
-
-http://127.0.0.1:5038/
-
-Si no se puede activar el entorno virtual, también se puede ejecutar directamente el Python incluido en `venv`:
-
-```powershell
-.\venv\Scripts\python.exe -m app.main
-```
-
-## Vistas de la aplicación
-
-### Página principal
-
-**Ruta:** `/`
-
-Muestra la bienvenida a la aplicación y permite introducir el nombre del entrenador mediante un formulario POST.
-
-El servidor valida que el nombre tenga entre 3 y 15 caracteres. Si no cumple este requisito, se muestra un mensaje de error. Si es válido, el nombre se guarda en la sesión mediante `session["trainer"]` y se redirige al listado de Pokémon.
-
-### Listado de Pokémon
-
-**Ruta:** `/pokemons`
-
-Muestra los Pokémon disponibles y el nombre del entrenador.
-
-Incluye dos formularios:
-
-- **Selección de Pokémon:** permite introducir el nombre del Pokémon deseado. El servidor comprueba que exista y, si es válido, guarda su identificador en la sesión mediante `session["pokemon"]` y redirige a la página de batalla.
-- **Filtrado de Pokémon:** permite buscar por nombre y filtrar por tipo. Los filtros se transmiten mediante parámetros de URL.
-
-Para acceder al listado es necesario tener un entrenador válido guardado en la sesión.
-
-### Detalle de un Pokémon
-
-**Ruta:** `/pokemons/<id>/`
-
-Muestra información detallada del Pokémon, incluyendo:
-
-- Nombre e imágenes.
-- Altura y peso.
-- Tipo.
-- Clasificación según el peso.
-- Estadísticas representadas gráficamente.
-- Ataques y sus características.
-- Otros datos disponibles en el JSON.
-
-La clasificación según el peso se calcula en el servicio y se envía a la plantilla para mostrarla.
-
-Esta vista requiere que exista un entrenador válido en la sesión.
-
-### Página de batalla
-
-**Ruta:** `/battle`
-
-Muestra el Pokémon elegido por el entrenador frente a un rival aleatorio distinto.
-
-La pantalla incluye:
-
-- Nombre del entrenador.
-- Nombres e imágenes de ambos Pokémon.
-- Puntos de salud de cada contrincante.
-- Cuatro ataques seleccionados aleatoriamente entre los disponibles para el Pokémon elegido.
-- Tipo, precisión y potencia de cada ataque.
-
-El identificador del Pokémon elegido se guarda en `session["pokemon"]` y se recupera desde la sesión al acceder a esta página.
-
-También se guardan el identificador del rival en `session["pokemon_rival"]` y los cuatro ataques en `session["ataques"]`, para mantener los mismos datos al volver a acceder a la pantalla.
-
-Esta fase implementa la estructura visual de la batalla. No incluye la lógica de un combate real.
-
-### Cierre de sesión
-
-**Ruta:** `/logout`
-
-Permite cerrar la sesión del entrenador mediante un formulario POST y un botón llamado «Cerrar sesión».
-
-Al pulsar el botón, se eliminan los datos guardados en la sesión mediante `session.clear()` y se redirige al usuario a la página principal.
-
-El botón de cierre de sesión se muestra únicamente cuando existe un entrenador guardado en la sesión.
-
-## Flujo de interacción
-
-1. El usuario accede a la página principal e introduce el nombre del entrenador.
-2. El servidor valida que el nombre tenga entre 3 y 15 caracteres y, si es válido, lo guarda en la sesión.
-3. El usuario accede al listado de Pokémon, donde puede buscar por nombre, filtrar por tipo y consultar detalles.
-4. Al seleccionar un Pokémon válido, su identificador se guarda en la sesión.
-5. Se accede a la pantalla de batalla, donde se obtiene un rival aleatorio y cuatro ataques del Pokémon elegido.
-6. El usuario puede volver a la página principal o a la Pokédex sin perder los datos de la sesión.
-7. Al seleccionar otro Pokémon, se sustituye la selección anterior y se eliminan los datos del rival y los ataques anteriores.
-8. Al cerrar sesión, se eliminan todos los datos guardados y se vuelve a la página principal.
-
-## Gestión de sesiones
-
-La aplicación utiliza **Flask-Session** para mantener los datos necesarios entre las diferentes peticiones.
-
-La sesión se configura para almacenar los datos en el servidor utilizando el sistema de archivos:
-
-- `SESSION_TYPE`: establece el almacenamiento de sesiones mediante archivos.
-- `SESSION_PERMANENT`: se establece en `False` para que la sesión no sea permanente.
-- `SESSION_FILE_DIR`: indica el directorio utilizado para almacenar los datos de sesión.
-
-La aplicación utiliza una clave secreta mediante `app.secret_key`, necesaria para la configuración de las sesiones y la protección CSRF de Flask-WTF.
-
-### Datos almacenados en la sesión
-
-Se guardan los siguientes datos:
-
-- `session["trainer"]`: almacena el nombre del entrenador.
-- `session["pokemon"]`: almacena el identificador del Pokémon elegido.
-- `session["pokemon_rival"]`: almacena el identificador del rival del combate.
-- `session["ataques"]`: almacena los cuatro ataques seleccionados para el Pokémon elegido.
-
-Estos datos se almacenan en la sesión para poder recuperarlos en las diferentes rutas sin tener que enviarlos continuamente mediante parámetros de URL.
-
-Los filtros de búsqueda no se guardan en la sesión, ya que se transmiten mediante parámetros de URL.
-
-### Protección de las rutas
-
-El decorador `require_entrenador`, definido en `routes/decorators.py`, comprueba que exista un entrenador válido en la sesión y que su nombre tenga entre 3 y 15 caracteres.
-
-Este decorador protege las rutas del listado, el detalle y la batalla.
-
-Si no existe un entrenador válido en la sesión, se redirige al usuario a la página principal.
-
-La ruta de cierre de sesión utiliza `session.clear()` para eliminar los datos guardados en la sesión.
-
-## Datos
-
-Los datos utilizados por la aplicación se encuentran en:
-
-`data/pokemons-cute.json`
-
-El repositorio `pokemon_repository.py` lee este fichero y construye los objetos `Pokemon` que posteriormente utilizan los servicios.
-
-## Plantillas
-
-Las páginas HTML utilizan **Jinja2**.
-
-Se utiliza una plantilla base, `app/templates/base.html`, sobre la que se construyen las diferentes vistas mediante herencia de plantillas.
-
-Las rutas internas y los recursos estáticos se generan utilizando `url_for`.
-
-La plantilla base contiene la navegación común y muestra el botón de cierre de sesión cuando hay un entrenador guardado en la sesión.

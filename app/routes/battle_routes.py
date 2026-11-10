@@ -8,10 +8,11 @@ from app.services.pokemon_service import (
     obtener_pokemon_por_nombre,
     obtener_pokemon_rival,
     obtener_ataques_aleatorios,
-    obtener_datos_pokedex,
-    obtener_datos_detalle_pokemon,
+    filtrar_pokemons,
+    traducir_tipos,
+    traducir_estadisticas,
     traducir_ataques,
-    clasificar_peso
+    obtener_tipos_disponibles
 )
 
 
@@ -43,10 +44,15 @@ def listado_pokemons():
     nombre_filtro = request.args.get("nombre", "")
     tipo_filtro = request.args.get("tipo", "")
 
-    pokemons, tipos_pokemons, tipos_disponibles = obtener_datos_pokedex(
+    pokemons_filtrados = filtrar_pokemons(
         nombre_filtro,
         tipo_filtro
     )
+
+    tipos_pokemons = []
+
+    for pokemon in pokemons_filtrados:
+        tipos_pokemons.append(traducir_tipos(pokemon.tipos))
 
     pokemon_actual = obtener_pokemon_por_id(session.get("pokemon"))
 
@@ -55,12 +61,14 @@ def listado_pokemons():
         proyecto=proyecto,
         nombre=nombre,
         anio=anio,
-        pokemons=pokemons,
+        pokemons=pokemons_filtrados,
         tipos_pokemons=tipos_pokemons,
-        tipos_disponibles=tipos_disponibles,
+        tipos_disponibles=obtener_tipos_disponibles(),
         trainer=session.get("trainer"),
         error=error,
-        pokemon_seleccionado=pokemon_actual.nombre if pokemon_actual else "",
+        pokemon_seleccionado=(
+            pokemon_actual.nombre if pokemon_actual else ""
+        ),
         nombre_filtro=nombre_filtro,
         tipo_filtro=tipo_filtro
     )
@@ -110,17 +118,14 @@ def batalla():
 @battle_bp.route("/pokemons/<int:id>/")
 @require_entrenador
 def detalle_pokemon(id):
-    (
-        pokemon,
-        tipos_traducidos,
-        estadisticas_traducidas,
-        ataques_traducidos
-    ) = obtener_datos_detalle_pokemon(id)
+    pokemon = obtener_pokemon_por_id(id)
 
     if pokemon is None:
         return "Pokémon no encontrado", 404
 
-    clasificacion_peso = clasificar_peso(pokemon)
+    tipos_traducidos = traducir_tipos(pokemon.tipos)
+    estadisticas_traducidas = traducir_estadisticas(pokemon.estadisticas)
+    ataques_traducidos = traducir_ataques(pokemon.ataques)
 
     return render_template(
         "pokemon.html",
@@ -131,6 +136,5 @@ def detalle_pokemon(id):
         tipos_traducidos=tipos_traducidos,
         estadisticas_traducidas=estadisticas_traducidas,
         ataques_traducidos=ataques_traducidos,
-        clasificacion_peso=clasificacion_peso,
         trainer=session.get("trainer")
     )

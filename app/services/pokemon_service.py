@@ -110,7 +110,6 @@ def obtener_todos_pokemons():
 
 def obtener_pokemons_portada():
     pokemons = obtener_todos_pokemons()
-
     return pokemons[0], pokemons[1]
 
 
@@ -189,7 +188,10 @@ def filtrar_pokemons(nombre="", tipo=""):
 
     for pokemon in pokemons:
         coincide_nombre = nombre.lower() in pokemon.nombre.lower()
-        coincide_tipo = tipo == "" or tipo.lower() in pokemon.tipos
+
+        coincide_tipo = (
+            tipo == "" or tipo.lower() in pokemon.tipos
+        )
 
         if coincide_nombre and coincide_tipo:
             pokemons_filtrados.append(pokemon)
@@ -211,42 +213,26 @@ def obtener_tipos_disponibles():
     return tipos_disponibles
 
 
-def obtener_pokemon_rival(id_pokemon):
-    pokemons = obtener_todos_pokemons()
-    posibles_rivales = []
-
-    for pokemon in pokemons:
-        if pokemon.id != id_pokemon:
-            posibles_rivales.append(pokemon)
-
-    if not posibles_rivales:
-        return None
-
-    return random.choice(posibles_rivales)
-
-
-def obtener_ataques_aleatorios(pokemon):
-    return random.sample(pokemon.ataques, 4)
-
-
 def obtener_datos_pokedex(nombre="", tipo=""):
-    pokemons = filtrar_pokemons(nombre, tipo)
+    pokemons_filtrados = filtrar_pokemons(nombre, tipo)
 
     tipos_pokemons = []
 
-    for pokemon in pokemons:
+    for pokemon in pokemons_filtrados:
         tipos_pokemons.append(traducir_tipos(pokemon.tipos))
 
-    tipos_disponibles = obtener_tipos_disponibles()
-
-    return pokemons, tipos_pokemons, tipos_disponibles
+    return (
+        pokemons_filtrados,
+        tipos_pokemons,
+        obtener_tipos_disponibles()
+    )
 
 
 def obtener_datos_detalle_pokemon(id):
     pokemon = obtener_pokemon_por_id(id)
 
     if pokemon is None:
-        return None, None, None, None
+        return None, [], [], []
 
     tipos_traducidos = traducir_tipos(pokemon.tipos)
     estadisticas_traducidas = traducir_estadisticas(pokemon.estadisticas)
@@ -267,3 +253,21 @@ def clasificar_peso(pokemon):
         return "Medio"
     else:
         return "Pesado"
+
+
+def obtener_pokemon_rival(id_pokemon):
+    pokemons = obtener_todos_pokemons()
+    posibles_rivales = []
+
+    for pokemon in pokemons:
+        if pokemon.id != id_pokemon:
+            posibles_rivales.append(pokemon)
+
+    if not posibles_rivales:
+        return None
+
+    return random.choice(posibles_rivales)
+
+
+def obtener_ataques_aleatorios(pokemon):
+    return random.sample(pokemon.ataques, 4)
