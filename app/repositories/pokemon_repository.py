@@ -1,9 +1,18 @@
 import json
+from pathlib import Path
+
 from app.models.pokemon import Pokemon
 
 
-def obtener_pokemons():
-    with open("data/pokemons-cute.json", encoding="utf-8") as archivo:
+RUTA_JSON = (
+    Path(__file__).resolve().parents[2]
+    / "data"
+    / "pokemons-cute.json"
+)
+
+
+def cargar_pokemons():
+    with open(RUTA_JSON, encoding="utf-8") as archivo:
         datos = json.load(archivo)
 
     pokemons = []
@@ -23,3 +32,10 @@ def obtener_pokemons():
         pokemons.append(pokemon)
 
     return pokemons
+
+
+POKEMONS = cargar_pokemons()
+
+
+def obtener_pokemons():
+    return list(POKEMONS)

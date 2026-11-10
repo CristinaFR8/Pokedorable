@@ -72,7 +72,7 @@ Pokedorable/
 └── README.md
 ```
 
-El entorno virtual (`venv/`) y los archivos temporales de sesión no se incluyen en el repositorio.
+El entorno virtual (`venv/`) y los archivos temporales de sesión no se incluyen en la entrega.
 
 ## Arquitectura por capas
 
@@ -82,20 +82,32 @@ El proyecto separa las responsabilidades para que las rutas no tengan que leer d
 - **Negocio — `app/services/pokemon_service.py`:** busca Pokémon, aplica los filtros por nombre y tipo y prepara las traducciones y selecciones necesarias para las vistas.
 - **Persistencia — `app/repositories/pokemon_repository.py`:** lee el fichero JSON y construye los objetos `Pokemon`. El acceso al fichero queda aislado en el repositorio.
 - **Dominio — `app/models/pokemon.py`:** la clase `Pokemon` representa cada Pokémon como un objeto, tal como exige el enunciado.
-- **Formularios — `app/forms/`:** `EntrenadorForm` define el formulario de entrada mediante Flask-WTF, con validadores y token CSRF.
+- **Formularios — `app/forms/`:** `EntrenadorForm` define el formulario de entrada mediante Flask-WTF, con validadores y protección CSRF integrada en el formulario.
 
-El flujo habitual es **ruta → servicio → repositorio/modelo**. El repositorio no renderiza plantillas y el servicio no depende de Flask ni gestiona peticiones HTTP. Si en el futuro cambiase el formato de los datos, el punto principal que habría que adaptar sería el repositorio.
+El flujo habitual es **ruta → servicio → repositorio → modelo**. Los datos obtenidos regresan a través de las capas hasta llegar a la ruta, que selecciona la plantilla correspondiente.
 
-El JSON se carga una vez cuando se importa el repositorio durante el arranque de la aplicación. La ruta del archivo se calcula a partir de la ubicación del propio módulo, por lo que no depende del directorio actual de la terminal.
+El repositorio no renderiza plantillas y el servicio no depende de Flask ni gestiona peticiones HTTP. Si en el futuro cambiase el formato de los datos, el punto principal que habría que adaptar sería el repositorio.
+
+El JSON se carga una vez cuando se importa el repositorio. La ruta del archivo se calcula a partir de la ubicación del propio módulo, por lo que no depende del directorio actual de la terminal.
 
 ## Blueprints y organización de las rutas
 
-Se utilizan dos blueprints, registrados en `app/main.py`:
+Se utilizan dos Blueprints, registrados en `app/main.py`:
 
 - **`main_bp` — `app/routes/main_routes.py`:** contiene la página de inicio (`/`) y el cierre de sesión (`/logout`). Son las rutas relacionadas con la entrada y la sesión general del entrenador.
 - **`battle_bp` — `app/routes/battle_routes.py`:** contiene el listado (`/pokemons`), el detalle (`/pokemons/<int:id>/`) y la pantalla de batalla (`/battle`). Estas rutas forman el flujo de consulta y selección de Pokémon.
 
-Esta separación mantiene juntas las rutas que cumplen funciones relacionadas y satisface el requisito de disponer, como mínimo, de dos blueprints. Para construir las URL internas se utiliza `url_for`, incluyendo el nombre del blueprint en el endpoint, por ejemplo `battle.listado_pokemons`.
+Esta separación mantiene juntas las rutas que cumplen funciones relacionadas y satisface el requisito de disponer, como mínimo, de dos Blueprints.
+
+Para construir las URL internas se utiliza `url_for`, incluyendo el nombre del Blueprint en el endpoint. Por ejemplo, `battle.listado_pokemons`.
+
+## Formularios con Flask-WTF
+
+El proyecto incorpora la carpeta `forms/`, donde se encuentra la clase `EntrenadorForm`.
+
+Esta clase hereda de `FlaskForm` y utiliza validadores para comprobar que el nombre del entrenador no esté vacío y tenga entre 3 y 15 caracteres.
+
+La plantilla de inicio utiliza los campos del formulario y `form.hidden_tag()` para incluir el campo de protección CSRF correspondiente.
 
 ## Instalación y ejecución
 
@@ -138,25 +150,39 @@ Se necesita Python 3 y Git.
 
 5. Abre [http://127.0.0.1:5038/](http://127.0.0.1:5038/) en el navegador.
 
-Se utiliza `python -m app.main` porque el proyecto está organizado como un paquete y usa imports absolutos como `app.routes...`. La aplicación dispone de una clave secreta de desarrollo predeterminada para facilitar las pruebas locales; para un despliegue real debe configurarse `SECRET_KEY` mediante una variable de entorno y no utilizar una clave pública o conocida.
+Se utiliza `python -m app.main` porque el proyecto está organizado como un paquete y usa imports absolutos como `app.routes...`.
+
+La aplicación dispone de una clave secreta de desarrollo predeterminada para facilitar las pruebas locales. Para un despliegue real debe configurarse `SECRET_KEY` mediante una variable de entorno y no utilizar una clave pública o conocida.
 
 ## Vistas y flujo de interacción
 
 ### Inicio — `/`
 
-Muestra la bienvenida y dos Pokémon de ejemplo. El formulario envía el campo `trainer` mediante POST. `EntrenadorForm`, definido como una clase de Flask-WTF, comprueba que el campo no esté vacío y que tenga entre 3 y 15 caracteres. La plantilla incluye `form.hidden_tag()` para enviar el token CSRF. Si los datos son válidos, el nombre se guarda en la sesión y se redirige a la Pokédex.
+Muestra la bienvenida y dos Pokémon de ejemplo. El formulario envía el campo `trainer` mediante POST.
+
+`EntrenadorForm`, definido como una clase de Flask-WTF, comprueba que el campo no esté vacío y que tenga entre 3 y 15 caracteres. La plantilla incluye `form.hidden_tag()` para enviar el token CSRF.
+
+Si los datos son válidos, el nombre se guarda en la sesión y se redirige a la Pokédex.
 
 ### Listado — `/pokemons`
 
-Requiere que haya un entrenador válido en la sesión. Permite buscar Pokémon por nombre y filtrarlos por tipo. Estos filtros se envían mediante parámetros de URL porque describen la búsqueda actual y resulta útil poder recargarla o compartirla. Otro formulario permite elegir un Pokémon por su nombre; si existe, su identificador se guarda en la sesión y se redirige a la batalla.
+Requiere que haya un entrenador válido en la sesión. Permite buscar Pokémon por nombre y filtrarlos por tipo.
+
+Estos filtros se envían mediante parámetros de URL porque describen la búsqueda actual y resulta útil poder recargarla o compartirla.
+
+Otro formulario permite elegir un Pokémon por su nombre. Si existe, su identificador se guarda en la sesión y se redirige a la batalla.
 
 ### Detalle — `/pokemons/<id>/`
 
-Muestra los datos del Pokémon indicado por su identificador: imágenes, altura, peso, tipos, estadísticas gráficas y ataques. Si no existe ese identificador, la ruta devuelve una respuesta 404. Se necesita una sesión de entrenador para acceder.
+Muestra los datos del Pokémon indicado por su identificador: imágenes, altura, peso, tipos, estadísticas gráficas y ataques.
+
+Si no existe ese identificador, la ruta devuelve una respuesta 404. Se necesita una sesión de entrenador para acceder.
 
 ### Batalla — `/battle`
 
-Recupera de la sesión el Pokémon seleccionado. Si todavía no hay rival, el servicio elige uno aleatorio distinto y se conserva su identificador para mantener la misma pantalla al recargar. También se seleccionan cuatro ataques aleatorios del Pokémon elegido y se guardan en la sesión. La página muestra los dos Pokémon, sus puntos de salud y los datos de los ataques; no ejecuta un combate real.
+Recupera de la sesión el Pokémon seleccionado. Si todavía no hay rival, el servicio elige uno aleatorio distinto y se conserva su identificador para mantener la misma pantalla al recargar.
+
+También se seleccionan cuatro ataques aleatorios del Pokémon elegido y se guardan en la sesión. La página muestra los dos Pokémon, sus puntos de salud y los datos de los ataques; no ejecuta un combate real.
 
 ### Cierre de sesión — `/logout`
 
@@ -171,9 +197,14 @@ Se utiliza Flask-Session con almacenamiento en archivos (`SESSION_TYPE = "filesy
 - `session["pokemon_rival"]`: identificador del rival elegido, para que no cambie al recargar la pantalla.
 - `session["ataques"]`: los cuatro ataques seleccionados, para que la selección se mantenga al recargar la pantalla.
 
-Los filtros no se guardan en la sesión: se envían por parámetros de URL y pueden modificarse desde la propia dirección. Al cerrar sesión, `session.clear()` elimina los datos anteriores.
+Los filtros no se guardan en la sesión: se envían por parámetros de URL y pueden modificarse desde la propia dirección.
+
+Al cerrar sesión, `session.clear()` elimina los datos anteriores.
 
 ## Datos y plantillas
 
-Los datos están en `data/pokemons-cute.json`. El repositorio lo lee una vez al arrancar y crea objetos de la clase `Pokemon` a partir de sus campos. Las plantillas usan herencia Jinja: `base.html` contiene la estructura compartida, la navegación y el pie de página; las demás plantillas rellenan sus bloques. Las rutas y los recursos estáticos se generan con `url_for`.
+Los datos están en `data/pokemons-cute.json`. El repositorio lo lee una vez al importarse y crea objetos de la clase `Pokemon` a partir de sus campos.
 
+Las plantillas utilizan herencia Jinja: `base.html` contiene la estructura compartida, la navegación y el pie de página; las demás plantillas rellenan sus bloques.
+
+Las rutas y los recursos estáticos se generan con `url_for`.
