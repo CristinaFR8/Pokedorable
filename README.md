@@ -36,21 +36,17 @@ Pokedorable/
 │   ├── __init__.py
 │   ├── main.py
 │   ├── forms/
-│   │   ├── __init__.py
 │   │   └── entrenador_form.py
 │   ├── models/
-│   │   ├── __init__.py
-│   │   └── pokemon.py
+│   │   ├── pokemon.py
+│   │   └── movimiento.py
 │   ├── repositories/
-│   │   ├── __init__.py
 │   │   └── pokemon_repository.py
 │   ├── routes/
-│   │   ├── __init__.py
 │   │   ├── decorators.py
 │   │   ├── main_routes.py
 │   │   └── battle_routes.py
 │   ├── services/
-│   │   ├── __init__.py
 │   │   └── pokemon_service.py
 │   ├── templates/
 │   │   ├── base.html
@@ -81,14 +77,14 @@ El proyecto separa las responsabilidades para que las rutas no tengan que leer d
 - **Presentación — `app/routes/` y `app/templates/`:** las rutas reciben las peticiones, llaman a los servicios y seleccionan la plantilla que se devuelve. Las plantillas Jinja muestran los datos.
 - **Negocio — `app/services/pokemon_service.py`:** busca Pokémon, aplica los filtros por nombre y tipo y prepara las traducciones y selecciones necesarias para las vistas.
 - **Persistencia — `app/repositories/pokemon_repository.py`:** lee el fichero JSON y construye los objetos `Pokemon`. El acceso al fichero queda aislado en el repositorio.
-- **Dominio — `app/models/pokemon.py`:** la clase `Pokemon` representa cada Pokémon como un objeto, tal como exige el enunciado.
+- **Dominio — `app/models/`:** `Pokemon` representa cada Pokémon y `Movimiento` representa cada ataque. `Pokemon` incluye métodos para calcular su clasificación de peso y el total de estadísticas.
 - **Formularios — `app/forms/`:** `EntrenadorForm` define el formulario de entrada mediante Flask-WTF, con validadores y protección CSRF integrada en el formulario.
 
 El flujo habitual es **ruta → servicio → repositorio → modelo**. Los datos obtenidos regresan a través de las capas hasta llegar a la ruta, que selecciona la plantilla correspondiente.
 
 El repositorio no renderiza plantillas y el servicio no depende de Flask ni gestiona peticiones HTTP. Si en el futuro cambiase el formato de los datos, el punto principal que habría que adaptar sería el repositorio.
 
-El JSON se carga una vez cuando se importa el repositorio. La ruta del archivo se calcula a partir de la ubicación del propio módulo, por lo que no depende del directorio actual de la terminal.
+El JSON se carga una vez cuando se importa el repositorio. Los ataques del JSON se convierten en objetos `Movimiento` y se guardan en cada Pokémon. Solo `app/` contiene `__init__.py`; las subcarpetas se importan como paquetes de espacio de nombres de Python 3. La ruta del archivo se calcula a partir de la ubicación del propio módulo, por lo que no depende del directorio actual de la terminal.
 
 ## Blueprints y organización de las rutas
 
@@ -174,7 +170,7 @@ Otro formulario permite elegir un Pokémon por su nombre. Si existe, su identifi
 
 ### Detalle — `/pokemons/<id>/`
 
-Muestra los datos del Pokémon indicado por su identificador: imágenes, altura, peso, tipos, estadísticas gráficas y ataques.
+Muestra los datos del Pokémon indicado por su identificador: imágenes, altura, peso, clasificación calculada por `Pokemon`, tipos, estadísticas gráficas y ataques.
 
 Si no existe ese identificador, la ruta devuelve una respuesta 404. Se necesita una sesión de entrenador para acceder.
 
@@ -182,7 +178,7 @@ Si no existe ese identificador, la ruta devuelve una respuesta 404. Se necesita 
 
 Recupera de la sesión el Pokémon seleccionado. Si todavía no hay rival, el servicio elige uno aleatorio distinto y se conserva su identificador para mantener la misma pantalla al recargar.
 
-También se seleccionan cuatro ataques aleatorios del Pokémon elegido y se guardan en la sesión. La página muestra los dos Pokémon, sus puntos de salud y los datos de los ataques; no ejecuta un combate real.
+También se seleccionan cuatro ataques aleatorios del Pokémon elegido. Sus datos ya traducidos (diccionarios simples, no objetos de dominio) se guardan en la sesión para conservarlos al recargar. La página muestra los dos Pokémon, sus puntos de salud y los datos de los ataques; no ejecuta un combate real.
 
 ### Cierre de sesión — `/logout`
 
@@ -195,7 +191,7 @@ Se utiliza Flask-Session con almacenamiento en archivos (`SESSION_TYPE = "filesy
 - `session["trainer"]`: nombre del entrenador. Se conserva para identificar al usuario durante la navegación y proteger las vistas que requieren haber pasado por el inicio.
 - `session["pokemon"]`: identificador del Pokémon seleccionado, necesario para que la batalla recupere la elección sin pasarla por la URL.
 - `session["pokemon_rival"]`: identificador del rival elegido, para que no cambie al recargar la pantalla.
-- `session["ataques"]`: los cuatro ataques seleccionados, para que la selección se mantenga al recargar la pantalla.
+- `session["ataques"]`: los datos traducidos de los cuatro ataques seleccionados, para que la selección se mantenga al recargar la pantalla. Los objetos `Movimiento` se mantienen en el modelo, no en la sesión.
 
 Los filtros no se guardan en la sesión: se envían por parámetros de URL y pueden modificarse desde la propia dirección.
 
@@ -203,7 +199,7 @@ Al cerrar sesión, `session.clear()` elimina los datos anteriores.
 
 ## Datos y plantillas
 
-Los datos están en `data/pokemons-cute.json`. El repositorio lo lee una vez al importarse y crea objetos de la clase `Pokemon` a partir de sus campos.
+Los datos están en `data/pokemons-cute.json`. El repositorio lo lee una vez al importarse y crea objetos `Pokemon` y `Movimiento` a partir de sus campos.
 
 Las plantillas utilizan herencia Jinja: `base.html` contiene la estructura compartida, la navegación y el pie de página; las demás plantillas rellenan sus bloques.
 

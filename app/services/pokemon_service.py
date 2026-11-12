@@ -166,15 +166,15 @@ def traducir_ataques(ataques):
     for ataque in ataques:
         ataque_traducido = {
             "nombre": TRADUCCION_ATAQUES.get(
-                ataque["name"],
-                ataque["name"].replace("-", " ").title()
+                ataque.nombre,
+                ataque.nombre.replace("-", " ").title()
             ),
             "tipo": TRADUCCION_TIPOS.get(
-                ataque["type"],
-                ataque["type"].title()
+                ataque.tipo,
+                ataque.tipo.title()
             ),
-            "precision": ataque["accuracy"],
-            "potencia": ataque["power"]
+            "precision": ataque.precision,
+            "potencia": ataque.potencia
         }
 
         ataques_traducidos.append(ataque_traducido)
@@ -244,15 +244,6 @@ def obtener_datos_detalle_pokemon(id):
         estadisticas_traducidas,
         ataques_traducidos
     )
-
-
-def clasificar_peso(pokemon):
-    if pokemon.peso < 20:
-        return "Ligero"
-    elif pokemon.peso <= 60:
-        return "Medio"
-    else:
-        return "Pesado"
 
 
 def obtener_pokemon_rival(id_pokemon):

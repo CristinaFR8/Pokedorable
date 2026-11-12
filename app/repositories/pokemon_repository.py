@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from app.models.pokemon import Pokemon
+from app.models.movimiento import Movimiento
 
 
 RUTA_JSON = (
@@ -18,6 +19,18 @@ def cargar_pokemons():
     pokemons = []
 
     for dato in datos:
+        ataques = []
+
+        for ataque in dato["moves"]:
+            movimiento = Movimiento(
+                ataque["name"],
+                ataque["type"],
+                ataque["accuracy"],
+                ataque["power"]
+            )
+
+            ataques.append(movimiento)
+
         pokemon = Pokemon(
             dato["id"],
             dato["name"],
@@ -26,7 +39,7 @@ def cargar_pokemons():
             dato["stats"],
             dato["sprites"],
             dato["types"],
-            dato["moves"]
+            ataques
         )
 
         pokemons.append(pokemon)
