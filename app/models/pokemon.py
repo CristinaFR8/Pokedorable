@@ -25,3 +25,10 @@ class Pokemon:
             total += estadistica["value"]
 
         return total
+
+    def max_hp(self):
+        for stat in self.estadisticas:
+            if stat["name"] == "hp":
+                return stat["value"]
+
+        return 0
